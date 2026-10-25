@@ -113,6 +113,8 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .inred{position:absolute;top:3%;left:3%;z-index:7;border:0;background:var(--paper);border-radius:99px;padding:4px 12px 4px 8px;font-weight:800;font-size:.85rem;box-shadow:0 3px 0 rgba(43,35,80,.18);display:flex;align-items:center;gap:4px}
 .inred svg{width:20px;height:20px}
 .scene.big > .bunny{width:19%}
+.scene > .bunny.baby{width:16%}
+.scene.big > .bunny.baby{width:12%}
 .scene.big .poop{width:5.5%}
 .scene.big .food{width:8%}
 .scene > .bunny{position:absolute;inset:auto;width:25%;aspect-ratio:1;transition:left var(--dur,800ms) linear;cursor:pointer;outline:none}
@@ -153,6 +155,19 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .food.drop{animation:drop .45s ease-out}
 @keyframes drop{0%{transform:translateY(-300%)}70%{transform:translateY(8%)}}
 .dandy{width:9%;pointer-events:auto;cursor:pointer;animation:plop .4s ease-out}
+.mbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mbtns .btn{font-size:1.1rem;padding:12px 8px}
+.butterfly{position:absolute;width:8%;pointer-events:auto;cursor:pointer;z-index:6;animation:flutter 7s ease-in-out infinite}
+.butterfly svg{width:100%;display:block}
+.butterfly .wing{transform-box:fill-box;transform-origin:center;animation:flap .22s ease-in-out infinite alternate}
+.butterfly.flyaway{animation:flyaway .9s ease-in forwards}
+@keyframes flutter{0%,100%{transform:translate(0,0)}25%{transform:translate(140%,-60%)}50%{transform:translate(300%,20%)}75%{transform:translate(120%,80%)}}
+@keyframes flap{to{transform:scaleX(.35)}}
+@keyframes flyaway{to{transform:translate(200%,-500%) scale(.5);opacity:0}}
+.mound{position:absolute;width:12%;pointer-events:auto;cursor:pointer;animation:plop .4s ease-out}
+.mound svg,.bush svg{width:100%;display:block}
+.bush{position:absolute;bottom:3%;width:27%;pointer-events:auto;cursor:pointer;z-index:6;animation:plop .4s ease-out}
+.bush.shake{animation:wig .4s 2}
 
 .fx-i{position:absolute;pointer-events:none}
 .heart{width:8%;animation:float 1.3s ease-out forwards}
@@ -273,7 +288,11 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .cl.sel{background:#FFE1EE}
 .cwtitle{margin:0;font-weight:600;text-align:center;line-height:1.3}
 .cwtitle b{font-size:1.15rem}
-.pick{display:flex;flex-direction:column;gap:8px}
+.pickpanel{padding:12px;gap:10px}
+.lvtabs{justify-content:center}
+.lvtabs .wtab{font-size:.95rem;padding:6px 12px}
+.pick{display:flex;align-items:center;justify-content:center;gap:8px}
+.pklabel{font-weight:700;opacity:.7}
 .pkrow{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .pkname{font-weight:800}
 .pkbtns{display:flex;gap:6px}
@@ -352,6 +371,8 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .sheet-in{background:var(--paper);border-radius:28px;padding:16px;width:100%;max-width:520px;display:flex;flex-direction:column;gap:10px;animation:trayIn .2s ease-out}
 .sheet-in h3{margin:0 0 4px;font-size:1.3rem}
 .srow{border:0;background:var(--cream);border-radius:18px;padding:12px 16px;font-weight:800;font-size:1.1rem;text-align:left}
+.babypic{display:block;width:120px;margin:0 auto}
+.babypic svg{width:100%;overflow:visible}
 .srow.warn{background:#FFE1EE;color:#B0245F}
 
 /* Stående iPad och större */
@@ -455,7 +476,8 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
     </div>
 
     <div class="group" id="meadowUI" hidden>
-      <p class="mhint">Tryck på maskrosorna så får kaninerna smaska!</p>
+      <p class="mhint">Tryck på maskrosor så smaskar kaninerna, och på fjärilar så jagar de dem!</p>
+      <div class="mbtns"><button class="btn violet" id="digBtn">Gräv efter skatter</button><button class="btn orange" id="hideBtn">Kurragömma</button></div>
       <button class="btn big green" data-go="home">Gå hem</button>
     </div>
 
@@ -481,6 +503,10 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
     <div class="panel">
       <h2 class="h2">Till buren</h2>
       <div class="shop-acc" id="shopAcc"></div>
+    </div>
+    <div class="panel">
+      <h2 class="h2">Kaningodis <span class="hint">matas under Mata</span></h2>
+      <div class="shop-acc" id="shopTreats"></div>
     </div>
   </section>
 
@@ -524,6 +550,7 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
   <!-- KORSORD -->
   <section id="s-cross" hidden>
     <div class="topline"><button class="mini" data-go="home">Hem</button><h2 class="title2">Kaninkorsord</h2></div>
+    <div class="panel pickpanel"><div class="wtabs lvtabs" id="cwLevels"></div><div class="pick" id="cwPick"></div></div>
     <p class="cwtitle" id="cwTitle"></p>
     <div class="panel cwpanel"><div class="cwboard" id="cwBoard"></div></div>
     <div class="clue" id="cwClue"></div>
@@ -531,7 +558,6 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
     <div class="kb" id="cwKb"></div>
     <div class="row2"><button class="btn small violet" id="cwHint">Ge mig en bokstav</button><button class="btn small" id="cwNew">Slumpa ett</button></div>
     <div class="panel cluelist" id="cwList"></div>
-    <div class="panel"><h2 class="h2">Välj korsord</h2><div class="pick" id="cwPick"></div></div>
   </section>
 
   <!-- BANBYGGE -->
@@ -552,6 +578,17 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 </div>
 
 <div class="app"><footer class="foot"><span id="ver"></span> · <button class="linkbtn" id="updBtn">Uppdatera appen</button></footer></div>
+
+<div class="sheet" id="babySheet" hidden>
+  <div class="sheet-in">
+    <span class="babypic" id="babyPic"></span>
+    <h3 id="babyTitle">En kaninunge!</h3>
+    <p id="babyText" style="margin:0;font-weight:600"></p>
+    <input id="babyName" class="name-in" maxlength="14" placeholder="Vad ska ungen heta?" autocomplete="off">
+    <div class="chips" id="babyChips"></div>
+    <button class="btn" id="babyOk" disabled>Välkommen hem!</button>
+  </div>
+</div>
 
 <div class="sheet" id="sheet" hidden>
   <div class="sheet-in">
@@ -586,6 +623,8 @@ const FOODSVG={
   hay:'<g stroke="#E2B23C" stroke-width="3" stroke-linecap="round"><path d="M8 35L15 6"/><path d="M14 35L20 4"/><path d="M20 35L22 5"/><path d="M26 35L27 6"/><path d="M32 35L31 7"/></g><g stroke="#FBD866" stroke-width="3" stroke-linecap="round"><path d="M11 35L18 6"/><path d="M17 35L21 5"/><path d="M23 35L25 5"/><path d="M29 35L29 6"/></g><rect x="8" y="18" width="25" height="6" rx="3" fill="#FF5DA2"/>',
   dandelion:'<path d="M20 37L7 23h5L5 15h7L9 6l11 12Z" fill="#4FB43A"/><path d="M20 37l13-14h-5l7-8h-7l3-9-11 12Z" fill="#6CCB4F"/><circle cx="20" cy="12" r="7.5" fill="#FFD23F"/><circle cx="20" cy="12" r="3.5" fill="#FFAA00"/>',
   carrot:'<path d="M6 36q-3-2 2-6L26 12q6-2 4 4L12 34q-4 4-6 2Z" fill="#FF8A3D"/><path d="M14 26l4 2M18 21l4 2M22 17l3 2" stroke="#E06A1E" stroke-width="2" stroke-linecap="round"/><g stroke="#4FB43A" stroke-width="3.5" stroke-linecap="round"><path d="M28 14l5-10"/><path d="M29 15l9-5"/><path d="M28 14l-3-10"/></g>',
+  puffs:'<g stroke-linecap="round" fill="none"><path d="M6 30q2-12 13-12" stroke="#FF9A1F" stroke-width="7"/><path d="M18 12q10-4 15 6" stroke="#FFB347" stroke-width="7"/><path d="M22 34q8 2 12-7" stroke="#FF9A1F" stroke-width="7"/></g><g fill="#E07A00"><circle cx="10" cy="24" r="1.2"/><circle cx="25" cy="12" r="1.2"/><circle cx="28" cy="31" r="1.2"/></g>',
+  cookie:'<circle cx="20" cy="20" r="15" fill="#D9A066"/><circle cx="20" cy="20" r="15" fill="none" stroke="#B5793F" stroke-width="2"/><path d="M20 26c-5-3.5-7-5.5-7-7.5a3 3 0 0 1 7-1.5a3 3 0 0 1 7 1.5c0 2-2 4-7 7.5Z" fill="#FF5DA2"/><g fill="#B5793F"><circle cx="11" cy="14" r="1.4"/><circle cx="29" cy="14" r="1.4"/><circle cx="13" cy="28" r="1.4"/><circle cx="27" cy="28" r="1.4"/></g>',
   apple:'<circle cx="14" cy="24" r="11" fill="#FF4D6D"/><circle cx="26" cy="24" r="11" fill="#FF4D6D"/><path d="M20 13V6" stroke="#7A4B2A" stroke-width="3" stroke-linecap="round"/><path d="M21 9q6-6 11-2-5 5-11 2Z" fill="#4FB43A"/><circle cx="12" cy="20" r="3" fill="#fff" opacity=".6"/>'
 };
 const POOP='<circle cx="12" cy="20" r="7" fill="#7A4B2A"/><circle cx="27" cy="21" r="6.5" fill="#6A3F22"/><circle cx="19" cy="11" r="6.5" fill="#86552F"/><circle cx="17" cy="9" r="1.8" fill="#fff" opacity=".35"/><circle cx="10" cy="18" r="1.8" fill="#fff" opacity=".35"/>';
@@ -625,7 +664,9 @@ const WEAR={
   sunhat:{slot:'head',name:'Solhatt',tags:['strand','blommor'],draw:'<ellipse cx="82" cy="38" rx="28" ry="6" fill="#F5D08A"/><path d="M68 38q14-26 28 0Z" fill="#F5D08A"/><path d="M68.6 34q13.4-4 26.8 0l.6 4q-14-4-28 0Z" fill="#FF5DA2"/><circle cx="72" cy="33" r="3.2" fill="#FFD23F"/>',vb:'52 18 60 28'},
   beanie:{slot:'head',name:'Mössa',tags:['vinter'],draw:'<path d="M60 44q20-36 44 0Z" fill="#19C3B2"/><rect x="58" y="40" width="48" height="8" rx="4" fill="#0E9C8E"/><circle cx="82" cy="14" r="7" fill="#fff"/><path d="M70 30l4 6M82 26v8M94 30l-4 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/>',vb:'54 5 56 46'},
   tiara:{slot:'head',name:'Tiara',tags:['prinsessa'],draw:'<path d="M66 42q16-14 32 0" stroke="#C9D3E8" stroke-width="3" fill="none"/><path d="M76 34l6-10 6 10Z" fill="#C9D3E8"/><circle cx="82" cy="29" r="2.6" fill="#5BC6F5"/><circle cx="72" cy="37" r="2" fill="#FF5DA2"/><circle cx="92" cy="37" r="2" fill="#FF5DA2"/>',vb:'62 20 40 26'},
+  cap:{slot:'head',name:'Keps',tags:['strand','kalas'],draw:'<path d="M62 42q18-26 40 0Z" fill="#5BC6F5"/><path d="M98 40q14 0 16 4q-8 2-18 0Z" fill="#2E9FD6"/><circle cx="82" cy="20" r="3" fill="#2E9FD6"/><path d="M74 30l6-6M88 30l-4-6" stroke="#fff" stroke-width="2" opacity=".7"/>',vb:'58 16 58 32'},
   /* hals */
+  heartneck:{slot:'neck',name:'Hjärthalsband',tags:['prinsessa','blommor'],draw:'<path d="M62 82q22 12 44 0" stroke="#FFD23F" stroke-width="2.2" fill="none"/><path d="M84 98c-5-3.5-7-5.5-7-7.5a3 3 0 0 1 7-1.5a3 3 0 0 1 7 1.5c0 2-2 4-7 7.5Z" fill="#FF5DA2"/>',vb:'58 76 52 26'},
   scarf:{slot:'neck',name:'Halsduk',tags:['vinter'],draw:'<path d="M60 80q22 12 44 0l1 9q-23 13-46 0Z" fill="#FF4D6D"/><rect x="64" y="86" width="9" height="20" rx="3" fill="#FF4D6D" transform="rotate(8 68 86)"/><path d="M65 102l8 1" stroke="#fff" stroke-width="2"/>',vb:'56 74 52 36'},
   bowtie:{slot:'neck',name:'Fluga',tags:['kalas','prinsessa'],draw:'<g transform="translate(84 89)"><path d="M0 0L-10-6V6Z" fill="#7B5CFF"/><path d="M0 0L10-6V6Z" fill="#7B5CFF"/><circle r="3" fill="#B6A4FF"/></g>',vb:'70 80 28 18'},
   pearls:{slot:'neck',name:'Pärlband',tags:['prinsessa'],draw:neckArc((x,y)=>'<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3.2" fill="#fff" stroke="#D6CCEB" stroke-width="1"/>'),vb:'56 76 52 22'},
@@ -748,6 +789,10 @@ const ACC={
   hammock:{name:'Hängmatta',pos:'left:32%;top:4%;width:30%',svg:'<svg viewBox="0 0 120 70"><path d="M8 2L24 36M112 2L96 36" stroke="#B5793F" stroke-width="3" stroke-linecap="round"/><path d="M18 30Q60 76 102 30Z" fill="#19C3B2"/><path d="M28 39Q60 64 92 39" stroke="#FFF6D6" stroke-width="4" fill="none" stroke-dasharray="6 6" stroke-linecap="round"/></svg>'},
   digbox:{name:'Grävlåda',pos:'left:40%;bottom:30%;width:18%',svg:'<svg viewBox="0 0 100 56"><rect x="4" y="16" width="92" height="38" rx="10" fill="#FF8A3D"/><ellipse cx="50" cy="18" rx="44" ry="9" fill="#F5D08A"/><circle cx="32" cy="16" r="3" fill="#E2B23C"/><circle cx="62" cy="19" r="2.5" fill="#E2B23C"/><path d="M74 14l14-14" stroke="#FF5DA2" stroke-width="4" stroke-linecap="round"/><ellipse cx="72" cy="16" rx="6" ry="4" fill="#FF5DA2"/></svg>'},
   sunflower:{name:'Solros',pos:'left:25%;bottom:38%;width:8%',svg:'<svg viewBox="0 0 50 110"><path d="M25 40V88" stroke="#4FB43A" stroke-width="5"/><path d="M25 66q-14-6-16 4q10 4 16-4Z" fill="#4FB43A"/><g fill="#FFD23F">'+[0,1,2,3,4,5,6,7].map(k=>'<ellipse cx="25" cy="10" rx="6" ry="11" transform="rotate('+(k*45)+' 25 26)"/>').join('')+'</g><circle cx="25" cy="26" r="9" fill="#7A4B2A"/><path d="M10 86h30l-4 22H14Z" fill="#FF5DA2"/></svg>'},
+  box:{name:'Kartong',pos:'left:63%;bottom:37%;width:13%',svg:'<svg viewBox="0 0 60 50"><path d="M4 14h52v36H4Z" fill="#D9A066"/><path d="M4 14l8-12h36l8 12Z" fill="#C98B4E"/><path d="M4 14L-4 4M56 14l8-10" stroke="#C98B4E" stroke-width="5"/><path d="M20 50V32a10 10 0 0 1 20 0v18Z" fill="#5A2E14"/><path d="M10 22h10" stroke="#B5793F" stroke-width="2"/></svg>'},
+  rug:{name:'Regnbågsmatta',pos:'left:24%;bottom:1%;width:46%',svg:'<svg viewBox="0 0 200 40"><ellipse cx="100" cy="20" rx="98" ry="19" fill="#FF5DA2"/><ellipse cx="100" cy="20" rx="82" ry="15" fill="#FFD23F"/><ellipse cx="100" cy="20" rx="66" ry="11" fill="#7ED957"/><ellipse cx="100" cy="20" rx="50" ry="7" fill="#5BC6F5"/><ellipse cx="100" cy="20" rx="34" ry="4" fill="#7B5CFF"/></svg>'},
+  flowerbox:{name:'Blomlåda',pos:'left:34%;bottom:41%;width:18%',svg:'<svg viewBox="0 0 90 50"><g>'+[12,30,48,66,80].map((x,k)=>'<path d="M'+x+' 30V14" stroke="#4FB43A" stroke-width="3"/><circle cx="'+x+'" cy="12" r="6" fill="'+['#FF5DA2','#FFD23F','#7B5CFF','#FF8A3D','#fff'][k]+'"/><circle cx="'+x+'" cy="12" r="2.2" fill="#FF8A3D"/>').join('')+'</g><rect x="2" y="28" width="86" height="20" rx="5" fill="#19C3B2"/><rect x="2" y="28" width="86" height="6" fill="#0E9C8E"/></svg>'},
+  castlehouse:{name:'Kaninslott',pos:'right:1%;bottom:8%;width:30%',svg:'<svg viewBox="0 0 130 120"><rect x="10" y="46" width="110" height="74" rx="6" fill="#FFC6DE"/><rect x="4" y="24" width="28" height="96" rx="4" fill="#FF8FC0"/><rect x="98" y="24" width="28" height="96" rx="4" fill="#FF8FC0"/><path d="M2 26L18 2L34 26Z" fill="#7B5CFF"/><path d="M96 26L112 2L128 26Z" fill="#7B5CFF"/><g fill="#FFC6DE"><rect x="36" y="36" width="12" height="12"/><rect x="58" y="36" width="12" height="12"/><rect x="80" y="36" width="12" height="12"/></g><path d="M46 120V92a19 19 0 0 1 38 0v28Z" fill="#2B2350"/><circle cx="18" cy="56" r="5" fill="#B7E9FF"/><circle cx="112" cy="56" r="5" fill="#B7E9FF"/><path d="M65 72c-5-3.5-7-5.5-7-7.5a3 3 0 0 1 7-1.5a3 3 0 0 1 7 1.5c0 2-2 4-7 7.5Z" fill="#FFD23F"/></svg>'},
   plush:{name:'Morotsgosis',pos:'left:60%;bottom:30%;width:9%',svg:'<svg viewBox="0 0 50 60"><path d="M25 58Q4 30 12 18h26Q46 30 25 58Z" fill="#FF8A3D"/><g stroke="#4FB43A" stroke-width="5" stroke-linecap="round"><path d="M25 18V4"/><path d="M25 18l-10-10"/><path d="M25 18l10-10"/></g><circle cx="19" cy="28" r="2.5" fill="#2B2350"/><circle cx="31" cy="28" r="2.5" fill="#2B2350"/><path d="M21 34q4 4 8 0" stroke="#2B2350" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="15" cy="33" r="3" fill="#FF5DA2" opacity=".6"/><circle cx="35" cy="33" r="3" fill="#FF5DA2" opacity=".6"/></svg>'}
 };
 const FREE_ACC=['hay','water','house','tunnel','pillow','ball'];
@@ -758,7 +803,13 @@ const SHOP=[
   {id:'plush',kind:'acc',name:'Morotsgosis',price:4},
   {id:'sunflower',kind:'acc',name:'Solros',price:5},
   {id:'digbox',kind:'acc',name:'Grävlåda',price:8},
-  {id:'hammock',kind:'acc',name:'Hängmatta',price:10}
+  {id:'hammock',kind:'acc',name:'Hängmatta',price:10},
+  {id:'cap',kind:'wear',name:'Keps',price:7},
+  {id:'heartneck',kind:'wear',name:'Hjärthalsband',price:6},
+  {id:'box',kind:'acc',name:'Kartong',price:3},
+  {id:'rug',kind:'acc',name:'Regnbågsmatta',price:7},
+  {id:'flowerbox',kind:'acc',name:'Blomlåda',price:6},
+  {id:'castlehouse',kind:'acc',name:'Kaninslott',price:15}
 ];
 const WEEKLY=20;
 
@@ -766,8 +817,11 @@ const FOODS={
   hay:{name:'Hö',val:30,msg:'Mums! Hö är det viktigaste kaniner äter.'},
   dandelion:{name:'Maskros',val:22,msg:'Maskrosblad är en riktig kaninfavorit!'},
   carrot:{name:'Morot',val:15,msg:'Morot är godis. Bara lite ibland!'},
-  apple:{name:'Äpple',val:12,msg:'Söta äppelbitar, men inte för många!'}
+  apple:{name:'Äpple',val:12,msg:'Söta äppelbitar, men inte för många!'},
+  puffs:{name:'Ostbågar',val:12,love:8,treat:true,msg:'Krunsch! Riktig ost är inte bra för kaniner, men kaninostbågar är gjorda just för dem.'},
+  cookie:{name:'Kaninkex',val:10,love:8,treat:true,msg:'Ett kaninkex med hjärta. Godis ska man bara få lite av!'}
 };
+const TREATS=[{id:'puffs',name:'Kaninostbågar',price:4,pack:5},{id:'cookie',name:'Kaninkex',price:3,pack:5}];
 const FACTS=[
   'Kaniner äter hö nästan hela dagen. Det sliter ner tänderna, som växer hela livet.',
   'När en kanin är riktigt glad hoppar den högt och vrider sig i luften. Det kallas en binky!',
@@ -785,7 +839,7 @@ const FACTS=[
 ];
 
 /* ---------- Sparat läge ---------- */
-function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',course:['low','low','high','tunnel','long','high'],hopLevel:'easy',cwDone:[],bigHome:false,t:Date.now(),adopted:false,muted:false}}
+function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',course:['low','low','high','tunnel','long','high'],hopLevel:'easy',cwDone:[],treats:{},bigHome:false,t:Date.now(),adopted:false,muted:false}}
 function migrate(o){
   if(!o||typeof o!=='object')return fresh();
   if(!Array.isArray(o.bunnies)){
@@ -905,14 +959,14 @@ $('#cageBack').addEventListener('click',()=>{if(cageFrom==='play'){enterStage('h
 $('#moveIn').addEventListener('click',()=>{const first=!S.adopted;S.adopted=true;save();enterStage('home');if(first)setTimeout(()=>{toast('Välkommen hem, '+cur().name+'!');heartsAt(0,5)},400)});
 
 /* ---------- Scen: hemma och på ängen ---------- */
-const START_X=[28,54], START_Y=[6,13];
+const START_X=[28,54,42,68], START_Y=[6,13,3,9];
 function sceneHTML(m,interactive){
   let h='<div class="bg">'+(m==='meadow'?OUTING:CAGES[S.cage].svg)+'</div>';
   const k=S.bigHome?.72:1,pos=q=>q.replace(/width:([\d.]+)%/,(x,w)=>'width:'+(w*k).toFixed(1)+'%');
   if(m==='home')h+='<div class="dirt">'+DIRT+'</div><div class="acc">'+S.acc.filter(k=>ACC[k]).map(k=>'<div class="ai ai-'+k+'" style="'+pos(ACC[k].pos)+'">'+ACC[k].svg+'</div>').join('')+'</div>';
   h+='<div class="floor"></div>';
   S.bunnies.forEach((b,i)=>{
-    h+='<div class="bunny" data-i="'+i+'" style="left:'+START_X[i]+'%;bottom:'+START_Y[i]+'%;z-index:'+(5-i)+'"'+(interactive?' role="button" tabindex="0" aria-label="Klappa '+esc(b.name)+'"':'')+'><div class="bubble" hidden></div><div class="bflip"><div class="bbody">'+bunnySVG(furOf(b),'ok',S.wear[b.id])+'</div></div></div>';
+    h+='<div class="bunny'+(b.baby?' baby':'')+'" data-i="'+i+'" style="left:'+START_X[i]+'%;bottom:'+START_Y[i]+'%;z-index:'+(5-i)+'"'+(interactive?' role="button" tabindex="0" aria-label="Klappa '+esc(b.name)+'"':'')+'><div class="bubble" hidden></div><div class="bflip"><div class="bbody">'+bunnySVG(furOf(b),'ok',S.wear[b.id])+'</div></div></div>';
   });
   h+='<div class="fx"></div>';
   if(m==='home'&&interactive)h+='<button class="inred" data-go="cage"><svg viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16Z" fill="#FF8A3D"/><path d="M14 7l3 3" stroke="#2B2350" stroke-width="2"/></svg>Inred</button>';
@@ -921,7 +975,7 @@ function sceneHTML(m,interactive){
 
 let P={},B=[],G=0,mode='home',sweeping=false,toastT=0,tickN=0;
 function enterStage(m){
-  mode=m;G++;const g=G;
+  mode=m;G++;const g=G;hideState=null;
   const sc=$('#playScene');
   sc.innerHTML=sceneHTML(m,true);sc.classList.toggle('big',!!S.bigHome&&m==='home');
   P={sc,floor:sc.querySelector('.floor'),fx:sc.querySelector('.fx'),dirt:sc.querySelector('.dirt')};
@@ -937,6 +991,7 @@ function enterStage(m){
     if(ball)ball.addEventListener('pointerdown',()=>{if(ball.classList.contains('roll'))return;ball.classList.add('roll');beep(500,.2,'triangle');S.bunnies.forEach(b=>b.love=clamp(b.love+2));setTimeout(()=>ball.classList.remove('roll'),1450);updateUI()});
   } else {
     for(let k=0;k<5;k++)setTimeout(spawnDandy,k*250);
+    setTimeout(spawnButterfly,600);setTimeout(spawnButterfly,2200);
   }
   sweeping=false;closeTray();
   $('#homeUI').hidden=m!=='home';$('#meadowUI').hidden=m!=='meadow';
@@ -969,11 +1024,11 @@ function wander(i,g){
   const c=out?100:cleanDisp();
   const happy=b.love>(out?50:78)&&b.hunger>40&&c>50;
   if(happy&&Math.random()<(out?.32:.2)){anim(i,'binky',850);beep(700,.18,'triangle');if(Math.random()<.4)toast('Binky! '+b.name+' hoppar av glädje!');next();return}
-  if(B.length===2&&Math.random()<.18){
-    const o=B[1-i];
+  if(B.length>=2&&Math.random()<.18){
+    const oi=(i+1+Math.floor(Math.random()*(B.length-1)))%B.length,o=B[oi];
     if(!o.busy){
       r.busy=true;const tx=o.x+(o.x>40?-17:17);
-      moveTo(i,tx,()=>{if(g!==G)return;r.bflip.classList.toggle('left',o.x<r.x);heartsAt(i,1);r.busy=false;b.love=clamp(b.love+2);if(Math.random()<.35)toast(S.bunnies[0].name+' och '+S.bunnies[1].name+' nosar på varandra.')});
+      moveTo(i,tx,()=>{if(g!==G)return;r.bflip.classList.toggle('left',o.x<r.x);heartsAt(i,1);r.busy=false;b.love=clamp(b.love+2);if(Math.random()<.35)toast(b.name+' och '+S.bunnies[oi].name+(S.bunnies[oi].baby||b.baby?' gosar med varandra.':' nosar på varandra.'))});
       next();return;
     }
   }
@@ -1100,6 +1155,88 @@ function eatDandy(d,x,g){
   });
 }
 
+/* ---------- Mer på ängen ---------- */
+const BUTTERFLY=c=>'<svg viewBox="0 0 40 30"><g class="wing"><ellipse cx="12" cy="11" rx="10" ry="9" fill="'+c+'"/><ellipse cx="13" cy="22" rx="7" ry="6" fill="'+c+'"/><ellipse cx="28" cy="11" rx="10" ry="9" fill="'+c+'"/><ellipse cx="27" cy="22" rx="7" ry="6" fill="'+c+'"/><circle cx="11" cy="10" r="3" fill="#fff" opacity=".7"/><circle cx="29" cy="10" r="3" fill="#fff" opacity=".7"/></g><rect x="18.5" y="6" width="3" height="20" rx="1.5" fill="#2B2350"/><path d="M20 6l-4-5M20 6l4-5" stroke="#2B2350" stroke-width="1.5" stroke-linecap="round"/></svg>';
+const MOUND='<svg viewBox="0 0 60 30"><path d="M2 30Q30 -6 58 30Z" fill="#8A5A2B"/><circle cx="20" cy="21" r="3" fill="#6E4520"/><circle cx="38" cy="17" r="2.5" fill="#6E4520"/><circle cx="30" cy="24" r="2" fill="#A0703F"/></svg>';
+const BUSH='<svg viewBox="0 0 120 90"><circle cx="30" cy="55" r="30" fill="#3E9E2E"/><circle cx="62" cy="38" r="36" fill="#4FB43A"/><circle cx="92" cy="56" r="28" fill="#3E9E2E"/><rect x="4" y="60" width="112" height="30" rx="15" fill="#4FB43A"/><circle cx="48" cy="28" r="5" fill="#FF5DA2"/><circle cx="80" cy="44" r="5" fill="#FFD23F"/><circle cx="26" cy="50" r="4" fill="#fff"/></svg>';
+const CLOVER='<svg viewBox="0 0 24 24"><g fill="#3E9E2E"><circle cx="8" cy="8" r="5"/><circle cx="16" cy="8" r="5"/><circle cx="8" cy="16" r="5"/><circle cx="16" cy="16" r="5"/></g><path d="M12 12l5 10" stroke="#3E9E2E" stroke-width="2"/></svg>';
+let digReady=0,hideState=null;
+function sceneXY(el){const a=el.getBoundingClientRect(),b=P.sc.getBoundingClientRect();return {x:(a.left+a.width/2-b.left)/b.width*100,y:(b.bottom-a.bottom)/b.height*100}}
+function popItem(x,y,svg){if(!P.fx)return;const h=document.createElement('div');h.className='fx-i heart';h.style.width='10%';h.style.left=x+'%';h.style.bottom=y+'%';h.style.setProperty('--dx','0%');h.innerHTML=svg;P.fx.appendChild(h);setTimeout(()=>h.remove(),1350)}
+function freeBunnyNear(x){let best=-1,bd=1e9;B.forEach((r,i)=>{if(!r.busy){const d=Math.abs(r.x-x);if(d<bd){bd=d;best=i}}});return best}
+function spawnButterfly(){
+  if(mode!=='meadow'||!P.floor)return;
+  const g=G,c=['#FF5DA2','#7B5CFF','#FF8A3D','#5BC6F5'][Math.floor(Math.random()*4)];
+  const el=document.createElement('div');el.className='butterfly';el.style.left=R(8,60)+'%';el.style.bottom=R(42,62)+'%';el.style.animationDuration=R(6,9)+'s';
+  el.setAttribute('role','button');el.setAttribute('aria-label','Fjäril');el.innerHTML=BUTTERFLY(c);
+  el.addEventListener('pointerdown',e=>{
+    e.stopPropagation();if(el.dataset.gone)return;
+    const p=sceneXY(el),i=freeBunnyNear(p.x-12);
+    el.dataset.gone='1';el.classList.add('flyaway');setTimeout(()=>el.remove(),900);setTimeout(()=>{if(g===G)spawnButterfly()},R(4000,8000));
+    if(i<0)return;const r=B[i],b=S.bunnies[i];r.busy=true;beep(900,.1,'triangle');
+    moveTo(i,p.x-12,()=>{if(g!==G)return;anim(i,'binky',850);setOv(i,'joy',1400);heartsAt(i,2);b.love=clamp(b.love+4);r.busy=false;if(Math.random()<.5)toast(b.name+' jagar fjärilen!');updateUI()});
+  });
+  P.floor.appendChild(el);
+}
+function startDig(){
+  if(mode!=='meadow')return;
+  if(P.floor.querySelector('.mound')){toast('Tryck på jordhögarna!');return}
+  if(Date.now()<digReady){toast('Kaninerna vilar tassarna lite. Försök snart igen!');return}
+  const g=G;let coinGiven=false;beep(400,.15,'triangle');
+  toast('Fyra jordhögar! Vad kan gömma sig där?');
+  for(let k=0;k<4;k++){
+    const x=10+k*19+R(0,8),y=R(3,15);
+    const m=document.createElement('div');m.className='mound';m.style.left=x+'%';m.style.bottom=y+'%';m.setAttribute('role','button');m.setAttribute('aria-label','Jordhög');m.innerHTML=MOUND;
+    m.addEventListener('pointerdown',e=>{
+      e.stopPropagation();if(m.dataset.dug)return;
+      const i=freeBunnyNear(x-14);if(i<0){toast('Vänta lite, kaninerna är upptagna!');return}
+      m.dataset.dug='1';const r=B[i],b=S.bunnies[i];r.busy=true;
+      moveTo(i,x-14,()=>{
+        if(g!==G)return;r.bflip.classList.remove('left');r.bbody.classList.add('munch');
+        let n=0;const iv=setInterval(()=>{beep(R(120,200),.06,'sawtooth');if(++n>4)clearInterval(iv)},200);
+        setTimeout(()=>{
+          if(g!==G)return;r.bbody.classList.remove('munch');m.remove();r.busy=false;
+          const roll=Math.random();
+          if(roll<.15&&!coinGiven){coinGiven=true;S.coins+=1;renderWallet();popItem(x+3,y+6,COIN_SVG);chime();toast(b.name+' hittade en glänsande krona!')}
+          else if(roll<.4){b.love=clamp(b.love+10);popItem(x+3,y+6,CLOVER);chime();setOv(i,'joy',1500);toast('En fyrklöver! Vilken tur!')}
+          else if(roll<.8){b.hunger=clamp(b.hunger+10);popItem(x+3,y+6,'<svg viewBox="0 0 40 40">'+FOODSVG.carrot+'</svg>');beep(880,.12,'triangle');setOv(i,'joy',1200);toast(b.name+' grävde fram en morot!')}
+          else{b.love=clamp(b.love+2);beep(500,.1);toast('Bara jord och en daggmask. Hej masken!')}
+          if(!P.floor.querySelector('.mound'))digReady=Date.now()+15000;
+          save();updateUI();
+        },1200);
+      });
+    });
+    P.floor.appendChild(m);
+  }
+}
+function startHide(){
+  if(mode!=='meadow')return;
+  if(hideState){toast('Leta i buskarna!');return}
+  const i=S.sel,r=B[i],b=S.bunnies[i],g=G;
+  if(!r||r.busy){toast('Vänta lite, '+cur().name+' är upptagen!');return}
+  r.busy=true;const xs=[6,37,68],spot=Math.floor(Math.random()*3);
+  hideState={i,spot,tries:0,els:[]};
+  r.el.style.transition='opacity .4s';r.el.style.opacity='0';beep(600,.15,'triangle');
+  toast('Blunda! '+b.name+' gömmer sig...');
+  setTimeout(()=>{
+    if(g!==G)return;
+    r.el.style.left=(xs[spot]+1)+'%';r.x=xs[spot]+1;
+    xs.forEach((x,k)=>{const el=document.createElement('div');el.className='bush';el.style.left=x+'%';el.setAttribute('role','button');el.setAttribute('aria-label','Buske '+(k+1));el.innerHTML=BUSH;
+      el.addEventListener('pointerdown',e=>{e.stopPropagation();findIn(k,el)});P.floor.appendChild(el);hideState.els.push(el)});
+    toast('Var är '+b.name+'? Tryck på buskarna!');
+  },700);
+}
+function findIn(k,el){
+  if(!hideState)return;const h=hideState,r=B[h.i],b=S.bunnies[h.i],g=G;
+  h.tries++;
+  if(k!==h.spot){el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake');beep(300,.12);toast(h.tries===1?'Inte här! Försök igen.':'Inte här heller!');return}
+  r.el.style.opacity='1';beep(880,.15,'triangle');setTimeout(()=>beep(1100,.15,'triangle'),150);
+  b.love=clamp(b.love+8);heartsAt(h.i,4);setOv(h.i,'joy',1600);toast(h.tries===1?'Hittad på första försöket!':'Hittad! Bra letat!');
+  setTimeout(()=>{if(g!==G)return;anim(h.i,'binky',850);h.els.forEach(x=>x.remove());r.el.style.transition='';r.busy=false;hideState=null;save();updateUI()},700);
+}
+$('#digBtn').addEventListener('click',startDig);
+$('#hideBtn').addEventListener('click',startHide);
+
 /* ---------- Bricka med val ---------- */
 let trayKind=null;
 function openTray(kind){
@@ -1108,7 +1245,7 @@ function openTray(kind){
   trayKind=kind;
   $$('.act').forEach(b=>b.classList.toggle('open',b.dataset.tray===kind));
   let items=[];
-  if(kind==='food')items=Object.keys(FOODS).map(k=>['food:'+k,'<svg viewBox="0 0 40 40">'+FOODSVG[k]+'</svg>',FOODS[k].name]);
+  if(kind==='food')items=Object.keys(FOODS).filter(k=>!FOODS[k].treat||((S.treats||{})[k]||0)>0).map(k=>['food:'+k,'<svg viewBox="0 0 40 40">'+FOODSVG[k]+'</svg>',FOODS[k].name+(FOODS[k].treat?' ('+S.treats[k]+')':'')]);
   if(kind==='clean'){items=[['clean:pick','<svg viewBox="0 0 40 30">'+POOP+'</svg>','Plocka bajs'],['clean:straw','<svg viewBox="0 0 40 40">'+BROOM+'</svg>','Nytt strö']];if(S.acc.includes('water'))items.push(['clean:water','<svg viewBox="0 0 40 40">'+WATERICON+'</svg>','Vatten'])}
   if(kind==='love')items=[['love:pat','<svg viewBox="0 0 40 40">'+PATICON+'</svg>','Klappa'],['love:brush','<svg viewBox="0 0 40 40">'+BRUSH+'</svg>','Borsta'],['love:hug','<svg viewBox="0 0 40 40">'+HUGICON+'</svg>','Krama']];
   t.innerHTML=items.map(i=>'<button class="opt" data-do="'+i[0]+'">'+i[1]+i[2]+'</button>').join('');
@@ -1130,10 +1267,11 @@ $('#tray').addEventListener('click',e=>{
 
 function feed(key){
   closeTray();
-  const free=B.map((r,i)=>i).filter(i=>!B[i].busy);
+  let free=B.map((r,i)=>i).filter(i=>!B[i].busy);
+  if(FOODS[key].treat){const n=(S.treats||{})[key]||0;if(!n)return;free.sort((a,c)=>(c===S.sel)-(a===S.sel));free=free.slice(0,n);S.treats[key]=n-free.length;save()}
   if(free.length===1){feedOne(free[0],key,R(24,72),true);return}
   free.sort((a,c)=>B[a].x-B[c].x);
-  const spots=[R(24,36),R(56,70)];
+  const spots=free.map((_,n)=>22+n*(50/Math.max(1,free.length-1||1))+R(-3,3));
   free.forEach((i,n)=>feedOne(i,key,spots[n],n===0));
 }
 function feedOne(i,key,fx,talk){
@@ -1151,7 +1289,7 @@ function feedOne(i,key,fx,talk){
       setTimeout(()=>{
         if(g!==G)return;
         r.bbody.classList.remove('munch');f.remove();
-        b.hunger=clamp(b.hunger+FOODS[key].val);if(key==='apple'||key==='carrot')b.love=clamp(b.love+4);
+        b.hunger=clamp(b.hunger+FOODS[key].val);if(key==='apple'||key==='carrot')b.love=clamp(b.love+4);if(FOODS[key].love)b.love=clamp(b.love+FOODS[key].love);
         setOv(i,'joy',1400);if(talk)toast(FOODS[key].msg);heartsAt(i,2);r.busy=false;updateUI();save();
         setTimeout(()=>{if(g===G&&Math.random()<.25)addPoop()},R(8000,14000));
       },1900);
@@ -1210,29 +1348,32 @@ function renderShop(){
   $('#shopPreview').innerHTML='<span class="disc" style="background:'+furOf(b).disc+'">'+bunnySVG(furOf(b),'happy',S.wear[b.id])+'</span>';
   $('#shopWear').innerHTML=SHOP.filter(s=>s.kind==='wear').map(itemCard).join('');
   $('#shopAcc').innerHTML=SHOP.filter(s=>s.kind==='acc').map(itemCard).join('');
+  $('#shopTreats').innerHTML=TREATS.map(t=>{const n=(S.treats||{})[t.id]||0;return '<div class="sitem"><span class="ic"><svg viewBox="0 0 40 40">'+FOODSVG[t.id]+'</svg></span>'+t.name+'<span class="hint">'+t.pack+' st per påse · du har '+n+'</span><button class="buy'+(S.coins<t.price?' poor':'')+'" data-treat="'+t.id+'">'+COIN_SVG+t.price+' kr</button></div>'}).join('');
 }
 function itemCard(it){
   const owned=S.owned.includes(it.id);let btn;
   if(!owned)btn='<button class="buy'+(S.coins<it.price?' poor':'')+'" data-buy="'+it.id+'">'+COIN_SVG+it.price+' kr</button>';
-  else if(it.kind==='wear'){const on=outfitOf(S.wear[cur().id]).head===it.id;btn='<button class="buy on" data-wear="'+it.id+'">'+(on?'Ta av':'Ta på')+'</button>'}
+  else if(it.kind==='wear'){const on=outfitOf(S.wear[cur().id])[WEAR[it.id].slot]===it.id;btn='<button class="buy on" data-wear="'+it.id+'">'+(on?'Ta av':'Ta på')+'</button>'}
   else btn='<span class="buy owned">'+(S.acc.includes(it.id)?'I buren':'Köpt')+'</span>';
   const icon=it.kind==='wear'?WEAR[it.id].icon:ACC[it.id].svg;
   return '<div class="sitem"><span class="ic">'+icon+'</span>'+it.name+btn+'</div>';
 }
 function shopMsg(t){$('#shopMsg').textContent=t}
 $('#s-shop').addEventListener('click',e=>{
+  const tr=e.target.closest('[data-treat]');
+  if(tr){const t=TREATS.find(x=>x.id===tr.dataset.treat);if(S.coins<t.price){beep(220,.2,'triangle');shopMsg('Du behöver '+(t.price-S.coins)+' kr till.');return}S.coins-=t.price;S.treats=S.treats||{};S.treats[t.id]=(S.treats[t.id]||0)+t.pack;chime();shopMsg('Du köpte '+t.pack+' '+t.name.toLowerCase()+'! Ge dem under Mata.');save();renderShop();return}
   const by=e.target.closest('[data-buy]'),wr=e.target.closest('[data-wear]');
   if(by){
     const it=SHOP.find(s=>s.id===by.dataset.buy);
     if(S.coins<it.price){beep(220,.2,'triangle');shopMsg('Du behöver '+(it.price-S.coins)+' kr till. Hoppa kaninhopp eller hämta veckopeng!');return}
     S.coins-=it.price;S.owned.push(it.id);
-    if(it.kind==='acc'){S.acc.push(it.id);shopMsg(it.name+' står nu i buren!')}
-    else{S.wear[cur().id]=Object.assign({},outfitOf(S.wear[cur().id]),{head:it.id});shopMsg(cur().name+' har fått '+it.name.toLowerCase()+'! Den finns nu också i utklädningslådan.')}
+    if(it.kind==='acc'){S.acc.push(it.id);if(it.id==='castlehouse')S.acc=S.acc.filter(a=>a!=='house');shopMsg(it.name+' står nu i buren!'+(it.id==='castlehouse'?' Det gamla huset finns kvar under Inred.':''))}
+    else{S.wear[cur().id]=Object.assign({},outfitOf(S.wear[cur().id]),{[WEAR[it.id].slot]:it.id});shopMsg(cur().name+' har fått '+it.name.toLowerCase()+'! Den finns nu också i utklädningslådan.')}
     chime();save();renderShop();return;
   }
   if(wr){
-    const id=wr.dataset.wear,b=cur(),o=Object.assign({},outfitOf(S.wear[b.id]));
-    if(o.head===id){delete o.head;beep(400,.1)}else{o.head=id;beep(800,.12)}
+    const id=wr.dataset.wear,b=cur(),o=Object.assign({},outfitOf(S.wear[b.id])),sl=WEAR[id].slot;
+    if(o[sl]===id){delete o[sl];beep(400,.1)}else{o[sl]=id;beep(800,.12)}
     S.wear[b.id]=o;save();renderShop();
   }
 });
@@ -1613,7 +1754,8 @@ function renderCross(){
   $('#cwTitle').innerHTML='<b>'+(CW.pz>=0?'Korsord '+(CW.pz+1):'Slumpat korsord')+'</b> · '+L.name+'<br><span class="hint">'+L.sub+'</span>';
   $('#cwHint').textContent=CW.hints>20?'Ge mig en bokstav':'Ge mig en bokstav ('+CW.hints+' kvar)';$('#cwHint').disabled=CW.hints<=0||CW.done;
   const done=S.cwDone||[];
-  $('#cwPick').innerHTML=CW_LEVELS.map((lv,li)=>'<div class="pkrow"><span class="pkname">'+lv.name+'</span><span class="pkbtns">'+[0,1,2].map(j=>{const n=li*CW_PER+j;return '<button class="pk'+(done.includes(n)?' done':'')+(n===CW.pz?' sel':'')+'" data-pz="'+n+'" aria-label="Korsord '+(n+1)+'">'+(n+1)+'</button>'}).join('')+'</span></div>').join('');
+  $('#cwLevels').innerHTML=CW_LEVELS.map((lv,li)=>'<button class="wtab'+(li===CW.lv?' sel':'')+'" data-lv="'+li+'">'+lv.name+'</button>').join('');
+  $('#cwPick').innerHTML='<span class="pklabel">Korsord</span>'+[0,1,2].map(j=>{const n=CW.lv*CW_PER+j;return '<button class="pk'+(done.includes(n)?' done':'')+(n===CW.pz?' sel':'')+'" data-pz="'+n+'" aria-label="Korsord '+(n+1)+'">'+(n+1)+'</button>'}).join('');
 }
 $('#cwBoard').addEventListener('click',e=>{
   const t=e.target.closest('[data-cell]');if(!t)return;const key=t.dataset.cell,cell=CW.cells.get(key);
@@ -1654,10 +1796,34 @@ $('#cwHint').addEventListener('click',()=>{
   if(CW.done||CW.hints<=0)return;const o=CW.words[CW.word];const k=o.cells.find(x=>CW.cells.get(x).entry!==CW.cells.get(x).ch);if(!k)return;CW.hints--;
   CW.cell=k;cwType(CW.cells.get(k).ch);$('#cwMsg').textContent=$('#cwMsg').textContent||'Där fick du en bokstav!';
 });
-$('#cwPick').addEventListener('click',e=>{const t=e.target.closest('[data-pz]');if(!t)return;buildCross(+t.dataset.pz);$('#cwMsg').textContent='';beep(650,.1);renderCross();window.scrollTo({top:0,behavior:'smooth'})});
+$('#cwLevels').addEventListener('click',e=>{const t=e.target.closest('[data-lv]');if(!t)return;const li=+t.dataset.lv,done=S.cwDone||[];let n=li*CW_PER;for(let j=0;j<CW_PER;j++){if(!done.includes(li*CW_PER+j)){n=li*CW_PER+j;break}}buildCross(n);$('#cwMsg').textContent='';beep(650,.1);renderCross()});
+$('#cwPick').addEventListener('click',e=>{const t=e.target.closest('[data-pz]');if(!t)return;buildCross(+t.dataset.pz);$('#cwMsg').textContent='';beep(650,.1);renderCross();});
 $('#cwNew').addEventListener('click',()=>{buildCross(-1);$('#cwMsg').textContent='';beep(600,.12);renderCross()});
 $('#cwKb').innerHTML=['QWERTYUIOPÅ','ASDFGHJKLÖÄ','ZXCVBNM⌫'].map(row=>'<div class="kbr">'+[...row].map(ch=>'<button class="key'+(ch==='⌫'?' wide':'')+'" data-k="'+ch+'" aria-label="'+(ch==='⌫'?'Sudda':ch)+'">'+ch+'</button>').join('')+'</div>').join('');
 document.addEventListener('keydown',e=>{if($('#s-cross').hidden||!CW)return;const k=e.key.toUpperCase();if(k==='BACKSPACE'){e.preventDefault();cwType('⌫')}else if(/^[A-ZÅÄÖ]$/.test(k)){cwType(k)}});
+
+/* ---------- Kaninunge ---------- */
+const BABYNAMES=['Lillis','Pytte','Knatte','Mini','Snuffe','Bullan','Tuss','Prick'];
+let babyFur=null;
+function showBaby(){
+  const ad=S.bunnies.filter(x=>!x.baby);if(ad.length<2)return;
+  const a=ad[0],b=ad[1];babyFur=(Math.random()<.5?a:b).fur;
+  $('#babyPic').innerHTML=bunnySVG(FURS.find(f=>f.id===babyFur)||FURS[0],'happy');
+  $('#babyTitle').textContent='Överraskning!';
+  $('#babyText').textContent=a.name+' och '+b.name+' har fått en liten kaninunge! Den ska bo med dem. Vad ska den heta?';
+  const taken=S.bunnies.map(x=>x.name);
+  $('#babyChips').innerHTML=BABYNAMES.filter(n=>!taken.includes(n)).slice(0,6).map(n=>'<button class="chip" data-bname="'+n+'">'+n+'</button>').join('');
+  $('#babyName').value='';$('#babyOk').disabled=true;$('#babySheet').hidden=false;chime();setTimeout(chime,500);
+}
+$('#babyChips').addEventListener('click',e=>{const t=e.target.closest('[data-bname]');if(!t)return;$('#babyName').value=t.dataset.bname;$('#babyOk').disabled=false;beep(900,.08)});
+$('#babyName').addEventListener('input',e=>{$('#babyOk').disabled=!e.target.value.trim()});
+$('#babyOk').addEventListener('click',()=>{
+  const name=$('#babyName').value.trim().slice(0,14);if(!name)return;
+  const nb={id:'b'+Date.now(),fur:babyFur||'snow',name,hunger:85,love:85,baby:true};
+  S.bunnies.push(nb);S.together=-600;$('#babySheet').hidden=true;save();
+  if(mode==='meadow'||!$('#s-play').hidden)enterStage(mode==='meadow'?'meadow':'home');
+  setTimeout(()=>{toast('Välkommen, lilla '+name+'!');B.forEach((r,i)=>heartsAt(i,3));chime()},400);
+});
 
 /* ---------- Spelloop ---------- */
 setInterval(()=>{
@@ -1666,6 +1832,12 @@ setInterval(()=>{
   S.bunnies.forEach(b=>{b.hunger=clamp(b.hunger-(out?.4:.33));b.love=clamp(b.love+(out?.15:-.28))});
   if(!out){S.clean=clamp(S.clean-.1);if(Math.random()<(S.bunnies.length>1?1/100:1/140))addPoop()}
   updateUI();
+  const adults=S.bunnies.filter(x=>!x.baby),babies=S.bunnies.filter(x=>x.baby);
+  if(adults.length>=2&&babies.length<2&&$('#babySheet').hidden&&adults[0].love>=55&&adults[1].love>=55){
+    S.together=(S.together||0)+1;
+    if(S.together===150)toast(adults[0].name+' och '+adults[1].name+' verkar trivas jättebra ihop...');
+    if(S.together>=300)showBaby();
+  }
   if(++tickN%5===0)save();
 },1000);
 
@@ -1696,7 +1868,7 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};openAdopt('first');
 });
-const APP_VERSION='1.17';
+const APP_VERSION='1.21';
 const APP_DATE='25 okt 2026';
 $('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
 $('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
