@@ -312,6 +312,48 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .pk.done{background:#C9F2C0}
 .pk.sel{background:var(--pink);color:#fff}
 
+/* Spelhallen */
+.navgames{background:var(--violet);color:#fff;box-shadow:0 5px 0 #5838D6}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.game{border:0;background:var(--paper);border-radius:24px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;box-shadow:0 6px 0 rgba(43,35,80,.15);min-width:0}
+.game.wide{grid-column:1/-1}
+.game svg{width:60px;height:60px}
+.game b{font-size:1.2rem}
+.game span{font-size:.88rem;font-weight:600;opacity:.75;line-height:1.25}
+.game:active{transform:translateY(3px)}
+/* Kaningräv */
+.digstat{display:flex;justify-content:center;gap:12px;font-weight:800}
+.digstat span{background:var(--paper);border-radius:99px;padding:3px 12px;display:inline-flex;align-items:center;gap:4px}
+.digstat svg{width:20px;height:20px}
+.digwrap{position:relative;width:100%;max-width:560px;margin:0 auto;border-radius:22px;overflow:hidden;box-shadow:0 8px 0 rgba(43,35,80,.18);background:#8FE0FF;padding-top:9%}
+.digsky{position:absolute;inset:0 0 auto 0;height:10%;background:linear-gradient(#8FE0FF,#BDEBFF)}
+.digsky::after{content:"";position:absolute;left:0;right:0;bottom:0;height:40%;background:#6CCB4F}
+.diggrid{position:relative;display:grid;grid-template-columns:repeat(9,1fr)}
+.dc{aspect-ratio:1;border:0;padding:12%;margin:0;display:grid;place-items:center;border-radius:0;min-width:0}
+.dc svg{width:100%;height:100%}
+.dc.d0{background:#B98552}.dc.d1{background:#A87644}.dc.d2{background:#966839}.dc.d3{background:#83592F}.dc.d4{background:#704B27}
+.dc.hasc svg{opacity:.4}
+.dc.stone{background-color:#7A6A5A}
+.dc.root{background-image:repeating-linear-gradient(35deg,transparent 0 9px,rgba(60,35,15,.55) 9px 12px)}
+.dc.root.cracked{background-image:repeating-linear-gradient(35deg,transparent 0 9px,rgba(60,35,15,.25) 9px 11px)}
+.dc.dug{background:#4A2E18;box-shadow:inset 0 0 0 3px rgba(0,0,0,.12);border-radius:30%}
+.dc.adj:not(.dug){outline:3px dashed rgba(255,255,255,.55);outline-offset:-4px}
+.dc.shake{animation:wig .35s 2}
+.digbunny{position:absolute;width:calc(100%/9);aspect-ratio:1;transition:left .18s ease,top .18s ease;pointer-events:none;margin-top:9%}
+.digbunny .bflip,.digbunny .bbody{width:100%;height:100%}
+.digbunny svg{width:100%;height:100%;overflow:visible}
+.digpad{display:grid;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(2,56px);gap:6px;justify-content:center}
+.digpad .key{max-width:none;height:56px;font-size:1.4rem}
+.dp-u{grid-column:2;grid-row:1}.dp-l{grid-column:1;grid-row:2}.dp-d{grid-column:2;grid-row:2}.dp-r{grid-column:3;grid-row:2}
+#s-dig > .btn{align-self:center}
+/* Kaninskridskor */
+.skhud{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:800}
+.skhud > span{background:var(--paper);border-radius:99px;padding:3px 12px;display:inline-flex;align-items:center;gap:4px;font-variant-numeric:tabular-nums}
+.skhearts svg,.skgot svg{width:22px;height:22px}
+.skwrap{position:relative;width:100%;max-width:560px;margin:0 auto;border-radius:24px;overflow:hidden;box-shadow:0 8px 0 rgba(43,35,80,.18)}
+.skcanvas{display:block;width:100%;aspect-ratio:1/1.15;touch-action:none;background:#E6F6FF}
+.skpad{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:560px;width:100%;margin:0 auto}
+.skpad .btn{font-size:2rem;padding:16px}
 /* Banbygge */
 .track{display:flex;gap:6px;overflow-x:auto;padding:4px 2px 8px;min-height:88px;align-items:stretch}
 .tslot{border:0;flex:0 0 70px;background:var(--cream);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:800;font-size:.75rem;position:relative;padding:14px 2px 4px;text-align:center;line-height:1.1}
@@ -502,10 +544,8 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
       </div>
       <div class="nav">
         <button class="navb" data-go="meadow"><svg viewBox="0 0 40 40" class="ic-meadow"></svg>Ängen</button>
-        <button class="navb" data-go="hop"><svg viewBox="0 0 40 40" class="ic-hop"></svg>Kaninhopp</button>
-        <button class="navb" data-go="dress"><svg viewBox="0 0 40 40" class="ic-dress"></svg>Utklädning</button>
         <button class="navb" data-go="shop"><svg viewBox="0 0 40 40" class="ic-shop"></svg>Affären</button>
-        <button class="navb wide" data-go="cross"><svg viewBox="0 0 40 40" class="ic-cross"></svg>Kaninkorsord</button>
+        <button class="navb wide navgames" data-go="games"><svg viewBox="0 0 40 40" class="ic-games"></svg>Spel</button>
       </div>
       <div class="friend" id="friendCard" hidden>
         <span class="fb" id="friendPic"></span>
@@ -551,7 +591,7 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 
   <!-- KANINHOPP -->
   <section id="s-hop" hidden>
-    <div class="topline"><button class="mini" data-go="home">Hem</button><h2 class="title2">Kaninhopp</h2></div>
+    <div class="topline"><button class="mini" data-go="games">Spel</button><h2 class="title2">Kaninhopp</h2></div>
     <div class="course" id="course">
       <div class="bg" id="arena"></div>
       <div class="hurdles" id="hurdles"></div>
@@ -573,7 +613,7 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 
   <!-- UTKLÄDNING -->
   <section id="s-dress" hidden>
-    <div class="topline"><button class="mini" data-go="home">Hem</button><h2 class="title2">Utklädning</h2></div>
+    <div class="topline"><button class="mini" data-go="games">Spel</button><h2 class="title2">Utklädning</h2></div>
     <div class="panel theme">
       <div><span class="tlabel">Dagens tema</span><span class="tname" id="themeName"></span></div>
       <button class="btn small violet" id="themeBtn">Nytt tema</button>
@@ -587,9 +627,41 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
     </div>
   </section>
 
+  <!-- SPEL -->
+  <section id="s-games" hidden>
+    <div class="topline"><button class="mini" data-go="home">Hem</button><h2 class="title2">Spel</h2></div>
+    <div class="games">
+      <button class="game" data-go="hop"><svg viewBox="0 0 40 40" class="gi-hop"></svg><b>Kaninhopp</b><span>Hoppa hinder, gör trix och samla morötter</span></button>
+      <button class="game" data-go="dress"><svg viewBox="0 0 40 40" class="gi-dress"></svg><b>Utklädning</b><span>Klä ut kaninen och vinn tävlingen</span></button>
+      <button class="game" data-go="dig"><svg viewBox="0 0 40 40" class="gi-dig"></svg><b>Kaningräv</b><span>Gräv gångar och hitta morötterna</span></button>
+      <button class="game" data-go="skate"><svg viewBox="0 0 40 40" class="gi-skate"></svg><b>Kaninskridskor</b><span>Glid på isen och sväng undan</span></button>
+      <button class="game wide" data-go="cross"><svg viewBox="0 0 40 40" class="gi-cross"></svg><b>Kaninkorsord</b><span>Tolv korsord, från kaninsvårt till kanonsvårt</span></button>
+    </div>
+  </section>
+
+  <!-- KANINGRÄV -->
+  <section id="s-dig" hidden>
+    <div class="topline"><button class="mini" data-go="games">Spel</button><h2 class="title2">Kaningräv</h2></div>
+    <p class="cwtitle">Gräv gångar under marken och hitta alla 5 morötter. Stenar måste du gräva runt, och rötter tar två tag.</p>
+    <div class="digstat" id="digStat"></div>
+    <div class="digwrap"><div class="digsky"></div><div class="diggrid" id="digGrid"></div><div class="digbunny" id="digBunny"></div><div class="hopover" id="digOver" hidden></div></div>
+    <p class="shopmsg" id="digMsg" role="status"></p>
+    <div class="digpad" id="digPad"><button class="key dp-u" data-d="u" aria-label="Upp">▲</button><button class="key dp-l" data-d="l" aria-label="Vänster">◀</button><button class="key dp-d" data-d="d" aria-label="Ner">▼</button><button class="key dp-r" data-d="r" aria-label="Höger">▶</button></div>
+    <button class="btn small violet" id="digNewBtn">Ny gång</button>
+  </section>
+
+  <!-- KANINSKRIDSKOR -->
+  <section id="s-skate" hidden>
+    <div class="topline"><button class="mini" data-go="games">Spel</button><h2 class="title2">Kaninskridskor</h2></div>
+    <div class="skhud"><span id="skHearts" class="skhearts"></span><span class="skgot"><svg viewBox="0 0 40 40" class="sk-c"></svg><b id="skGot">0</b></span><span id="skTime">60 s</span></div>
+    <div class="skwrap"><canvas id="skCanvas" class="skcanvas"></canvas><div class="hopover" id="skOver" hidden></div></div>
+    <div class="skpad"><button class="btn big violet" id="skL" aria-label="Sväng vänster">◀</button><button class="btn big violet" id="skR" aria-label="Sväng höger">▶</button></div>
+    <p class="hint" style="margin:0;text-align:center">Håll in pilarna, eller dra med fingret på isen.</p>
+  </section>
+
   <!-- KORSORD -->
   <section id="s-cross" hidden>
-    <div class="topline"><button class="mini" data-go="home">Hem</button><h2 class="title2">Kaninkorsord</h2></div>
+    <div class="topline"><button class="mini" data-go="games">Spel</button><h2 class="title2">Kaninkorsord</h2></div>
     <div class="panel pickpanel"><div class="wtabs lvtabs" id="cwLevels"></div><div class="pick" id="cwPick"></div></div>
     <p class="cwtitle" id="cwTitle"></p>
     <div class="panel cwpanel"><div class="cwboard" id="cwBoard"></div></div>
@@ -937,7 +1009,7 @@ function chime(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.14,'tr
 
 /* ---------- Skärmar ---------- */
 let playing=false;
-function show(id){['s-adopt','s-cage','s-play','s-shop','s-hop','s-dress','s-build','s-cross'].forEach(s=>{$('#'+s).hidden=(s!==id)});playing=(id==='s-play');if(id!=='s-hop'&&H)H.running=false;window.scrollTo(0,0)}
+function show(id){['s-adopt','s-cage','s-play','s-shop','s-hop','s-dress','s-build','s-cross','s-games','s-dig','s-skate'].forEach(s=>{$('#'+s).hidden=(s!==id)});playing=(id==='s-play');if(id!=='s-hop'&&H)H.running=false;window.scrollTo(0,0)}
 (function(){const el=$('#logo'),t=el.textContent,c=['#FF5DA2','#19C3B2','#7B5CFF','#FF8A3D'];let i=0;el.innerHTML=t.split('').map(ch=>ch===' '?' ':'<span style="color:'+c[(i++)%4]+'">'+ch+'</span>').join('')})();
 
 function renderTabs(){
@@ -963,6 +1035,9 @@ function go(where){
   if(where==='dress'){openDress();return}
   if(where==='build'){openBuild();return}
   if(where==='cross'){openCross();return}
+  if(where==='games'){openGames();return}
+  if(where==='dig'){openDig();return}
+  if(where==='skate'){openSkate();return}
   if(where==='cage'){cageFrom='play';$('#moveIn').textContent='Klar!';save();openCage();return}
 }
 
@@ -2004,6 +2079,159 @@ $('#babyOk').addEventListener('click',()=>{
   setTimeout(()=>{toast('Välkommen, lilla '+name+'!');B.forEach((r,i)=>heartsAt(i,3));chime()},400);
 });
 
+/* ---------- Spelhallen ---------- */
+const DIGICON='<rect x="2" y="12" width="36" height="26" rx="6" fill="#A0703F"/><rect x="2" y="8" width="36" height="8" rx="4" fill="#6CCB4F"/><path d="M12 14v10h10v8" stroke="#5A3A22" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(24 22) scale(.4)">'+'<path d="M6 36q-3-2 2-6L26 12q6-2 4 4L12 34q-4 4-6 2Z" fill="#FF8A3D"/><g stroke="#4FB43A" stroke-width="3.5" stroke-linecap="round"><path d="M28 14l5-10"/><path d="M29 15l9-5"/></g>'+'</g>';
+const SKATEICON='<path d="M8 6h10v14l12 4q4 2 4 6v2H8Z" fill="#7B5CFF"/><path d="M8 12h10" stroke="#fff" stroke-width="2"/><path d="M4 36h32" stroke="#9AA0B5" stroke-width="3" stroke-linecap="round"/><path d="M12 32v4M28 32v4" stroke="#9AA0B5" stroke-width="2.5"/><path d="M4 36q-2-4 2-4" stroke="#9AA0B5" stroke-width="2.5" fill="none"/>';
+const GAMESICON='<rect x="4" y="12" width="32" height="20" rx="10" fill="#7B5CFF"/><path d="M12 18v8M8 22h8" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="26" cy="20" r="2.5" fill="#FFD23F"/><circle cx="30" cy="25" r="2.5" fill="#FF5DA2"/>';
+function openGames(){show('s-games')}
+
+/* ---------- Kaningräv ---------- */
+const DG={C:9,R:10};let DZ=null;
+function digNew(){
+  for(let tries=0;tries<80;tries++){
+    const g=[];for(let r=0;r<DG.R;r++){g.push([]);for(let c=0;c<DG.C;c++)g[r].push({t:'dirt',dug:false,hp:1})}
+    const put=(t,n,r0)=>{let k=0,guard=0;while(k<n&&guard++<500){const r=r0+Math.floor(Math.random()*(DG.R-r0)),c=Math.floor(Math.random()*DG.C);if(g[r][c].t==='dirt'&&!(r<2&&Math.abs(c-4)<2)){g[r][c].t=t;if(t==='root')g[r][c].hp=2;k++}}};
+    put('stone',15,1);put('root',7,1);put('carrot',5,2);put('gem',2,4);
+    g[0][4].dug=true;
+    const seen=new Set(['0,4']),q=[[0,4]];
+    while(q.length){const [r,c]=q.shift();[[1,0],[-1,0],[0,1],[0,-1]].forEach(([a,b])=>{const nr=r+a,nc=c+b,k=nr+','+nc;if(nr<0||nc<0||nr>=DG.R||nc>=DG.C||seen.has(k)||g[nr][nc].t==='stone')return;seen.add(k);q.push([nr,nc])})}
+    let ok=true;for(let r=0;r<DG.R;r++)for(let c=0;c<DG.C;c++)if(g[r][c].t==='carrot'&&!seen.has(r+','+c))ok=false;
+    if(ok){DZ={g,r:0,c:4,face:1,digs:0,got:0,done:false};return}
+  }
+}
+function openDig(){if(!DZ||DZ.done)digNew();$('#digOver').hidden=true;renderDig();show('s-dig')}
+function renderDig(){
+  let h='';
+  for(let r=0;r<DG.R;r++)for(let c=0;c<DG.C;c++){
+    const x=DZ.g[r][c];let cls='dc d'+Math.min(4,Math.floor(r/2.5));
+    if(x.dug)cls+=' dug';else if(x.t==='stone')cls+=' stone';else if(x.t==='root')cls+=' root'+(x.hp<2?' cracked':'');else if(x.t==='carrot')cls+=' hasc';
+    const adj=Math.abs(r-DZ.r)+Math.abs(c-DZ.c)===1;
+    h+='<button class="'+cls+(adj&&x.t!=='stone'?' adj':'')+'" data-r="'+r+'" data-c="'+c+'" aria-label="Ruta '+(r+1)+','+(c+1)+'">'+(x.t==='carrot'&&!x.dug?'<svg viewBox="0 0 40 40">'+FOODSVG.carrot+'</svg>':'')+(x.t==='stone'&&!x.dug?'<svg viewBox="0 0 40 40"><path d="M6 30q-2-14 12-18q14-4 18 10q2 10-10 12Q8 36 6 30Z" fill="#9AA0B5"/><path d="M14 18q6-4 12 0" stroke="#C9CEDD" stroke-width="3" fill="none"/></svg>':'')+'</button>';
+  }
+  $('#digGrid').innerHTML=h;
+  const b=cur(),bun=$('#digBunny');
+  if(!bun.dataset.f||bun.dataset.f!==b.id){bun.innerHTML='<div class="bflip"><div class="bbody">'+bunnySVG(furOf(b),'happy',S.wear[b.id])+'</div></div>';bun.dataset.f=b.id}
+  bun.style.left=(DZ.c/DG.C*100)+'%';bun.style.top=(DZ.r/DG.R*100)+'%';
+  bun.querySelector('.bflip').classList.toggle('left',DZ.face<0);
+  $('#digStat').innerHTML='<span><svg viewBox="0 0 40 40">'+FOODSVG.carrot+'</svg> '+DZ.got+' av 5</span><span>Grävt: '+DZ.digs+'</span>';
+}
+function digMove(dr,dc){
+  if(!DZ||DZ.done)return;
+  const r=DZ.r+dr,c=DZ.c+dc;if(r<0||c<0||r>=DG.R||c>=DG.C)return;
+  const x=DZ.g[r][c];if(dc)DZ.face=dc;
+  if(x.t==='stone'&&!x.dug){beep(160,.15,'square');digToast('En sten! Gräv runt den.');const el=$('#digGrid [data-r="'+r+'"][data-c="'+c+'"]');if(el){el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')}return}
+  if(!x.dug){
+    DZ.digs++;
+    if(x.t==='root'&&x.hp>1){x.hp--;beep(220,.1,'sawtooth');digToast('En rot! Gräv en gång till.');renderDig();return}
+    x.dug=true;beep(R(160,240),.08,'sawtooth');
+    if(x.t==='carrot'){DZ.got++;const b=cur();b.hunger=clamp(b.hunger+4);beep(1200,.1,'triangle');digToast(DZ.got<5?'En morot! '+(5-DZ.got)+' kvar.':'Alla morötter!')}
+    if(x.t==='gem'){S.coins+=1;renderWallet();chime();digToast('En glittrande sten! +1 kr')}
+  } else beep(500,.04);
+  DZ.r=r;DZ.c=c;renderDig();
+  if(DZ.got>=5&&!DZ.done){
+    DZ.done=true;const st=DZ.digs<=30?3:(DZ.digs<=42?2:1),b=cur();
+    S.coins+=2;b.love=clamp(b.love+6);S.digBest=Math.max(S.digBest||0,st);save();renderWallet();
+    setTimeout(()=>{chime();const ov=$('#digOver');ov.hidden=false;ov.innerHTML='<div class="hopcard"><p class="big">'+esc(b.name)+' hittade alla morötter!</p>'+starsHTML(st,28)+'<p>Du grävde '+DZ.digs+' gånger. Färre grävningar ger fler stjärnor. +2 kr</p><div class="row"><button class="btn small green" id="digAgain">Ny gång</button><button class="btn small" data-go="games">Spel</button></div></div>'},500);
+  }
+}
+let digT=0;function digToast(m){const t=$('#digMsg');t.textContent=m;clearTimeout(digT);digT=setTimeout(()=>{t.textContent=''},2200)}
+$('#digGrid').addEventListener('click',e=>{const t=e.target.closest('[data-r]');if(!t)return;const r=+t.dataset.r,c=+t.dataset.c;const dr=r-DZ.r,dc=c-DZ.c;if(Math.abs(dr)+Math.abs(dc)!==1){digToast('Tryck på en ruta bredvid kaninen.');return}digMove(dr,dc)});
+$('#digPad').addEventListener('click',e=>{const t=e.target.closest('[data-d]');if(!t)return;const d=t.dataset.d;digMove(d==='u'?-1:d==='d'?1:0,d==='l'?-1:d==='r'?1:0)});
+$('#digOver').addEventListener('click',e=>{if(e.target.id==='digAgain'){digNew();$('#digOver').hidden=true;renderDig()}});
+$('#digNewBtn').addEventListener('click',()=>{digNew();$('#digOver').hidden=true;beep(600,.1);renderDig()});
+document.addEventListener('keydown',e=>{if($('#s-dig').hidden)return;const m={ArrowUp:[-1,0],ArrowDown:[1,0],ArrowLeft:[0,-1],ArrowRight:[0,1]}[e.key];if(m){e.preventDefault();digMove(m[0],m[1])}});
+
+/* ---------- Kaninskridskor ---------- */
+let SK=null;
+function openSkate(){show('s-skate');skReset();skResize();skDraw();const ov=$('#skOver');ov.hidden=false;ov.innerHTML='<div class="hopcard"><p class="big">Kaninskridskor</p><p>Glid på isen, samla morötter och sväng undan snögubbar, isblock och stenar. Åk i en minut!</p>'+(S.skateBest?'<p>Ditt rekord: '+S.skateBest+' morötter</p>':'')+'<div class="row"><button class="btn small violet" id="skGo">Åk!</button></div></div>'}
+function skReset(){SK={x:0,tx:null,input:0,t:0,dist:0,speed:.32,objs:[],side:[],hearts:3,got:0,running:false,inv:0,spawn:.6,sspawn:0,last:0,lean:0};for(let k=0;k<14;k++)skSide(Math.random());skHud()}
+function skSide(d){const s=Math.random()<.5?-1:1;SK.side.push({d,x:s*(1.25+Math.random()*1.3),t:Math.random()<.75?'pine':(Math.random()<.5?'man':'bush')})}
+function skResize(){const c=$('#skCanvas'),dpr=Math.min(2,window.devicePixelRatio||1),w=c.clientWidth;c.width=Math.round(w*dpr);c.height=Math.round(w*1.15*dpr)}
+function skHud(){$('#skHearts').innerHTML=[0,1,2].map(k=>'<svg viewBox="0 0 24 24" style="opacity:'+(k<SK.hearts?1:.25)+'">'+HEART+'</svg>').join('');$('#skGot').textContent=SK.got;$('#skTime').textContent=Math.max(0,60-Math.floor(SK.t))+' s'}
+function skStart(){skReset();SK.running=true;SK.last=performance.now();$('#skOver').hidden=true;beep(520,.15,'triangle');requestAnimationFrame(skLoop)}
+function skLoop(now){
+  if(!SK||!SK.running||$('#s-skate').hidden){if(SK)SK.running=false;return}
+  const dt=Math.min(.05,(now-SK.last)/1000);SK.last=now;SK.t+=dt;
+  SK.speed=.32+Math.min(.4,SK.t*.007);
+  let dir=SK.input;if(SK.tx!=null){const d=SK.tx-SK.x;dir=Math.abs(d)<.04?0:Math.sign(d)}
+  SK.x=Math.max(-.85,Math.min(.85,SK.x+dir*dt*1.4));SK.lean+=(dir-SK.lean)*Math.min(1,dt*8);
+  SK.dist+=SK.speed*dt*40;
+  SK.spawn-=dt;
+  if(SK.spawn<=0){
+    SK.spawn=Math.max(.45,1.15-SK.t*.01);
+    if(Math.random()<.42){const x0=R(-.7,.7);for(let k=0;k<3;k++)SK.objs.push({d:1+k*.07,x:x0,t:'carrot'})}
+    else{const t=['snow','ice','rock'][Math.floor(Math.random()*3)];SK.objs.push({d:1,x:R(-.75,.75),t})}
+  }
+  SK.sspawn-=dt;if(SK.sspawn<=0){SK.sspawn=.18;skSide(1)}
+  SK.objs.forEach(o=>o.d-=SK.speed*dt);SK.side.forEach(o=>o.d-=SK.speed*dt);
+  SK.side=SK.side.filter(o=>o.d>-.1);
+  if(SK.inv>0)SK.inv-=dt;
+  SK.objs.forEach(o=>{
+    if(o.hit||o.d>.07||o.d<-.03)return;
+    const hitW=o.t==='carrot'?.2:.24;
+    if(Math.abs(o.x-SK.x)<hitW){
+      o.hit=true;
+      if(o.t==='carrot'){SK.got++;beep(1250,.06,'triangle')}
+      else if(SK.inv<=0){SK.hearts--;SK.inv=1.4;beep(140,.3,'square');if(SK.hearts<=0){skEnd(false)}}
+      skHud();
+    }
+  });
+  SK.objs=SK.objs.filter(o=>o.d>-.1&&!(o.hit&&o.t==='carrot'));
+  if(Math.floor(SK.t*4)%2===0)skHud();
+  if(SK.t>=60)skEnd(true);
+  skDraw();
+  if(SK.running)requestAnimationFrame(skLoop);
+}
+function skEnd(win){
+  if(!SK.running)return;SK.running=false;
+  const b=cur(),prize=Math.min(5,Math.floor(SK.got/5)),rec=SK.got>(S.skateBest||0);
+  if(rec)S.skateBest=SK.got;S.coins+=prize;b.love=clamp(b.love+6);b.hunger=clamp(b.hunger-6+Math.min(8,Math.floor(SK.got/2)));save();renderWallet();
+  if(win)chime();else beep(200,.3,'triangle');
+  const ov=$('#skOver');ov.hidden=false;
+  ov.innerHTML='<div class="hopcard"><p class="big">'+(win?'Målgång! ':'Plums i snön! ')+(rec?'Nytt rekord!':'')+'</p><p>'+esc(b.name)+' åkte '+Math.round(SK.dist)+' meter och samlade '+SK.got+' morötter.'+(prize?' +'+prize+' kr':'')+'</p><div class="row"><button class="btn small violet" id="skGo">Åk igen</button><button class="btn small" data-go="games">Spel</button></div></div>';
+}
+function skDraw(){
+  const c=$('#skCanvas');if(!c||!SK)return;const g=c.getContext('2d'),W=c.width,H=c.height,y0=H*.3;
+  const P=d=>1/(1+Math.max(-.05,d)*5.5),Y=d=>y0+(H*1.02-y0)*P(d),HW=d=>W*(.4*P(d)+.015),X=(x,d)=>W/2+x*HW(d);
+  let gr=g.createLinearGradient(0,0,0,y0);gr.addColorStop(0,'#8FD3FF');gr.addColorStop(1,'#E6F6FF');g.fillStyle=gr;g.fillRect(0,0,W,y0+2);
+  g.fillStyle='#FFD23F';g.beginPath();g.arc(W*.82,H*.1,W*.06,0,7);g.fill();
+  g.fillStyle='#DDEFFC';g.beginPath();g.moveTo(0,y0);for(let i=0;i<=8;i++)g.lineTo(i*W/8,y0-(i%2?H*.08:H*.03));g.lineTo(W,y0);g.fill();
+  g.fillStyle='#FFFFFF';g.fillRect(0,y0,W,H-y0);
+  g.fillStyle='#A9E4FF';g.beginPath();g.moveTo(X(-1,1),Y(1));g.lineTo(X(1,1),Y(1));g.lineTo(X(1,-.05),H);g.lineTo(X(-1,-.05),H);g.fill();
+  const off=(SK.dist/6)%1;
+  for(let k=0;k<12;k++){const d=1-((k+off)/12);if(d<0)continue;g.strokeStyle='rgba(255,255,255,'+(.25+.5*(1-d))+')';g.lineWidth=Math.max(1,6*P(d)*W/400);g.beginPath();g.moveTo(X(-.4,d),Y(d));g.lineTo(X(-.1,d),Y(d));g.moveTo(X(.25,d),Y(d));g.lineTo(X(.55,d),Y(d));g.stroke()}
+  const all=SK.side.map(o=>Object.assign({side:1},o)).concat(SK.objs).filter(o=>o.d<=1.25).sort((a,b)=>b.d-a.d);
+  all.forEach(o=>{const s=W*.16*P(o.d),x=X(o.x,o.d),y=Y(o.d);skObj(g,o.t,x,y,s)});
+  // kaninen bakifrån
+  const f=furOf(cur()),bx=X(SK.x,0),by=H*.95,s=W*.095,lean=SK.lean*.25;
+  if(SK.inv>0&&Math.floor(SK.inv*10)%2)g.globalAlpha=.45;
+  g.save();g.translate(bx,by);g.rotate(lean);
+  g.fillStyle='rgba(43,35,80,.15)';g.beginPath();g.ellipse(0,s*.1,s*1.1,s*.25,0,0,7);g.fill();
+  g.strokeStyle='#9AA0B5';g.lineWidth=s*.08;g.beginPath();g.moveTo(-s*.75,0);g.lineTo(-s*.2,0);g.moveTo(s*.2,0);g.lineTo(s*.75,0);g.stroke();
+  g.fillStyle='#7B5CFF';g.fillRect(-s*.6,-s*.35,s*.3,s*.32);g.fillRect(s*.3,-s*.35,s*.3,s*.32);
+  g.fillStyle=f.fur;g.beginPath();g.ellipse(0,-s*.9,s*.8,s*.75,0,0,7);g.fill();
+  if(f.spot){g.fillStyle=f.spot;g.beginPath();g.arc(-s*.3,-s*1.05,s*.22,0,7);g.fill();g.beginPath();g.arc(s*.35,-s*.7,s*.16,0,7);g.fill()}
+  g.fillStyle='#fff';g.beginPath();g.arc(0,-s*.45,s*.26,0,7);g.fill();
+  g.fillStyle='#FF4D6D';g.fillRect(-s*.55,-s*1.55,s*1.1,s*.2);g.fillRect(s*.2,-s*1.5,s*.18,s*.5);
+  g.fillStyle=f.fur;g.beginPath();g.arc(0,-s*1.85,s*.52,0,7);g.fill();
+  [[-1,-.2],[1,.2]].forEach(([k,r])=>{g.save();g.translate(k*s*.25,-s*2.2);g.rotate(r+lean*.5);g.fillStyle=f.spot&&k<0?f.spot:f.fur;g.beginPath();g.ellipse(0,-s*.55,s*.2,s*.6,0,0,7);g.fill();g.fillStyle=f.ear;g.beginPath();g.ellipse(0,-s*.5,s*.09,s*.42,0,0,7);g.fill();g.restore()});
+  g.restore();g.globalAlpha=1;
+}
+function skObj(g,t,x,y,s){
+  if(t==='pine'){g.fillStyle='#3E9E2E';for(let k=0;k<3;k++){g.beginPath();g.moveTo(x,y-s*(1.9-k*.45)-s*.9);g.lineTo(x-s*(.5+k*.18),y-s*(.75-k*.3)-s*.2);g.lineTo(x+s*(.5+k*.18),y-s*(.75-k*.3)-s*.2);g.fill()}g.fillStyle='#fff';g.beginPath();g.moveTo(x,y-s*2.8);g.lineTo(x-s*.22,y-s*2.35);g.lineTo(x+s*.22,y-s*2.35);g.fill();g.fillStyle='#8A5A2B';g.fillRect(x-s*.08,y-s*.3,s*.16,s*.3);return}
+  if(t==='bush'){g.fillStyle='#EAF6FF';g.beginPath();g.arc(x-s*.3,y-s*.3,s*.35,0,7);g.arc(x+s*.25,y-s*.35,s*.4,0,7);g.fill();return}
+  if(t==='man'||t==='snow'){g.fillStyle='#fff';g.strokeStyle='#D6E4F0';g.lineWidth=Math.max(1,s*.04);[[.5,.42],[1.15,.32],[1.65,.24]].forEach(([h,r])=>{g.beginPath();g.arc(x,y-s*h,s*r,0,7);g.fill();g.stroke()});g.fillStyle='#FF8A3D';g.beginPath();g.moveTo(x,y-s*1.68);g.lineTo(x+s*.25,y-s*1.62);g.lineTo(x,y-s*1.58);g.fill();g.fillStyle='#2B2350';g.beginPath();g.arc(x-s*.08,y-s*1.75,s*.03,0,7);g.arc(x+s*.08,y-s*1.75,s*.03,0,7);g.fill();g.fillStyle='#FF4D6D';g.fillRect(x-s*.3,y-s*1.4,s*.6,s*.08);return}
+  if(t==='ice'){g.fillStyle='#CFF0FF';g.strokeStyle='#7FD3FF';g.lineWidth=Math.max(1,s*.05);g.beginPath();g.roundRect?g.roundRect(x-s*.45,y-s*.85,s*.9,s*.85,s*.12):g.rect(x-s*.45,y-s*.85,s*.9,s*.85);g.fill();g.stroke();g.strokeStyle='#fff';g.beginPath();g.moveTo(x-s*.25,y-s*.65);g.lineTo(x-s*.05,y-s*.45);g.stroke();return}
+  if(t==='rock'){g.fillStyle='#9AA0B5';g.beginPath();g.ellipse(x,y-s*.3,s*.5,s*.32,0,0,7);g.fill();g.fillStyle='#fff';g.beginPath();g.ellipse(x-s*.05,y-s*.55,s*.32,s*.1,0,0,7);g.fill();return}
+  if(t==='carrot'){g.save();g.translate(x,y-s*.5);g.rotate(.6);g.fillStyle='#FF8A3D';g.beginPath();g.moveTo(-s*.12,-s*.35);g.lineTo(s*.12,-s*.35);g.lineTo(0,s*.35);g.fill();g.strokeStyle='#4FB43A';g.lineWidth=Math.max(1,s*.07);g.beginPath();g.moveTo(0,-s*.35);g.lineTo(-s*.1,-s*.55);g.moveTo(0,-s*.35);g.lineTo(s*.1,-s*.55);g.stroke();g.restore()}
+}
+$('#skOver').addEventListener('click',e=>{if(e.target.id==='skGo')skStart()});
+['skL','skR'].forEach((id,k)=>{const el=$('#'+id);const on=e=>{e.preventDefault();if(SK){SK.tx=null;SK.input=k?1:-1}},off=()=>{if(SK)SK.input=0};el.addEventListener('pointerdown',on);['pointerup','pointerleave','pointercancel'].forEach(ev=>el.addEventListener(ev,off))});
+{const cv=$('#skCanvas');const mv=e=>{if(!SK||!SK.running||!SK.drag)return;const r=cv.getBoundingClientRect();SK.tx=Math.max(-.85,Math.min(.85,((e.clientX-r.left)/r.width-.5)*2.1))};cv.addEventListener('pointerdown',e=>{if(SK){SK.drag=true;mv(e)}});cv.addEventListener('pointermove',mv);['pointerup','pointercancel','pointerleave'].forEach(ev=>cv.addEventListener(ev,()=>{if(SK){SK.drag=false;SK.tx=null}}))}
+document.addEventListener('keydown',e=>{if($('#s-skate').hidden||!SK)return;if(e.key==='ArrowLeft'){SK.tx=null;SK.input=-1}if(e.key==='ArrowRight'){SK.tx=null;SK.input=1}});
+document.addEventListener('keyup',e=>{if($('#s-skate').hidden||!SK)return;if(e.key==='ArrowLeft'||e.key==='ArrowRight')SK.input=0});
+window.addEventListener('resize',()=>{if(!$('#s-skate').hidden){skResize();skDraw()}});
+
 /* ---------- Spelloop ---------- */
 setInterval(()=>{
   if(!playing||!S.bunnies.length)return;
@@ -2030,7 +2258,7 @@ $$('svg.coin').forEach(s=>s.innerHTML=COIN);
 $('.ic-food').innerHTML=FOODSVG.carrot.replace(/#FF8A3D/g,'#fff').replace(/#E06A1E/g,'#FF8A3D').replace(/#4FB43A/g,'#fff');
 $('.ic-clean').innerHTML=BROOM.replace(/#B5793F/g,'#fff').replace(/#FBD866|#E2B23C/g,'#fff').replace(/#FF5DA2/g,'#10978A');
 $('.ic-love').innerHTML=HEART.replace('#FF5DA2','#fff');
-$('.ic-meadow').innerHTML=MEADOWICON;$('.hc svg').innerHTML=FOODSVG.carrot;$('.ic-dress').innerHTML=DRESSICON;$('.ic-cross').innerHTML=CROSSICON;$('.ic-hop').innerHTML=HOPICON;$('.ic-shop').innerHTML=SHOPICON;
+$('.ic-meadow').innerHTML=MEADOWICON;$('.ic-games').innerHTML=GAMESICON;$('.gi-hop').innerHTML=HOPICON;$('.gi-dress').innerHTML=DRESSICON;$('.gi-dig').innerHTML=DIGICON;$('.gi-skate').innerHTML=SKATEICON;$('.gi-cross').innerHTML=CROSSICON;$('.sk-c').innerHTML=FOODSVG.carrot;$('.hc svg').innerHTML=FOODSVG.carrot;$('.ic-shop').innerHTML=SHOPICON;
 
 /* Meny */
 function syncSound(){$('#mSound').textContent='Ljud: '+(S.muted?'av':'på')}
@@ -2047,7 +2275,7 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};openAdopt('first');
 });
-const APP_VERSION='1.23';
+const APP_VERSION='1.24';
 const APP_DATE='25 okt 2026';
 $('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
 $('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
