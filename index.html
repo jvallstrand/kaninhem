@@ -86,7 +86,7 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .acc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .acc-chip{border:0;background:var(--cream);border-radius:18px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:700;font-size:.95rem;position:relative}
 .acc-chip .ic{height:42px;display:grid;place-items:center}
-.acc-chip .ic svg{max-height:42px;max-width:56px}
+.acc-chip .ic svg{width:56px;height:42px}
 .acc-chip.on{background:#ECE5FF;box-shadow:inset 0 0 0 4px var(--violet)}
 .acc-chip.on::after{content:"";position:absolute;top:6px;right:8px;width:16px;height:16px;border-radius:50%;background:var(--violet)}
 
@@ -196,10 +196,56 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .opt svg{width:42px;height:42px}
 .opt:active{transform:scale(.94)}
 
-.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.navb{border:0;background:var(--paper);border-radius:22px;padding:8px 4px 6px;display:flex;flex-direction:column;align-items:center;font-weight:800;font-size:1rem;box-shadow:0 5px 0 rgba(43,35,80,.15);transition:transform .08s}
+.nav{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.navb{border:0;background:var(--paper);border-radius:22px;padding:8px 10px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:1.05rem;box-shadow:0 5px 0 rgba(43,35,80,.15);transition:transform .08s;min-width:0}
 .navb:active{transform:translateY(3px)}
-.navb svg{width:42px;height:42px}
+.navb svg{width:38px;height:38px;flex-shrink:0}
+
+/* Utklädning */
+.theme{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.theme .tlabel{font-weight:700;font-size:.9rem;opacity:.7;display:block}
+.theme .tname{font-size:1.5rem;font-weight:800;color:var(--violet);line-height:1.1}
+.runway{position:relative;width:100%;max-width:100%;aspect-ratio:4/3;border-radius:28px;overflow:hidden;box-shadow:0 8px 0 rgba(43,35,80,.18)}
+.runway.showing{aspect-ratio:4/5}
+.runway > .bg{position:absolute;inset:0}
+.runway > .bg svg{width:100%;height:100%;display:block}
+.runway .model{position:absolute;left:28%;bottom:9%;width:44%;aspect-ratio:1;max-height:62%}
+.runway .model svg{width:100%;height:100%;overflow:visible}
+.wtabs{display:flex;gap:6px;flex-wrap:wrap}
+.wtab{border:0;background:var(--soft);border-radius:99px;padding:5px 14px;font-weight:800}
+.wtab.sel{background:var(--violet);color:#fff}
+.wgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.witem{border:0;background:var(--cream);border-radius:16px;padding:6px 2px;display:flex;flex-direction:column;align-items:center;font-weight:700;font-size:.74rem;line-height:1.1;gap:2px;min-width:0;text-align:center;overflow-wrap:anywhere;hyphens:auto}
+.witem .ic{height:40px;display:grid;place-items:center}
+.witem .ic svg{width:52px;height:38px}
+.witem.sel{background:#ECE5FF;box-shadow:inset 0 0 0 3px var(--violet)}
+.witem.locked{opacity:.45}
+.show{position:absolute;inset:0;background:rgba(43,35,80,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px;z-index:5}
+.contest{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%}
+.cont{background:var(--paper);border-radius:16px;padding:2px 4px 4px;display:flex;flex-direction:column;align-items:center;text-align:center;font-weight:800;font-size:.8rem;min-width:0;line-height:1.1}
+.cont .bn{width:80%;aspect-ratio:1}
+.cont .bn svg{width:100%;height:100%;overflow:visible}
+.cont .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.cont .score{display:flex;gap:3px;align-items:center;justify-content:center;min-height:20px;font-size:1.1rem;font-variant-numeric:tabular-nums;color:var(--pink)}
+.cont .score svg{width:18px;height:18px}
+.cont.win{box-shadow:inset 0 0 0 4px #FFD23F}
+.judges{display:flex;gap:8px;justify-content:center}
+.judge{width:40px;height:40px;border-radius:50%;background:var(--paper);display:grid;place-items:center}
+.judge svg{width:34px;height:34px}
+.showmsg{background:var(--paper);border-radius:18px;padding:6px 12px;font-weight:800;text-align:center;max-width:96%;display:flex;flex-direction:column;align-items:center;gap:6px}
+.showmsg svg.ros{width:40px;height:auto}
+.showmsg .row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+
+/* Banbygge */
+.track{display:flex;gap:6px;overflow-x:auto;padding:4px 2px 8px;min-height:88px;align-items:stretch}
+.tslot{border:0;flex:0 0 70px;background:var(--cream);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:800;font-size:.75rem;position:relative;padding:14px 2px 4px;text-align:center;line-height:1.1}
+.tslot svg{width:44px;height:36px}
+.tslot .num{position:absolute;top:3px;left:8px;font-size:.75rem;opacity:.55}
+.tempty{flex:1;display:grid;place-items:center;font-weight:700;opacity:.6;text-align:center;padding:0 8px}
+.palette{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.palette .opt svg{width:48px;height:40px}
+.row2{display:flex;gap:8px;flex-wrap:wrap}
+.row2 .btn{flex:1 1 auto}
 .friend{display:flex;align-items:center;gap:12px;background:var(--paper);border-radius:22px;padding:10px 12px;box-shadow:0 5px 0 rgba(43,35,80,.15)}
 .friend .fb{width:62px;flex-shrink:0}
 .friend .fb svg{width:100%;display:block}
@@ -222,7 +268,7 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .shop-acc{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .sitem{background:var(--cream);border-radius:20px;padding:8px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:800;text-align:center}
 .sitem .ic{height:50px;display:grid;place-items:center}
-.sitem .ic svg{max-height:50px;max-width:76px}
+.sitem .ic svg{width:72px;height:48px}
 .buy{border:0;border-radius:99px;padding:3px 12px;font-weight:800;font-size:.95rem;background:var(--orange);color:#fff;display:inline-flex;align-items:center;gap:4px;font-variant-numeric:tabular-nums}
 .buy svg{width:16px;height:16px}
 .buy.poor{background:#E7E1F4;color:var(--ink)}
@@ -318,6 +364,7 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
       <div class="nav">
         <button class="navb" data-go="meadow"><svg viewBox="0 0 40 40" class="ic-meadow"></svg>Ängen</button>
         <button class="navb" data-go="hop"><svg viewBox="0 0 40 40" class="ic-hop"></svg>Kaninhopp</button>
+        <button class="navb" data-go="dress"><svg viewBox="0 0 40 40" class="ic-dress"></svg>Utklädning</button>
         <button class="navb" data-go="shop"><svg viewBox="0 0 40 40" class="ic-shop"></svg>Affären</button>
       </div>
       <div class="friend" id="friendCard" hidden>
@@ -371,8 +418,41 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
     <div class="panel">
       <h2 class="h2">Vem ska hoppa?</h2>
       <div class="btabs" id="hopTabs"></div>
-      <p style="margin:0;font-weight:600">Tryck på Hoppa! (eller på banan) när kaninen kommer fram till ett hinder. Färre rivningar ger finare rosett och lite prispeng.</p>
+      <p style="margin:0;font-weight:600">Tryck på Hoppa! (eller på banan) precis före hindret. I tävlingen ger färre rivningar finare rosett och lite prispeng. På din egen bana kan ni träna hur mycket ni vill.</p>
+      <button class="btn big green" data-go="build">Bygg egen bana</button>
     </div>
+  </section>
+
+  <!-- UTKLÄDNING -->
+  <section id="s-dress" hidden>
+    <div class="topline"><button class="mini" data-go="home">Hem</button><h2 class="title2">Utklädning</h2></div>
+    <div class="panel theme">
+      <div><span class="tlabel">Dagens tema</span><span class="tname" id="themeName"></span></div>
+      <button class="btn small violet" id="themeBtn">Nytt tema</button>
+    </div>
+    <div class="runway" id="runway"><div class="bg" id="runwayBg"></div><div class="model" id="model"></div><div class="show" id="showOver" hidden></div></div>
+    <div class="panel">
+      <div class="btabs" id="dressTabs"></div>
+      <div class="wtabs" id="wtabs"></div>
+      <div class="wgrid" id="wgrid"></div>
+      <button class="btn big" id="catwalkBtn">Gå ut på catwalken!</button>
+    </div>
+  </section>
+
+  <!-- BANBYGGE -->
+  <section id="s-build" hidden>
+    <div class="topline"><button class="mini" data-go="hop">Tillbaka</button><h2 class="title2">Bygg en bana</h2></div>
+    <div class="panel">
+      <h2 class="h2">Din bana <span class="hint" id="trackCount"></span></h2>
+      <div class="track" id="track"></div>
+      <p class="hint" style="margin:0">Tryck på ett hinder i banan för att ta bort det.</p>
+    </div>
+    <div class="panel">
+      <h2 class="h2">Lägg till</h2>
+      <div class="palette" id="palette"></div>
+      <div class="row2"><button class="btn small violet" id="buildRandom">Slumpa</button><button class="btn small" id="buildClear">Töm banan</button></div>
+    </div>
+    <button class="btn big green" id="buildRun">Spring banan!</button>
   </section>
 </div>
 
@@ -437,12 +517,29 @@ const FURS=[
 ];
 const NAMES=['Nova','Kanelbulle','Pip','Molly','Tussi','Smulan','Sessan','Bus'];
 
+function neckArc(fn){let s='';for(let k=0;k<9;k++){const t=k/8;s+=fn(62+40*t,82+10*Math.sin(Math.PI*t),k)}return s}
 const WEAR={
-  bow:{draw:'<g transform="translate(69 41)"><path d="M0 0L-12-8V8Z" fill="#FF5DA2"/><path d="M0 0L12-8V8Z" fill="#FF5DA2"/><circle r="4" fill="#FF8FC0"/></g>',vb:'54 30 30 22'},
-  flower:{draw:[[61,47,'#FF5DA2'],[68,40,'#FFD23F'],[77,36,'#FFFFFF'],[86,36,'#FF5DA2'],[94,41,'#FFD23F']].map(p=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="5.5" fill="'+p[2]+'" stroke="#E4DDF2" stroke-width="1"/><circle cx="'+p[0]+'" cy="'+p[1]+'" r="2.2" fill="#FF8A3D"/>').join(''),vb:'53 28 50 26'},
-  crown:{draw:'<path d="M68 39L69 22L75 30L81 18L87 30L93 22L94 39Z" fill="#FFD23F"/><rect x="67" y="36" width="28" height="5" rx="2.5" fill="#FFB000"/><circle cx="81" cy="29" r="2.8" fill="#FF5DA2"/><circle cx="72" cy="33" r="1.8" fill="#19C3B2"/><circle cx="90" cy="33" r="1.8" fill="#19C3B2"/>',vb:'64 15 34 28'}
+  /* huvud */
+  bow:{slot:'head',name:'Rosett',tags:['prinsessa','kalas'],draw:'<g transform="translate(69 41)"><path d="M0 0L-12-8V8Z" fill="#FF5DA2"/><path d="M0 0L12-8V8Z" fill="#FF5DA2"/><circle r="4" fill="#FF8FC0"/></g>',vb:'54 30 30 22'},
+  flower:{slot:'head',name:'Blomkrans',tags:['blommor','strand'],draw:[[61,47,'#FF5DA2'],[68,40,'#FFD23F'],[77,36,'#FFFFFF'],[86,36,'#FF5DA2'],[94,41,'#FFD23F']].map(p=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="5.5" fill="'+p[2]+'" stroke="#E4DDF2" stroke-width="1"/><circle cx="'+p[0]+'" cy="'+p[1]+'" r="2.2" fill="#FF8A3D"/>').join(''),vb:'53 28 50 26'},
+  crown:{slot:'head',name:'Krona',tags:['prinsessa','kalas'],draw:'<path d="M68 39L69 22L75 30L81 18L87 30L93 22L94 39Z" fill="#FFD23F"/><rect x="67" y="36" width="28" height="5" rx="2.5" fill="#FFB000"/><circle cx="81" cy="29" r="2.8" fill="#FF5DA2"/><circle cx="72" cy="33" r="1.8" fill="#19C3B2"/><circle cx="90" cy="33" r="1.8" fill="#19C3B2"/>',vb:'64 15 34 28'},
+  partyhat:{slot:'head',name:'Kalashatt',tags:['kalas'],draw:'<g transform="rotate(14 84 30)"><path d="M72 40L84 6L96 40Z" fill="#7B5CFF"/><path d="M78 20H90L90.4 24H77.6Z" fill="#FF5DA2"/><path d="M76 29H92L94 35H74Z" fill="#FFD23F"/><circle cx="84" cy="6" r="4.5" fill="#FF5DA2"/></g>',vb:'64 0 42 46'},
+  sunhat:{slot:'head',name:'Solhatt',tags:['strand','blommor'],draw:'<ellipse cx="82" cy="38" rx="28" ry="6" fill="#F5D08A"/><path d="M68 38q14-26 28 0Z" fill="#F5D08A"/><path d="M68.6 34q13.4-4 26.8 0l.6 4q-14-4-28 0Z" fill="#FF5DA2"/><circle cx="72" cy="33" r="3.2" fill="#FFD23F"/>',vb:'52 18 60 28'},
+  beanie:{slot:'head',name:'Mössa',tags:['vinter'],draw:'<path d="M60 44q20-36 44 0Z" fill="#19C3B2"/><rect x="58" y="40" width="48" height="8" rx="4" fill="#0E9C8E"/><circle cx="82" cy="14" r="7" fill="#fff"/><path d="M70 30l4 6M82 26v8M94 30l-4 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/>',vb:'54 5 56 46'},
+  tiara:{slot:'head',name:'Tiara',tags:['prinsessa'],draw:'<path d="M66 42q16-14 32 0" stroke="#C9D3E8" stroke-width="3" fill="none"/><path d="M76 34l6-10 6 10Z" fill="#C9D3E8"/><circle cx="82" cy="29" r="2.6" fill="#5BC6F5"/><circle cx="72" cy="37" r="2" fill="#FF5DA2"/><circle cx="92" cy="37" r="2" fill="#FF5DA2"/>',vb:'62 20 40 26'},
+  /* hals */
+  scarf:{slot:'neck',name:'Halsduk',tags:['vinter'],draw:'<path d="M60 80q22 12 44 0l1 9q-23 13-46 0Z" fill="#FF4D6D"/><rect x="64" y="86" width="9" height="20" rx="3" fill="#FF4D6D" transform="rotate(8 68 86)"/><path d="M65 102l8 1" stroke="#fff" stroke-width="2"/>',vb:'56 74 52 36'},
+  bowtie:{slot:'neck',name:'Fluga',tags:['kalas','prinsessa'],draw:'<g transform="translate(84 89)"><path d="M0 0L-10-6V6Z" fill="#7B5CFF"/><path d="M0 0L10-6V6Z" fill="#7B5CFF"/><circle r="3" fill="#B6A4FF"/></g>',vb:'70 80 28 18'},
+  pearls:{slot:'neck',name:'Pärlband',tags:['prinsessa'],draw:neckArc((x,y)=>'<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3.2" fill="#fff" stroke="#D6CCEB" stroke-width="1"/>'),vb:'56 76 52 22'},
+  lei:{slot:'neck',name:'Blomster\u00ADkrans',tags:['strand','blommor'],draw:neckArc((x,y,k)=>'<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="4.4" fill="'+['#FF5DA2','#FFD23F','#FF8A3D'][k%3]+'"/><circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="1.6" fill="#fff"/>'),vb:'56 76 52 22'},
+  /* ögon */
+  sunglasses:{slot:'eyes',name:'Sol\u00ADglasögon',tags:['strand'],draw:'<path d="M70 52L82 55" stroke="#2B2350" stroke-width="2.5"/><ellipse cx="89.5" cy="57" rx="8" ry="7" fill="#2B2350"/><path d="M85 53q3-2 6 0" stroke="#fff" stroke-width="1.5" fill="none" opacity=".6"/>',vb:'66 46 34 20'},
+  heartglasses:{slot:'eyes',name:'Hjärt\u00ADglasögon',tags:['blommor','prinsessa'],draw:'<path d="M70 52L81 55" stroke="#FF5DA2" stroke-width="2.5"/><path d="M89.5 66c-7-5-10-8-10-11a5 5 0 0 1 10-1a5 5 0 0 1 10 1c0 3-3 6-10 11Z" fill="#FF5DA2" opacity=".92"/>',vb:'66 46 36 24'},
+  starglasses:{slot:'eyes',name:'Stjärn\u00ADglasögon',tags:['kalas'],draw:'<path d="M70 52L81 55" stroke="#FFB000" stroke-width="2.5"/><path d="M89.5 47l2.8 6.2 6.7.6-5 4.5 1.5 6.6-6-3.4-6 3.4 1.5-6.6-5-4.5 6.7-.6Z" fill="#FFD23F"/>',vb:'66 44 36 24'}
 };
 Object.keys(WEAR).forEach(k=>{WEAR[k].icon='<svg viewBox="'+WEAR[k].vb+'">'+WEAR[k].draw+'</svg>'});
+function outfitOf(w){if(!w)return {};if(typeof w==='string')return {head:w};return w}
+function wearDraw(w,slot){const o=outfitOf(w),id=o[slot];return id&&WEAR[id]?WEAR[id].draw:''}
 
 function bunnySVG(f,mood,wear){
   const sad=mood==='sad', happy=mood==='happy'||mood==='joy', eat=mood==='eat';
@@ -470,13 +567,14 @@ function bunnySVG(f,mood,wear){
     '<ellipse cx="52" cy="84" rx="36" ry="27" fill="'+f.fur+'"/>'+
     '<ellipse cx="48" cy="96" rx="30" ry="13" fill="'+f.shade+'" opacity=".45"/>'+spots+
     '<ellipse cx="38" cy="106" rx="17" ry="6.5" fill="'+f.shade+'"/>'+
+    wearDraw(wear,'neck')+
     '<circle cx="80" cy="62" r="26" fill="'+f.fur+'"/>'+headSpot+
     '<circle cx="95" cy="68" r="5.5" fill="#FF9EC4" opacity=".75"/>'+
-    eyes+extra+
+    eyes+extra+wearDraw(wear,'eyes')+
     '<path d="M103 60h6l-3 3.6Z" fill="#FF7FAE"/>'+mouth+
     '<g stroke="'+f.shade+'" stroke-width="1.6" stroke-linecap="round"><path d="M104 66l12-2"/><path d="M104 68l12 3"/></g>'+
     '<ellipse cx="76" cy="107" rx="8.5" ry="5.5" fill="'+f.shade+'"/><ellipse cx="88" cy="107" rx="7.5" ry="5" fill="'+f.shade+'"/>'+
-    (wear&&WEAR[wear]?WEAR[wear].draw:'')+
+    wearDraw(wear,'head')+
   '</svg>';
 }
 
@@ -541,7 +639,7 @@ const DIRT=(function(){const r=rng(3);let b='';for(let i=0;i<16;i++)b+='<ellipse
 
 /* ---------- Saker i buren ---------- */
 const ACC={
-  hay:{name:'Höhäck',pos:'left:3%;top:20%;width:20%',svg:'<svg viewBox="0 0 100 90"><path d="M8 12h84L80 72H20Z" fill="#FBD866"/><g stroke="#E2B23C" stroke-width="3" stroke-linecap="round"><path d="M18 14L12 0"/><path d="M34 14l-2-12"/><path d="M50 14l4-13"/><path d="M66 14l6-11"/><path d="M82 14l9-9"/><path d="M26 30l-4 10"/><path d="M58 34l5 12"/></g><g stroke="#A0652F" stroke-width="5" stroke-linecap="round" fill="none"><path d="M6 10L20 72h60L94 10"/><path d="M30 14l4 58M50 14v58M70 14l-4 58"/></g></svg>'},
+  hay:{name:'Höhäck',pos:'left:3%;bottom:39%;width:20%',svg:'<svg viewBox="0 0 100 90"><path d="M8 12h84L80 72H20Z" fill="#FBD866"/><g stroke="#E2B23C" stroke-width="3" stroke-linecap="round"><path d="M18 14L12 0"/><path d="M34 14l-2-12"/><path d="M50 14l4-13"/><path d="M66 14l6-11"/><path d="M82 14l9-9"/><path d="M26 30l-4 10"/><path d="M58 34l5 12"/></g><g stroke="#A0652F" stroke-width="5" stroke-linecap="round" fill="none"><path d="M6 10L20 72h60L94 10"/><path d="M30 14l4 58M50 14v58M70 14l-4 58"/><path d="M22 72l-4 15M78 72l4 15M12 87h16M72 87h16"/></g></svg>'},
   water:{name:'Vattenflaska',pos:'right:5%;top:12%;width:7.5%',svg:'<svg viewBox="0 0 40 112"><rect x="6" y="8" width="28" height="72" rx="13" fill="#D6F3FF" stroke="#5BC6F5" stroke-width="3"/><rect x="9" y="32" width="22" height="45" rx="10" fill="#5BC6F5"/><rect x="12" y="38" width="5" height="16" rx="2.5" fill="#fff" opacity=".6"/><rect x="10" y="1" width="20" height="10" rx="4" fill="#FF5DA2"/><rect x="15" y="79" width="10" height="12" rx="2" fill="#FF5DA2"/><rect x="18" y="90" width="4" height="16" rx="2" fill="#9AA0B5"/><circle cx="20" cy="108" r="3" fill="#5BC6F5"/></svg>'},
   house:{name:'Kaninhus',pos:'right:2%;bottom:8%;width:27%',svg:'<svg viewBox="0 0 120 110"><rect x="12" y="44" width="96" height="62" rx="8" fill="#19C3B2"/><path d="M4 52L60 8l56 44Z" fill="#FF5DA2" stroke="#FF5DA2" stroke-width="6" stroke-linejoin="round"/><path d="M40 106V82a20 20 0 0 1 40 0v24Z" fill="#2B2350"/><path d="M96 68c-6-4-9-7-9-10a3.5 3.5 0 0 1 9-2a3.5 3.5 0 0 1 9 2c0 3-3 6-9 10Z" fill="#FFD23F"/><rect x="18" y="58" width="14" height="14" rx="4" fill="#FFF6D6"/></svg>'},
   tunnel:{name:'Tunnel',pos:'left:1%;bottom:5%;width:32%',svg:'<svg viewBox="0 0 150 70"><rect x="6" y="10" width="132" height="56" rx="28" fill="#FF8A3D"/><g fill="#FFB070"><rect x="34" y="10" width="9" height="56"/><rect x="60" y="10" width="9" height="56"/><rect x="86" y="10" width="9" height="56"/></g><ellipse cx="130" cy="38" rx="17" ry="28" fill="#FFB070"/><ellipse cx="131" cy="38" rx="11" ry="22" fill="#5A2E14"/></svg>'},
@@ -586,7 +684,7 @@ const FACTS=[
 ];
 
 /* ---------- Sparat läge ---------- */
-function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',t:Date.now(),adopted:false,muted:false}}
+function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',course:['low','low','high','tunnel','long','high'],t:Date.now(),adopted:false,muted:false}}
 function migrate(o){
   if(!o||typeof o!=='object')return fresh();
   if(!Array.isArray(o.bunnies)){
@@ -595,6 +693,7 @@ function migrate(o){
   }
   const f=fresh();
   for(const k in f)if(o[k]===undefined)o[k]=f[k];
+  for(const k in o.wear)o.wear[k]=outfitOf(o.wear[k]);
   if(!o.bunnies.length)o.adopted=false;
   if(o.sel>=o.bunnies.length)o.sel=0;
   return o;
@@ -628,7 +727,7 @@ function chime(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.14,'tr
 
 /* ---------- Skärmar ---------- */
 let playing=false;
-function show(id){['s-adopt','s-cage','s-play','s-shop','s-hop'].forEach(s=>{$('#'+s).hidden=(s!==id)});playing=(id==='s-play');if(id!=='s-hop'&&H)H.running=false;window.scrollTo(0,0)}
+function show(id){['s-adopt','s-cage','s-play','s-shop','s-hop','s-dress','s-build'].forEach(s=>{$('#'+s).hidden=(s!==id)});playing=(id==='s-play');if(id!=='s-hop'&&H)H.running=false;window.scrollTo(0,0)}
 (function(){const el=$('#logo'),t=el.textContent,c=['#FF5DA2','#19C3B2','#7B5CFF','#FF8A3D'];let i=0;el.innerHTML=t.split('').map(ch=>ch===' '?' ':'<span style="color:'+c[(i++)%4]+'">'+ch+'</span>').join('')})();
 
 function renderTabs(){
@@ -640,7 +739,7 @@ function renderTabs(){
 function renderWallet(){$$('.wallet-n').forEach(el=>el.textContent=S.coins+' kr')}
 document.addEventListener('click',e=>{
   const t=e.target.closest('.btab');
-  if(t){S.sel=+t.dataset.sel;renderTabs();beep(760,.08);updateUI();if(!$('#s-shop').hidden)renderShop();if(!$('#s-hop').hidden&&!(H&&H.running))hopIntro();return}
+  if(t){S.sel=+t.dataset.sel;renderTabs();beep(760,.08);updateUI();if(!$('#s-shop').hidden)renderShop();if(!$('#s-hop').hidden&&!(H&&H.running))hopIntro();if(!$('#s-dress').hidden)openDress();return}
   const g=e.target.closest('[data-go]');
   if(g){go(g.dataset.go)}
 });
@@ -651,6 +750,8 @@ function go(where){
   if(where==='shop'){openShop();return}
   if(where==='hop'){openHop();return}
   if(where==='friend'){openAdopt('friend');return}
+  if(where==='dress'){openDress();return}
+  if(where==='build'){openBuild();return}
 }
 
 /* ---------- Adoptera ---------- */
@@ -976,7 +1077,7 @@ function renderShop(){
 function itemCard(it){
   const owned=S.owned.includes(it.id);let btn;
   if(!owned)btn='<button class="buy'+(S.coins<it.price?' poor':'')+'" data-buy="'+it.id+'">'+COIN_SVG+it.price+' kr</button>';
-  else if(it.kind==='wear'){const on=S.wear[cur().id]===it.id;btn='<button class="buy on" data-wear="'+it.id+'">'+(on?'Ta av':'Ta på')+'</button>'}
+  else if(it.kind==='wear'){const on=outfitOf(S.wear[cur().id]).head===it.id;btn='<button class="buy on" data-wear="'+it.id+'">'+(on?'Ta av':'Ta på')+'</button>'}
   else btn='<span class="buy owned">'+(S.acc.includes(it.id)?'I buren':'Köpt')+'</span>';
   const icon=it.kind==='wear'?WEAR[it.id].icon:ACC[it.id].svg;
   return '<div class="sitem"><span class="ic">'+icon+'</span>'+it.name+btn+'</div>';
@@ -989,13 +1090,13 @@ $('#s-shop').addEventListener('click',e=>{
     if(S.coins<it.price){beep(220,.2,'triangle');shopMsg('Du behöver '+(it.price-S.coins)+' kr till. Hoppa kaninhopp eller hämta veckopeng!');return}
     S.coins-=it.price;S.owned.push(it.id);
     if(it.kind==='acc'){S.acc.push(it.id);shopMsg(it.name+' står nu i buren!')}
-    else{S.wear[cur().id]=it.id;shopMsg(cur().name+' har fått '+it.name.toLowerCase()+'!')}
+    else{S.wear[cur().id]=Object.assign({},outfitOf(S.wear[cur().id]),{head:it.id});shopMsg(cur().name+' har fått '+it.name.toLowerCase()+'! Den finns nu också i utklädningslådan.')}
     chime();save();renderShop();return;
   }
   if(wr){
-    const id=wr.dataset.wear,b=cur();
-    if(S.wear[b.id]===id){delete S.wear[b.id];beep(400,.1)}else{S.wear[b.id]=id;beep(800,.12)}
-    save();renderShop();
+    const id=wr.dataset.wear,b=cur(),o=Object.assign({},outfitOf(S.wear[b.id]));
+    if(o.head===id){delete o.head;beep(400,.1)}else{o.head=id;beep(800,.12)}
+    S.wear[b.id]=o;save();renderShop();
   }
 });
 $('#weekBtn').addEventListener('click',()=>{
@@ -1004,32 +1105,50 @@ $('#weekBtn').addEventListener('click',()=>{
 });
 
 /* ---------- Kaninhopp ---------- */
-const HOPN=8, HCOL=['#FF5DA2','#19C3B2','#7B5CFF','#FF8A3D'];
+const HCOL=['#FF5DA2','#19C3B2','#7B5CFF','#FF8A3D'];
+function lowSVG(c){return '<svg viewBox="0 0 40 60"><rect x="1" y="28" width="7" height="32" rx="3" fill="#fff"/><rect x="32" y="28" width="7" height="32" rx="3" fill="#fff"/><g fill="'+c+'"><rect x="1" y="42" width="7" height="6"/><rect x="32" y="42" width="7" height="6"/></g><rect class="hbar" x="3" y="32" width="34" height="6" rx="3" fill="'+c+'"/></svg>'}
+function longSVG(c){return '<svg viewBox="0 0 100 60"><g fill="#fff"><rect x="1" y="30" width="6" height="30" rx="3"/><rect x="47" y="30" width="6" height="30" rx="3"/><rect x="93" y="30" width="6" height="30" rx="3"/></g><rect class="hbar" x="3" y="34" width="47" height="5" rx="2.5" fill="'+c+'"/><rect class="hbar" x="50" y="34" width="47" height="5" rx="2.5" fill="'+c+'"/><path d="M8 56h84" stroke="#fff" stroke-width="3" stroke-dasharray="6 6"/></svg>'}
+function tunnelSVG(){return '<svg viewBox="0 0 120 80"><rect x="4" y="18" width="112" height="62" rx="28" fill="#FF8A3D"/><g fill="#FFB070"><rect x="30" y="18" width="10" height="62"/><rect x="56" y="18" width="10" height="62"/><rect x="82" y="18" width="10" height="62"/></g><ellipse cx="10" cy="50" rx="8" ry="30" fill="#5A2E14"/><ellipse cx="110" cy="50" rx="8" ry="30" fill="#5A2E14"/></svg>'}
+const OBS={
+  low:{name:'Lågt hinder',w:.05,h:.036,svg:c=>lowSVG(c)},
+  high:{name:'Högt hinder',w:.05,h:.06,svg:c=>hurdleSVG(c)},
+  long:{name:'Långhopp',w:.11,h:.032,svg:c=>longSVG(c)},
+  tunnel:{name:'Tunnel',w:.15,h:0,svg:()=>tunnelSVG()}
+};
+const OBS_ORDER=['low','high','long','tunnel'];
 let H=null;
 $('#arena').innerHTML=ARENA;
 function openHop(){show('s-hop');renderTabs();hopIntro()}
 function setHopBunny(m){const b=cur();$('#hb').innerHTML='<div class="bbody">'+bunnySVG(furOf(b),m,S.wear[b.id])+'</div>'}
+function hopReset(){H=null;$('#hurdles').innerHTML='';$('#hb').style.bottom='14%';$('#hudN').textContent='Hinder 0';$('#hudF').textContent='Rivningar 0';$('#jumpBtn').disabled=true}
 function hopIntro(){
-  H=null;$('#hurdles').innerHTML='';$('#hb').style.bottom='14%';
-  $('#hudN').textContent='Hinder 0 av '+HOPN;$('#hudF').textContent='Rivningar 0';
-  $('#jumpBtn').disabled=true;
+  hopReset();
   const b=cur();setHopBunny('happy');
   const ov=$('#hopOver');ov.hidden=false;
   if(b.hunger<25){
     setHopBunny('sad');
     ov.innerHTML='<div class="hopcard"><p class="big">'+esc(b.name)+' är för hungrig.</p><p>Mata '+esc(b.name)+' först, sen kan ni hoppa!</p><button class="btn small" data-go="home">Gå hem</button></div>';
   } else {
-    ov.innerHTML='<div class="hopcard"><p class="big">'+esc(b.name)+' är redo!</p><p>'+HOPN+' hinder. Tryck Hoppa! precis före hindret.</p><button class="btn small violet" id="hopStart">Starta</button></div>';
+    const n=S.course.length;
+    ov.innerHTML='<div class="hopcard"><p class="big">'+esc(b.name)+' är redo!</p><p>Tävla på 8 hinder, eller träna på din egen bana.</p><div class="row"><button class="btn small violet" id="hopRace">Tävla</button><button class="btn small green" id="hopTrain">'+(n?'Min bana ('+n+')':'Bygg en bana')+'</button></div></div>';
   }
 }
-function hopStart(){
-  H={x:[],els:[],knocked:[],done:[],passed:0,faults:0,y:0,vy:0,running:true,last:performance.now(),ended:false};
+function hopStart(m){
+  if(cur().hunger<25){hopIntro();return}
+  let types;
+  if(m==='race'){const pool=['low','low','high','high','long'];types=[];for(let k=0;k<8;k++)types.push(pool[Math.floor(Math.random()*pool.length)])}
+  else{types=S.course.slice();if(!types.length){openBuild();return}}
+  H={mode:m,obs:[],x:[],els:[],knocked:[],done:[],passed:0,faults:0,y:0,vy:0,running:true,last:performance.now(),ended:false};
   const box=$('#hurdles');box.innerHTML='';
   let x=1.1;
-  for(let k=0;k<HOPN;k++){
-    const el=document.createElement('div');el.className='hurdle';el.innerHTML=hurdleSVG(HCOL[k%4]);el.style.left=(x*100)+'%';box.appendChild(el);
-    H.x.push(x);H.els.push(el);x+=R(.62,.92);
-  }
+  types.forEach((t,k)=>{
+    const o=OBS[t],el=document.createElement('div');
+    el.className='hurdle'+(t==='tunnel'?' tun':'');el.style.width=(o.w*100)+'%';
+    if(t==='tunnel')el.style.zIndex='4';
+    el.innerHTML=o.svg(HCOL[k%4]);el.style.left=(x*100)+'%';box.appendChild(el);
+    H.obs.push(t);H.x.push(x);H.els.push(el);x+=o.w+(m==='race'?R(.58,.88):.7);
+  });
+  $('#hudN').textContent='Hinder 0 av '+types.length;$('#hudF').textContent='Rivningar 0';
   $('#hopOver').hidden=true;$('#jumpBtn').disabled=false;
   setHopBunny('happy');$('#hb .bbody').classList.add('hopping');
   beep(660,.12,'triangle');
@@ -1041,43 +1160,173 @@ function hopJump(){
 }
 function hopStep(now){
   if(!H||!H.running)return;
+  const N=H.obs.length;
   const dt=Math.min(.05,(now-H.last)/1000);H.last=now;
-  const v=.36+.1*(H.passed/HOPN);
+  const v=.36+.1*(H.passed/N);
   if(H.y>0||H.vy>0){
     H.vy-=3*dt;H.y+=H.vy*dt;
     if(H.y<=0){H.y=0;H.vy=0;const bb=$('#hb .bbody');bb.classList.remove('air');bb.classList.add('hopping')}
   }
   const b0=.14,b1=.22;
-  for(let k=0;k<HOPN;k++){
+  for(let k=0;k<N;k++){
+    const o=OBS[H.obs[k]];
     H.x[k]-=v*dt;H.els[k].style.left=(H.x[k]*100)+'%';
-    if(!H.knocked[k]&&!H.done[k]&&H.x[k]<b1&&H.x[k]+.05>b0&&H.y<.055){
+    if(o.h>0&&!H.knocked[k]&&!H.done[k]&&H.x[k]<b1&&H.x[k]+o.w>b0&&H.y<o.h){
       H.knocked[k]=true;H.faults++;H.els[k].classList.add('knock');beep(160,.25,'square');
       $('#hudF').textContent='Rivningar '+H.faults;toast('Rivning! Det gör inget.',$('#course'));
     }
-    if(!H.done[k]&&H.x[k]+.05<b0){
-      H.done[k]=true;H.passed++;$('#hudN').textContent='Hinder '+H.passed+' av '+HOPN;
-      if(!H.knocked[k])beep(880,.12,'triangle');
+    if(!H.done[k]&&H.x[k]+o.w<b0){
+      H.done[k]=true;H.passed++;$('#hudN').textContent='Hinder '+H.passed+' av '+N;
+      if(H.obs[k]==='tunnel'){beep(300,.25,'sine');if(H.y<=0.001)toast('Genom tunneln!',$('#course'))}
+      else if(!H.knocked[k])beep(880,.12,'triangle');
     }
   }
   $('#hb').style.bottom=(14+H.y/.6*100)+'%';
-  if(H.passed===HOPN&&!H.ended){H.ended=true;setTimeout(hopFinish,700)}
+  if(H.passed===N&&!H.ended){H.ended=true;setTimeout(hopFinish,700)}
   requestAnimationFrame(hopStep);
 }
 function hopFinish(){
   if(!H)return;
   H.running=false;$('#jumpBtn').disabled=true;
-  const b=cur(),place=H.faults===0?1:(H.faults<=2?2:3),prize=[0,10,6,3][place];
-  S.coins+=prize;b.hunger=clamp(b.hunger-10);b.love=clamp(b.love+8);save();renderWallet();
+  const b=cur();
   $('#hb .bbody').classList.remove('hopping');setHopBunny('joy');chime();
-  const placeTxt=['','1:a','2:a','3:e'][place];
   const faultTxt=H.faults===0?'Felfritt! Inga rivningar.':(H.faults===1?'1 rivning.':H.faults+' rivningar.');
   const ov=$('#hopOver');ov.hidden=false;
-  ov.innerHTML='<div class="hopcard">'+rosette(place)+'<p class="big">'+esc(b.name)+' kom på '+placeTxt+' plats!</p><p>'+faultTxt+' Prispeng: '+prize+' kr</p><div class="row"><button class="btn small violet" id="hopAgain">Hoppa igen</button><button class="btn small" data-go="home">Gå hem</button></div></div>';
+  if(H.mode==='race'){
+    const place=H.faults===0?1:(H.faults<=2?2:3),prize=[0,10,6,3][place];
+    S.coins+=prize;b.hunger=clamp(b.hunger-10);b.love=clamp(b.love+8);save();renderWallet();
+    const placeTxt=['','1:a','2:a','3:e'][place];
+    ov.innerHTML='<div class="hopcard">'+rosette(place)+'<p class="big">'+esc(b.name)+' kom på '+placeTxt+' plats!</p><p>'+faultTxt+' Prispeng: '+prize+' kr</p><div class="row"><button class="btn small violet" id="hopAgain">Hoppa igen</button><button class="btn small" data-go="home">Gå hem</button></div></div>';
+  } else {
+    b.hunger=clamp(b.hunger-5);b.love=clamp(b.love+5);save();
+    ov.innerHTML='<div class="hopcard"><p class="big">Bra tränat, '+esc(b.name)+'!</p><p>'+faultTxt+'</p><div class="row"><button class="btn small green" id="hopTrainAgain">Spring igen</button><button class="btn small violet" data-go="build">Ändra banan</button><button class="btn small" data-go="home">Hem</button></div></div>';
+  }
 }
 $('#course').addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;hopJump()});
 $('#jumpBtn').addEventListener('pointerdown',e=>{e.preventDefault();hopJump()});
-$('#hopOver').addEventListener('click',e=>{if(e.target.id==='hopStart')hopStart();if(e.target.id==='hopAgain')hopIntro()});
+$('#hopOver').addEventListener('click',e=>{const id=e.target.id;if(id==='hopRace')hopStart('race');if(id==='hopTrain'){if(S.course.length)hopStart('train');else openBuild()}if(id==='hopAgain')hopIntro();if(id==='hopTrainAgain')hopStart('train')});
 document.addEventListener('keydown',e=>{if($('#s-hop').hidden)return;if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();hopJump()}});
+
+/* ---------- Utklädningstävling ---------- */
+const THEMES=[
+  {id:'prinsessa',name:'Prinsessbal',wall:'#FFC6DE',floor:'#FFAFD2',deco:'#FFD23F'},
+  {id:'strand',name:'Strandfest',wall:'#8FE0FF',floor:'#F5D08A',deco:'#FF8A3D'},
+  {id:'vinter',name:'Vinterlek',wall:'#CFEFFF',floor:'#FFFFFF',deco:'#5BC6F5'},
+  {id:'kalas',name:'Kalas',wall:'#ECE5FF',floor:'#FFE88A',deco:'#FF5DA2'},
+  {id:'blommor',name:'Blomsterfest',wall:'#DDF7F3',floor:'#9BE27A',deco:'#FF5DA2'}
+];
+const SLOTS=[['head','Huvud'],['neck','Hals'],['eyes','Ögon']];
+const RIVALS=['Fröken Fluff','Herr Skutt','Pompom','Lilla Lo','Tofsen','Morotsa'];
+const JUDGES=[
+  ['Ugglan','<circle cx="20" cy="22" r="16" fill="#A0652F"/><path d="M6 10l6 6M34 10l-6 6" stroke="#A0652F" stroke-width="5" stroke-linecap="round"/><circle cx="14" cy="20" r="6" fill="#fff"/><circle cx="26" cy="20" r="6" fill="#fff"/><circle cx="14" cy="20" r="3" fill="#2B2350"/><circle cx="26" cy="20" r="3" fill="#2B2350"/><path d="M18 26l2 4 2-4Z" fill="#FF8A3D"/>'],
+  ['Igelkotten','<path d="M3 32l2-8-1-5 4-2 1-5 5 1 3-5 4 3 5-2 1 5 5 2-1 5 4 4-2 7Z" fill="#7A4B2A"/><ellipse cx="27" cy="28" rx="9" ry="7" fill="#F5D08A"/><circle cx="28" cy="26" r="1.8" fill="#2B2350"/><circle cx="35" cy="29" r="2" fill="#2B2350"/>'],
+  ['Räven','<path d="M8 6l6 10h12l6-10 2 18q-14 16-28 0Z" fill="#FF8A3D"/><path d="M12 26q8 8 16 0q-8 4-16 0Z" fill="#fff"/><circle cx="15" cy="20" r="2" fill="#2B2350"/><circle cx="25" cy="20" r="2" fill="#2B2350"/><circle cx="20" cy="28" r="2" fill="#2B2350"/>']
+];
+const DRESSICON='<path d="M12 36L20 4L28 36Z" fill="#7B5CFF"/><path d="M16.6 18H23.4L24.6 23H15.4Z" fill="#FF5DA2"/><path d="M14.4 28H25.6L27 33H13Z" fill="#FFD23F"/><circle cx="20" cy="4" r="3.5" fill="#FF5DA2"/>';
+let DR={outfit:{},theme:THEMES[0],slot:'head'};
+function runwaySVG(t){
+  const r=rng(t.id.length*7+3);let deco='';
+  for(let k=0;k<14;k++){const x=(r()*380+10).toFixed(0),y=(r()*120+30).toFixed(0);
+    if(t.id==='vinter')deco+='<g transform="translate('+x+' '+y+')" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M-7 0h14M0-7v14M-5-5l10 10M5-5l-10 10"/></g>';
+    else if(t.id==='blommor')deco+='<g transform="translate('+x+' '+y+')"><circle r="5" cx="-5" fill="'+t.deco+'"/><circle r="5" cx="5" fill="'+t.deco+'"/><circle r="5" cy="-5" fill="'+t.deco+'"/><circle r="5" cy="5" fill="'+t.deco+'"/><circle r="4" fill="#FFD23F"/></g>';
+    else if(t.id==='strand')deco+=k<1?'<circle cx="330" cy="60" r="30" fill="#FFD23F"/>':'';
+    else deco+='<path d="M'+x+' '+y+'l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1Z" fill="'+(k%2?t.deco:'#fff')+'" opacity=".8"/>';
+  }
+  if(t.id==='strand')deco+='<path d="M0 150q50-14 100 0t100 0 100 0 100 0V175H0Z" fill="#5BC6F5"/>';
+  if(t.id==='kalas'){const c=['#FF5DA2','#19C3B2','#7B5CFF','#FFD23F'];for(let i=0;i<12;i++)deco+='<path d="M'+(i*34+2)+' 0h28l-14 22Z" fill="'+c[i%4]+'"/>'}
+  return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><rect width="400" height="300" fill="'+t.wall+'"/>'+deco+
+    '<path d="M0 0h70q-10 90 10 175H0Z" fill="#FF5DA2"/><path d="M400 0h-70q10 90-10 175H400Z" fill="#FF5DA2"/>'+
+    '<rect y="172" width="400" height="128" fill="'+t.floor+'"/><path d="M150 300L176 172h48l26 128Z" fill="#fff" opacity=".55"/>'+
+    '<ellipse cx="200" cy="262" rx="90" ry="16" fill="#fff" opacity=".35"/></svg>';
+}
+function available(id){const sh=SHOP.find(s=>s.id===id);return !sh||S.owned.includes(id)}
+function openDress(){
+  const b=cur();DR.outfit=Object.assign({},outfitOf(S.wear[b.id]));
+  if(!DR.theme)DR.theme=THEMES[0];
+  $('#showOver').hidden=true;$('#runway').classList.remove('showing');renderTabs();renderDress();show('s-dress');
+}
+function renderDress(){
+  const b=cur();
+  $('#themeName').textContent=DR.theme.name;
+  $('#runwayBg').innerHTML=runwaySVG(DR.theme);
+  $('#model').innerHTML=bunnySVG(furOf(b),'happy',DR.outfit);
+  $('#wtabs').innerHTML=SLOTS.map(s=>'<button class="wtab'+(DR.slot===s[0]?' sel':'')+'" data-slot="'+s[0]+'">'+s[1]+'</button>').join('');
+  const ids=Object.keys(WEAR).filter(k=>WEAR[k].slot===DR.slot);
+  $('#wgrid').innerHTML='<button class="witem'+(!DR.outfit[DR.slot]?' sel':'')+'" data-w="">'+'<span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#C9C2DC" stroke-width="3"/><path d="M6 18L18 6" stroke="#C9C2DC" stroke-width="3"/></svg></span>Inget</button>'+
+    ids.map(k=>{const ok=available(k);return '<button class="witem'+(DR.outfit[DR.slot]===k?' sel':'')+(ok?'':' locked')+'" data-w="'+k+'"'+(ok?'':' aria-disabled="true"')+'><span class="ic">'+WEAR[k].icon+'</span>'+WEAR[k].name+(ok?'':'<span class="hint">I affären</span>')+'</button>'}).join('');
+}
+$('#wtabs').addEventListener('click',e=>{const t=e.target.closest('[data-slot]');if(!t)return;DR.slot=t.dataset.slot;beep(700,.08);renderDress()});
+$('#wgrid').addEventListener('click',e=>{
+  const t=e.target.closest('[data-w]');if(!t)return;const id=t.dataset.w;
+  if(id&&!available(id)){beep(220,.15,'triangle');toastIn($('#runway'),'Den finns i kaninaffären!');return}
+  if(id)DR.outfit[DR.slot]=id;else delete DR.outfit[DR.slot];
+  beep(id?880:420,.1,'triangle');renderDress();
+  const m=$('#model .bbody, #model svg');if(m){m.style.animation='none';void m.offsetWidth;m.style.animation='squish .45s ease-out'}
+});
+$('#themeBtn').addEventListener('click',()=>{const others=THEMES.filter(t=>t!==DR.theme);DR.theme=others[Math.floor(Math.random()*others.length)];beep(600,.12);$('#showOver').hidden=true;$('#runway').classList.remove('showing');renderDress()});
+function toastIn(box,msg){let t=box.querySelector(':scope > .toast');if(t)t.remove();t=document.createElement('div');t.className='toast';t.style.cssText='position:absolute;top:4%;left:50%;transform:translateX(-50%);background:#fff;border-radius:20px;padding:6px 14px;font-weight:800;z-index:8;box-shadow:0 4px 0 rgba(43,35,80,.18);max-width:88%;text-align:center';t.textContent=msg;box.appendChild(t);setTimeout(()=>t.remove(),2200)}
+function scoreOutfit(o,theme){
+  let match=0,filled=0;
+  SLOTS.forEach(s=>{const id=o[s[0]];if(id){filled++;if(WEAR[id].tags.includes(theme))match++}});
+  return JUDGES.map(()=>Math.max(1,Math.min(5,Math.round(1+match*1.3+filled*.4+R(-.6,.8)))));
+}
+function rivalOutfit(theme){
+  const o={};
+  SLOTS.forEach(s=>{
+    const all=Object.keys(WEAR).filter(k=>WEAR[k].slot===s[0]),hit=all.filter(k=>WEAR[k].tags.includes(theme)),p=Math.random();
+    if(p<.5&&hit.length)o[s[0]]=hit[Math.floor(Math.random()*hit.length)];
+    else if(p<.8)o[s[0]]=all[Math.floor(Math.random()*all.length)];
+  });
+  return o;
+}
+$('#catwalkBtn').addEventListener('click',()=>{
+  const b=cur(),th=DR.theme.id;
+  const names=RIVALS.slice().sort(()=>Math.random()-.5).slice(0,2);
+  const list=[{name:b.name,fur:furOf(b),outfit:Object.assign({},DR.outfit),me:true}].concat(names.map(n=>({name:n,fur:FURS[Math.floor(Math.random()*FURS.length)],outfit:rivalOutfit(th)})));
+  list.forEach(c=>{c.scores=scoreOutfit(c.outfit,th);c.total=c.scores.reduce((a,x)=>a+x,0)});
+  const order=list.slice(1).sort(()=>Math.random()-.5);order.splice(1,0,list[0]);
+  const ov=$('#showOver');ov.hidden=false;$('#runway').classList.add('showing');
+  ov.innerHTML='<div class="judges">'+JUDGES.map(j=>'<span class="judge" title="'+j[0]+'"><svg viewBox="0 0 40 40">'+j[1]+'</svg></span>').join('')+'</div>'+
+    '<div class="contest">'+order.map((c,i)=>'<div class="cont" data-i="'+i+'"><span class="bn">'+bunnySVG(c.fur,'happy',c.outfit)+'</span><span class="nm">'+esc(c.name)+'</span><span class="score"></span></div>').join('')+'</div>'+
+    '<div class="showmsg" id="showMsg">Domarna tittar noga...</div>';
+  $('#catwalkBtn').disabled=true;beep(523,.2,'triangle');
+  order.forEach((c,i)=>setTimeout(()=>{
+    const el=ov.querySelector('.cont[data-i="'+i+'"] .score');let n=0;
+    el.innerHTML='<svg viewBox="0 0 24 24">'+HEART+'</svg><b>0</b>';const num=el.querySelector('b');
+    const iv=setInterval(()=>{if(n>=c.total){clearInterval(iv);return}n++;num.textContent=n;beep(700+n*25,.05,'triangle')},80);
+  },700+i*1300));
+  setTimeout(()=>{
+    const best=Math.max(...list.map(c=>c.total));
+    const place=1+list.filter(c=>!c.me&&c.total>list[0].total).length;
+    order.forEach((c,i)=>{if(c.total===best)ov.querySelector('.cont[data-i="'+i+'"]').classList.add('win')});
+    const prize=place===1?5:2;S.coins+=prize;b.love=clamp(b.love+6);save();renderWallet();
+    const praise=place===1?'Domarna älskar '+esc(b.name)+'s '+DR.theme.name.toLowerCase()+'-stil!':'Snyggt! Tips: välj saker som passar temat '+DR.theme.name.toLowerCase()+'.';
+    $('#showMsg').innerHTML=rosette(place)+'<span>'+esc(b.name)+' kom på '+['','1:a','2:a','3:e'][place]+' plats! '+praise+' (+'+prize+' kr)</span><div class="row"><button class="btn small violet" id="keepOutfit">Ha kläderna hemma</button><button class="btn small" id="againShow">Ny tävling</button></div>';
+    if(place===1)chime();else beep(600,.2,'triangle');
+    $('#catwalkBtn').disabled=false;
+  },700+order.length*1300+1600);
+});
+$('#showOver').addEventListener('click',e=>{
+  if(e.target.id==='keepOutfit'){const b=cur();S.wear[b.id]=Object.assign({},DR.outfit);save();chime();$('#showMsg').innerHTML='<span>'+esc(b.name)+' har kläderna på sig hemma nu!</span><div class="row"><button class="btn small" id="againShow">Ny tävling</button><button class="btn small green" data-go="home">Hem</button></div>'}
+  if(e.target.id==='againShow'){$('#showOver').hidden=true;$('#runway').classList.remove('showing');const others=THEMES.filter(t=>t!==DR.theme);DR.theme=others[Math.floor(Math.random()*others.length)];renderDress()}
+});
+
+/* ---------- Banbygge ---------- */
+const MAXOBS=10;
+function obsIcon(t){return t==='tunnel'?tunnelSVG():OBS[t].svg('#7B5CFF')}
+function openBuild(){renderBuild();show('s-build')}
+function renderBuild(){
+  const c=S.course;
+  $('#trackCount').textContent=c.length+' av '+MAXOBS;
+  $('#track').innerHTML=c.length?c.map((t,i)=>'<button class="tslot" data-rm="'+i+'" aria-label="Ta bort '+OBS[t].name+'"><span class="num">'+(i+1)+'</span>'+obsIcon(t)+OBS[t].name+'</button>').join(''):'<div class="tempty">Banan är tom. Lägg till hinder nedanför!</div>';
+  $('#palette').innerHTML=OBS_ORDER.map(t=>'<button class="opt" data-add="'+t+'">'+obsIcon(t)+OBS[t].name+'</button>').join('');
+  $('#buildRun').disabled=!c.length;
+}
+$('#palette').addEventListener('click',e=>{const t=e.target.closest('[data-add]');if(!t)return;if(S.course.length>=MAXOBS){beep(220,.15,'triangle');$('#trackCount').textContent='Banan är full ('+MAXOBS+' hinder)';return}S.course.push(t.dataset.add);beep(700,.1,'triangle');save();renderBuild();const tr=$('#track');tr.scrollLeft=tr.scrollWidth});
+$('#track').addEventListener('click',e=>{const t=e.target.closest('[data-rm]');if(!t)return;S.course.splice(+t.dataset.rm,1);beep(400,.1);save();renderBuild()});
+$('#buildRandom').addEventListener('click',()=>{const n=6+Math.floor(Math.random()*3);S.course=[];for(let k=0;k<n;k++)S.course.push(OBS_ORDER[Math.floor(Math.random()*4)]);beep(600,.12);save();renderBuild()});
+$('#buildClear').addEventListener('click',()=>{S.course=[];beep(400,.1);save();renderBuild()});
+$('#buildRun').addEventListener('click',()=>{if(!S.course.length)return;show('s-hop');renderTabs();hopReset();hopStart('train')});
 
 /* ---------- Spelloop ---------- */
 setInterval(()=>{
@@ -1099,7 +1348,7 @@ $$('svg.coin').forEach(s=>s.innerHTML=COIN);
 $('.ic-food').innerHTML=FOODSVG.carrot.replace(/#FF8A3D/g,'#fff').replace(/#E06A1E/g,'#FF8A3D').replace(/#4FB43A/g,'#fff');
 $('.ic-clean').innerHTML=BROOM.replace(/#B5793F/g,'#fff').replace(/#FBD866|#E2B23C/g,'#fff').replace(/#FF5DA2/g,'#10978A');
 $('.ic-love').innerHTML=HEART.replace('#FF5DA2','#fff');
-$('.ic-meadow').innerHTML=MEADOWICON;$('.ic-hop').innerHTML=HOPICON;$('.ic-shop').innerHTML=SHOPICON;
+$('.ic-meadow').innerHTML=MEADOWICON;$('.ic-dress').innerHTML=DRESSICON;$('.ic-hop').innerHTML=HOPICON;$('.ic-shop').innerHTML=SHOPICON;
 
 /* Meny */
 function syncSound(){$('#mSound').textContent='Ljud: '+(S.muted?'av':'på')}
