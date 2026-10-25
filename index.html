@@ -320,6 +320,9 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .hb{position:absolute;left:10%;bottom:14%;width:16%;aspect-ratio:1;z-index:3}
 .hb .bbody{transition:transform .15s}
 .hb .bbody.air{transform:rotate(-12deg)}
+.hb .bbody.crawl{transform:translateY(8%) scale(1.1,.7)}
+.hopbtns{display:grid;grid-template-columns:3fr 2fr;gap:10px}
+.btn.orange{background:var(--orange);box-shadow:0 6px 0 #D2641E}
 .hb .bbody.spin{animation:hspin .45s ease-out}
 @keyframes hspin{from{transform:rotate(-12deg)}to{transform:rotate(-372deg)}}
 .hud{position:absolute;top:4%;left:4%;right:4%;display:flex;justify-content:space-between;gap:8px;z-index:4;pointer-events:none}
@@ -455,13 +458,13 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
       <div class="hud"><span id="hudN">Hinder 0 av 8</span><span id="hudF">Fel 0</span></div>
       <div class="hopover" id="hopOver"></div>
     </div>
-    <button class="btn big violet" id="jumpBtn" disabled>Hoppa!</button>
+    <div class="hopbtns"><button class="btn big violet" id="jumpBtn" disabled>Hoppa!</button><button class="btn big orange" id="crawlBtn" disabled>Kryp!</button></div>
     <div class="panel">
       <h2 class="h2">Vem ska hoppa?</h2>
       <div class="btabs" id="hopTabs"></div>
       <h2 class="h2">Svårighet</h2>
       <div class="wtabs" id="levelTabs"></div>
-      <p style="margin:0;font-weight:600">Tryck på Hoppa! (eller på banan) precis före hindret. Tryck en gång till i luften så hoppar kaninen extra högt. Kryp genom tunneln (hoppa inte), spring upp på brädan och hoppa ner i slutet. I tävlingen ger färre rivningar finare rosett och lite prispeng. På din egen bana kan ni träna hur mycket ni vill.</p>
+      <p style="margin:0;font-weight:600">Tryck på Hoppa! (eller på banan) precis före hindret. Tryck en gång till i luften så hoppar kaninen extra högt. Tryck Kryp! precis före tunneln, och hoppa inte över den. Spring upp på brädan och hoppa ner i slutet. I tävlingen ger färre rivningar finare rosett och lite prispeng. På din egen bana kan ni träna hur mycket ni vill.</p>
       <button class="btn big green" data-go="build">Bygg egen bana</button>
     </div>
   </section>
@@ -1226,7 +1229,7 @@ let H=null;
 $('#arena').innerHTML=ARENA;
 function openHop(){show('s-hop');renderTabs();renderLevels();hopIntro()}
 function setHopBunny(m){const b=cur();$('#hb').innerHTML='<div class="bbody">'+bunnySVG(furOf(b),m,S.wear[b.id])+'</div>'}
-function hopReset(){H=null;$('#hurdles').innerHTML='';$('#hb').style.bottom='14%';$('#hudN').textContent='Hinder 0';$('#hudF').textContent='Fel 0';$('#jumpBtn').disabled=true}
+function hopReset(){H=null;$('#hurdles').innerHTML='';$('#hb').style.bottom='14%';$('#hudN').textContent='Hinder 0';$('#hudF').textContent='Fel 0';$('#jumpBtn').disabled=true;$('#crawlBtn').disabled=true}
 function hopIntro(){
   hopReset();
   const b=cur();setHopBunny('happy');
@@ -1244,7 +1247,7 @@ function hopStart(m){
   let types;
   if(m==='race'){const pool=['low','low','high','high','long','tunnel','ramp'];types=[];for(let k=0;k<8;k++)types.push(pool[Math.floor(Math.random()*pool.length)])}
   else{types=S.course.slice();if(!types.length){openBuild();return}}
-  H={mode:m,lv:lvl(),obs:[],x:[],els:[],knocked:[],done:[],touched:[],jumped:[],gnd:0,rampK:-1,rampTop:false,passed:0,faults:0,y:0,vy:0,dbl:false,running:true,last:performance.now(),ended:false};
+  H={mode:m,lv:lvl(),obs:[],x:[],els:[],knocked:[],done:[],touched:[],jumped:[],gnd:0,crawlUntil:0,inTunnel:false,rampK:-1,rampTop:false,passed:0,faults:0,y:0,vy:0,dbl:false,running:true,last:performance.now(),ended:false};
   const box=$('#hurdles');box.innerHTML='';
   let x=1.1;
   types.forEach((t,k)=>{
@@ -1255,7 +1258,7 @@ function hopStart(m){
     H.obs.push(t);H.x.push(x);H.els.push(el);x+=o.w+(m==='race'?R(.58,.88):.7);
   });
   $('#hudN').textContent='Hinder 0 av '+types.length;$('#hudF').textContent='Fel 0';
-  $('#hopOver').hidden=true;$('#jumpBtn').disabled=false;
+  $('#hopOver').hidden=true;$('#jumpBtn').disabled=false;$('#crawlBtn').disabled=false;
   setHopBunny('happy');$('#hb .bbody').classList.add('hopping');
   beep(660,.12,'triangle');
   requestAnimationFrame(hopStep);
@@ -1275,9 +1278,13 @@ function hopJump(){
   const bb=$('#hb .bbody');
   if(H.y<=(H.gnd||0)+.002&&H.vy<=0){
     if(H.rampK>=0&&H.rampTop)H.jumped[H.rampK]=true;
-    H.vy=1.0;H.dbl=false;bb.classList.remove('hopping');bb.classList.add('air');beep(520,.15,'triangle');return;
+    H.vy=1.0;H.dbl=false;H.crawlUntil=0;bb.classList.remove('hopping','crawl');bb.classList.add('air');beep(520,.15,'triangle');return;
   }
   if(!H.dbl){H.dbl=true;H.vy=Math.max(H.vy,0)+.75;beep(780,.18,'triangle');bb.classList.remove('spin');void bb.offsetWidth;bb.classList.add('spin')}
+}
+function hopCrawl(){
+  if(!H||!H.running||H.y>(H.gnd||0)+.002)return;
+  H.crawlUntil=performance.now()+2200;const bb=$('#hb .bbody');bb.classList.remove('hopping');bb.classList.add('crawl');beep(260,.18,'sine');
 }
 function hopFault(k,msg){H.knocked[k]=true;H.faults++;beep(160,.25,'square');$('#hudF').textContent='Fel '+H.faults;toast(msg,$('#course'))}
 function hopStep(now){
@@ -1292,16 +1299,22 @@ function hopStep(now){
     if(H.y<=gnd&&H.vy<=0){H.y=gnd;H.vy=0;H.dbl=false;const bb=$('#hb .bbody');bb.classList.remove('air','spin');bb.classList.add('hopping')}
   } else {H.y=gnd;H.vy=0}
   if(H.rampK>=0&&H.y<=gnd+.002)H.touched[H.rampK]=true;
+  const crawling=H.crawlUntil>now||H.inTunnel;
+  {const bb=$('#hb .bbody');if(!crawling&&bb.classList.contains('crawl')){bb.classList.remove('crawl');if(H.y<=gnd+.002)bb.classList.add('hopping')}}
   const b0=L.b0,b1=L.b1;
   for(let k=0;k<N;k++){
     const t=H.obs[k],o=OBS[t];
     if(H.done[k])continue;
     const over=H.x[k]<b1&&H.x[k]+o.w>b0;
     if(o.h>0&&!H.knocked[k]&&over&&H.y<o.h*L.h){H.els[k].classList.add('knock');hopFault(k,'Rivning! Det gör inget.')}
-    if(t==='tunnel'&&!H.knocked[k]&&over&&H.y>.02)hopFault(k,'Kryp genom tunneln, hoppa inte över!');
+    if(t==='tunnel'&&!H.knocked[k]&&over){
+      if(H.y>.02)hopFault(k,'Kryp genom tunneln, hoppa inte över!');
+      else if(!crawling)hopFault(k,'Dunk! Tryck Kryp! före tunneln.');
+      else H.inTunnel=true;
+    }
     if(H.x[k]+o.w<(t==='ramp'?CX:b0)){
       H.done[k]=true;H.passed++;$('#hudN').textContent='Hinder '+H.passed+' av '+N;
-      if(t==='tunnel'){if(!H.knocked[k]){beep(300,.25,'sine');toast('Genom tunneln!',$('#course'))}}
+      if(t==='tunnel'){H.inTunnel=false;H.crawlUntil=0;if(!H.knocked[k]){beep(300,.25,'sine');toast('Genom tunneln!',$('#course'))}}
       else if(t==='ramp'){
         if(!H.touched[k])hopFault(k,'Spring upp på brädan!');
         else if(!H.jumped[k])hopFault(k,'Ploff! Hoppa ner i slutet av brädan.');
@@ -1316,7 +1329,7 @@ function hopStep(now){
 }
 function hopFinish(){
   if(!H)return;
-  H.running=false;$('#jumpBtn').disabled=true;
+  H.running=false;$('#jumpBtn').disabled=true;$('#crawlBtn').disabled=true;
   const ot=$('#course > .toast');if(ot)ot.remove();
   const b=cur();
   $('#hb .bbody').classList.remove('hopping');setHopBunny('joy');chime();
@@ -1334,8 +1347,9 @@ function hopFinish(){
 }
 $('#course').addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;hopJump()});
 $('#jumpBtn').addEventListener('pointerdown',e=>{e.preventDefault();hopJump()});
+$('#crawlBtn').addEventListener('pointerdown',e=>{e.preventDefault();hopCrawl()});
 $('#hopOver').addEventListener('click',e=>{const id=e.target.id;if(id==='hopRace')hopStart('race');if(id==='hopTrain'){if(S.course.length)hopStart('train');else openBuild()}if(id==='hopAgain')hopIntro();if(id==='hopTrainAgain')hopStart('train')});
-document.addEventListener('keydown',e=>{if($('#s-hop').hidden)return;if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();hopJump()}});
+document.addEventListener('keydown',e=>{if($('#s-hop').hidden)return;if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();hopJump()}if(e.code==='ArrowDown'){e.preventDefault();hopCrawl()}});
 
 /* ---------- Utklädningstävling ---------- */
 const THEMES=[
@@ -1618,7 +1632,7 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};openAdopt('first');
 });
-const APP_VERSION='1.14';
+const APP_VERSION='1.15';
 const APP_DATE='25 okt 2026';
 $('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
 $('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
