@@ -243,6 +243,32 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .showmsg svg.ros{width:40px;height:auto}
 .showmsg .row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
 
+/* Korsord */
+.navb.wide{grid-column:1/-1}
+.cwpanel{background:#ECE5FF;padding:12px}
+.cwboard{display:grid;gap:3px;width:100%;margin:0 auto;user-select:none;-webkit-user-select:none}
+.cwc{aspect-ratio:1;border:0;border-radius:7px;background:var(--paper);position:relative;font-weight:800;font-size:clamp(.95rem,4.8vw,1.45rem);color:var(--ink);padding:0;display:grid;place-items:center;box-shadow:0 2px 0 rgba(43,35,80,.15);min-width:0}
+.cwc .n{position:absolute;top:1px;left:3px;font-size:.55rem;font-weight:700;opacity:.65;line-height:1}
+.cwc.inword{background:#FFE1EE}
+.cwc.ok{background:#C9F2C0}
+.cwc.cur{background:var(--pink);color:#fff}
+.cwc.wrong{animation:wig .4s 2}
+.cwblank{aspect-ratio:1}
+.clue{background:var(--violet);color:#fff;border-radius:20px;padding:8px 14px 8px 8px;font-weight:800;display:flex;gap:10px;align-items:center;min-height:64px;font-size:1.05rem;line-height:1.25}
+.clue small{font-weight:700;opacity:.8;font-size:.8rem}
+.clue .cb{width:52px;flex-shrink:0}
+.clue .cb svg{width:100%;display:block;overflow:visible}
+.kb{display:flex;flex-direction:column;gap:6px}
+.kbr{display:flex;gap:4px;justify-content:center}
+.key{border:0;flex:1 1 0;max-width:42px;height:46px;border-radius:10px;background:var(--paper);font-weight:800;font-size:1.1rem;box-shadow:0 3px 0 rgba(43,35,80,.18);padding:0;min-width:0}
+.key:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(43,35,80,.18)}
+.key.wide{max-width:70px;flex:1.8 1 0;background:#FFE1EE}
+.cluelist{gap:6px}
+.cl{border:0;background:var(--cream);border-radius:12px;padding:7px 10px;text-align:left;font-weight:600;font-size:.95rem}
+.cl b{margin-right:8px;color:var(--violet)}
+.cl.done{text-decoration:line-through;opacity:.5}
+.cl.sel{background:#FFE1EE}
+
 /* Banbygge */
 .track{display:flex;gap:6px;overflow-x:auto;padding:4px 2px 8px;min-height:88px;align-items:stretch}
 .tslot{border:0;flex:0 0 70px;background:var(--cream);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:800;font-size:.75rem;position:relative;padding:14px 2px 4px;text-align:center;line-height:1.1}
@@ -380,6 +406,7 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
         <button class="navb" data-go="hop"><svg viewBox="0 0 40 40" class="ic-hop"></svg>Kaninhopp</button>
         <button class="navb" data-go="dress"><svg viewBox="0 0 40 40" class="ic-dress"></svg>Utklädning</button>
         <button class="navb" data-go="shop"><svg viewBox="0 0 40 40" class="ic-shop"></svg>Affären</button>
+        <button class="navb wide" data-go="cross"><svg viewBox="0 0 40 40" class="ic-cross"></svg>Kaninkorsord</button>
       </div>
       <div class="friend" id="friendCard" hidden>
         <span class="fb" id="friendPic"></span>
@@ -453,6 +480,17 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
       <div class="wgrid" id="wgrid"></div>
       <button class="btn big" id="catwalkBtn">Gå ut på catwalken!</button>
     </div>
+  </section>
+
+  <!-- KORSORD -->
+  <section id="s-cross" hidden>
+    <div class="topline"><button class="mini" data-go="home">Hem</button><h2 class="title2">Kaninkorsord</h2></div>
+    <div class="panel cwpanel"><div class="cwboard" id="cwBoard"></div></div>
+    <div class="clue" id="cwClue"></div>
+    <p class="shopmsg" id="cwMsg" role="status"></p>
+    <div class="kb" id="cwKb"></div>
+    <div class="row2"><button class="btn small violet" id="cwHint">Ge mig en bokstav</button><button class="btn small" id="cwNew">Nytt korsord</button></div>
+    <div class="panel cluelist" id="cwList"></div>
   </section>
 
   <!-- BANBYGGE -->
@@ -749,7 +787,7 @@ function chime(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.14,'tr
 
 /* ---------- Skärmar ---------- */
 let playing=false;
-function show(id){['s-adopt','s-cage','s-play','s-shop','s-hop','s-dress','s-build'].forEach(s=>{$('#'+s).hidden=(s!==id)});playing=(id==='s-play');if(id!=='s-hop'&&H)H.running=false;window.scrollTo(0,0)}
+function show(id){['s-adopt','s-cage','s-play','s-shop','s-hop','s-dress','s-build','s-cross'].forEach(s=>{$('#'+s).hidden=(s!==id)});playing=(id==='s-play');if(id!=='s-hop'&&H)H.running=false;window.scrollTo(0,0)}
 (function(){const el=$('#logo'),t=el.textContent,c=['#FF5DA2','#19C3B2','#7B5CFF','#FF8A3D'];let i=0;el.innerHTML=t.split('').map(ch=>ch===' '?' ':'<span style="color:'+c[(i++)%4]+'">'+ch+'</span>').join('')})();
 
 function renderTabs(){
@@ -774,6 +812,7 @@ function go(where){
   if(where==='friend'){openAdopt('friend');return}
   if(where==='dress'){openDress();return}
   if(where==='build'){openBuild();return}
+  if(where==='cross'){openCross();return}
   if(where==='cage'){cageFrom='play';$('#moveIn').textContent='Klar!';save();openCage();return}
 }
 
@@ -1419,6 +1458,129 @@ $('#buildRandom').addEventListener('click',()=>{const n=6+Math.floor(Math.random
 $('#buildClear').addEventListener('click',()=>{S.course=[];beep(400,.1);save();renderBuild()});
 $('#buildRun').addEventListener('click',()=>{if(!S.course.length)return;show('s-hop');renderTabs();renderLevels();hopReset();hopStart('train')});
 
+/* ---------- Kaninkorsord ---------- */
+const CROSSWORDS=[
+  ['KANIN','Djuret med långa öron som skuttar'],['MOROT','Orange grönsak som kaniner gillar'],['ÖRON','Kaniner har långa sådana'],
+  ['TASS','En kanins fot'],['SVANS','Kaninens lilla vita tofs där bak'],['MASKROS','Gul blomma som kaniner älskar'],
+  ['HOPPA','Det kaniner gör över hinder'],['BUR','Ett hem för en kanin'],['TUNNEL','Kaniner kryper gärna genom en sån'],
+  ['KATT','Djuret som säger mjau'],['HUND','Djuret som skäller'],['HÄST','Ett djur man kan rida på'],
+  ['GRIS','Rosa djur som säger nöff'],['UGGLA','Fågel som är vaken på natten'],['RÄV','Rött djur med yvig svans'],
+  ['IGELKOTT','Litet djur med taggar på ryggen'],['EKORRE','Klättrar i träd och samlar nötter'],['MUS','Litet djur som piper'],
+  ['FÅR','Djuret som ger ull'],['ANKA','Fågel som säger kvack'],['GRODA','Grön och hoppar vid dammen'],
+  ['HAMSTER','Litet husdjur med stora kinder'],['ÄPPLE','Rund frukt, röd eller grön'],['KLAPPA','Det man gör när man myser med kaninen'],
+  ['GRÄS','Grönt som växer på ängen'],['BJÖRN','Stort djur som sover hela vintern'],['ÄLG','Skogens kung med stora horn'],
+  ['HARE','Kaninens släkting med ännu längre ben'],['ZEBRA','Randig häst i Afrika'],['LEJON','Djurens kung med stor man'],
+  ['ROSETT','Det man vinner i kaninhopp'],['HINDER','Det kaninen hoppar över'],['VATTEN','Kaniner behöver färskt sånt varje dag'],
+  ['KOMPIS','Kaniner trivs bäst med en sån']
+];
+const CROSSICON='<rect x="4" y="4" width="10" height="10" rx="2" fill="#7B5CFF"/><rect x="15" y="4" width="10" height="10" rx="2" fill="#FF5DA2"/><rect x="26" y="4" width="10" height="10" rx="2" fill="#7B5CFF"/><rect x="15" y="15" width="10" height="10" rx="2" fill="#FFD23F"/><rect x="15" y="26" width="10" height="10" rx="2" fill="#19C3B2"/><text x="20" y="12.5" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="8" fill="#fff">K</text>';
+let CW=null;
+function cwKey(r,c){return r+','+c}
+function cwFits(grid,o){
+  const dr=o.d==='d'?1:0,dc=o.d==='a'?1:0;let cross=0;
+  if(grid.get(cwKey(o.r-dr,o.c-dc))||grid.get(cwKey(o.r+dr*o.w.length,o.c+dc*o.w.length)))return false;
+  for(let k=0;k<o.w.length;k++){
+    const r=o.r+dr*k,c=o.c+dc*k,cell=grid.get(cwKey(r,c));
+    if(cell){if(cell.ch!==o.w[k]||cell[o.d])return false;cross++}
+    else{
+      const n1=o.d==='a'?cwKey(r-1,c):cwKey(r,c-1),n2=o.d==='a'?cwKey(r+1,c):cwKey(r,c+1);
+      if(grid.get(n1)||grid.get(n2))return false;
+    }
+  }
+  return cross>0;
+}
+function cwPut(grid,o){const dr=o.d==='d'?1:0,dc=o.d==='a'?1:0;for(let k=0;k<o.w.length;k++){const key=cwKey(o.r+dr*k,o.c+dc*k);const cell=grid.get(key)||{ch:o.w[k]};cell[o.d]=true;grid.set(key,cell)}}
+function cwBox(list){let r0=1e9,r1=-1e9,c0=1e9,c1=-1e9;list.forEach(o=>{const dr=o.d==='d'?1:0,dc=o.d==='a'?1:0;r0=Math.min(r0,o.r);c0=Math.min(c0,o.c);r1=Math.max(r1,o.r+dr*(o.w.length-1));c1=Math.max(c1,o.c+dc*(o.w.length-1))});return {r0,r1,c0,c1}}
+function buildCross(){
+  let best=null;
+  for(let attempt=0;attempt<60;attempt++){
+    const pool=CROSSWORDS.slice().sort(()=>Math.random()-.5);
+    const grid=new Map(),placed=[];
+    const f={w:pool[0][0],clue:pool[0][1],r:0,c:0,d:Math.random()<.5?'a':'d'};placed.push(f);cwPut(grid,f);
+    for(const [w,clue] of pool.slice(1)){
+      if(placed.length>=7)break;
+      const opts=[];
+      grid.forEach((cell,key)=>{
+        const [pr,pc]=key.split(',').map(Number);
+        for(let j=0;j<w.length;j++){
+          if(w[j]!==cell.ch)continue;
+          ['a','d'].forEach(d=>{if(cell[d])return;const o={w,clue,d,r:d==='a'?pr:pr-j,c:d==='a'?pc-j:pc};if(cwFits(grid,o))opts.push(o)});
+        }
+      });
+      const ok=opts.filter(o=>{const b=cwBox(placed.concat([o]));return b.r1-b.r0<9&&b.c1-b.c0<9});
+      if(ok.length){const o=ok[Math.floor(Math.random()*ok.length)];placed.push(o);cwPut(grid,o)}
+    }
+    if(!best||placed.length>best.length)best=placed;
+    if(placed.length>=6)break;
+  }
+  const b=cwBox(best);
+  const words=best.map(o=>({w:o.w,clue:o.clue,d:o.d,r:o.r-b.r0,c:o.c-b.c0}));
+  const W=b.c1-b.c0+1,Hh=b.r1-b.r0+1,cells=new Map();
+  words.forEach((o,i)=>{const dr=o.d==='d'?1:0,dc=o.d==='a'?1:0;o.cells=[];for(let k=0;k<o.w.length;k++){const key=cwKey(o.r+dr*k,o.c+dc*k);if(!cells.has(key))cells.set(key,{ch:o.w[k],entry:'',words:[]});cells.get(key).words.push(i);o.cells.push(key)}});
+  let n=0;const nums=new Map();
+  for(let r=0;r<Hh;r++)for(let c=0;c<W;c++){const starts=words.filter(o=>o.r===r&&o.c===c);if(starts.length){n++;nums.set(cwKey(r,c),n);starts.forEach(o=>o.num=n)}}
+  CW={W,H:Hh,words,cells,nums,word:0,cell:words[0].cells[0],done:false};
+}
+function openCross(){if(!CW||CW.done)buildCross();$('#cwMsg').textContent='';renderCross();show('s-cross')}
+function cwSolved(i){const o=CW.words[i];return o.cells.every(k=>CW.cells.get(k).entry===CW.cells.get(k).ch)}
+function renderCross(){
+  const o=CW.words[CW.word];
+  let h='';
+  for(let r=0;r<CW.H;r++)for(let c=0;c<CW.W;c++){
+    const key=cwKey(r,c),cell=CW.cells.get(key);
+    if(!cell){h+='<span class="cwblank"></span>';continue}
+    const ok=cell.words.some(cwSolved);
+    const cls='cwc'+(key===CW.cell?' cur':(o.cells.includes(key)?' inword':''))+(ok?' ok':'');
+    h+='<button class="'+cls+'" data-cell="'+key+'">'+(CW.nums.has(key)?'<span class="n">'+CW.nums.get(key)+'</span>':'')+cell.entry+'</button>';
+  }
+  const bd=$('#cwBoard');bd.style.gridTemplateColumns='repeat('+CW.W+',1fr)';bd.style.maxWidth=Math.min(440,CW.W*46)+'px';bd.innerHTML=h;
+  const b=cur();
+  $('#cwClue').innerHTML='<span class="cb">'+(b?bunnySVG(furOf(b),cwSolved(CW.word)?'joy':'happy',S.wear[b.id]):'')+'</span><span><small>'+o.num+' '+(o.d==='a'?'vågrätt':'lodrätt')+' · '+o.w.length+' bokstäver</small><br>'+o.clue+'</span>';
+  const grp=d=>CW.words.map((x,i)=>[x,i]).filter(p=>p[0].d===d).sort((a,z)=>a[0].num-z[0].num).map(p=>'<button class="cl'+(cwSolved(p[1])?' done':'')+(p[1]===CW.word?' sel':'')+'" data-word="'+p[1]+'"><b>'+p[0].num+'</b>'+p[0].clue+'</button>').join('');
+  $('#cwList').innerHTML='<h2 class="h2">Vågrätt</h2>'+grp('a')+'<h2 class="h2">Lodrätt</h2>'+grp('d');
+}
+$('#cwBoard').addEventListener('click',e=>{
+  const t=e.target.closest('[data-cell]');if(!t)return;const key=t.dataset.cell,cell=CW.cells.get(key);
+  if(key===CW.cell&&cell.words.length>1){CW.word=cell.words.find(i=>i!==CW.word)}
+  else if(!cell.words.includes(CW.word)){CW.word=cell.words.find(i=>!cwSolved(i))??cell.words[0]}
+  CW.cell=key;beep(700,.05);renderCross();
+});
+$('#cwList').addEventListener('click',e=>{const t=e.target.closest('[data-word]');if(!t)return;CW.word=+t.dataset.word;const o=CW.words[CW.word];CW.cell=o.cells.find(k=>CW.cells.get(k).entry!==CW.cells.get(k).ch)||o.cells[0];beep(700,.05);renderCross();window.scrollTo({top:0,behavior:'smooth'})});
+function cwType(ch){
+  if(CW.done)return;
+  const o=CW.words[CW.word],cell=CW.cells.get(CW.cell);
+  const before=CW.words.map((x,i)=>cwSolved(i));
+  if(ch==='⌫'){
+    if(cell.entry){cell.entry=''}else{const i=o.cells.indexOf(CW.cell);if(i>0){CW.cell=o.cells[i-1];CW.cells.get(CW.cell).entry=''}}
+    beep(400,.05);renderCross();return;
+  }
+  cell.entry=ch;beep(820,.05,'triangle');
+  const i=o.cells.indexOf(CW.cell);
+  const next=o.cells.slice(i+1).find(k=>CW.cells.get(k).entry!==CW.cells.get(k).ch);
+  if(next)CW.cell=next;else if(i<o.cells.length-1)CW.cell=o.cells[i+1];
+  const now=CW.words.map((x,j)=>cwSolved(j));
+  now.forEach((s2,j)=>{if(s2&&!before[j]){chime();$('#cwMsg').textContent='Rätt! '+CW.words[j].w+'!'}});
+  if(o.cells.every(k=>CW.cells.get(k).entry)&&!cwSolved(CW.word)){
+    beep(200,.2,'triangle');$('#cwMsg').textContent='Nästan! Något ord är fel, försök igen.';
+    renderCross();o.cells.forEach(k=>{const el=$('#cwBoard [data-cell="'+k+'"]');if(el)el.classList.add('wrong')});return;
+  }
+  if(cwSolved(CW.word)){const nx=CW.words.findIndex((x,j)=>!cwSolved(j));if(nx>=0){CW.word=nx;CW.cell=CW.words[nx].cells.find(k=>CW.cells.get(k).entry!==CW.cells.get(k).ch)}}
+  if(now.every(Boolean)){
+    CW.done=true;const b=cur();S.coins+=3;if(b)b.love=clamp(b.love+5);save();renderWallet();
+    setTimeout(()=>{chime();setTimeout(chime,450)},200);
+    $('#cwMsg').textContent='Hurra! Hela korsordet är klart! Du fick 3 kr.';
+  }
+  renderCross();
+}
+$('#cwKb').addEventListener('click',e=>{const k=e.target.closest('[data-k]');if(k)cwType(k.dataset.k)});
+$('#cwHint').addEventListener('click',()=>{
+  if(CW.done)return;const o=CW.words[CW.word];const k=o.cells.find(x=>CW.cells.get(x).entry!==CW.cells.get(x).ch);if(!k)return;
+  CW.cell=k;cwType(CW.cells.get(k).ch);$('#cwMsg').textContent=$('#cwMsg').textContent||'Där fick du en bokstav!';
+});
+$('#cwNew').addEventListener('click',()=>{buildCross();$('#cwMsg').textContent='';beep(600,.12);renderCross()});
+$('#cwKb').innerHTML=['QWERTYUIOPÅ','ASDFGHJKLÖÄ','ZXCVBNM⌫'].map(row=>'<div class="kbr">'+[...row].map(ch=>'<button class="key'+(ch==='⌫'?' wide':'')+'" data-k="'+ch+'" aria-label="'+(ch==='⌫'?'Sudda':ch)+'">'+ch+'</button>').join('')+'</div>').join('');
+document.addEventListener('keydown',e=>{if($('#s-cross').hidden||!CW)return;const k=e.key.toUpperCase();if(k==='BACKSPACE'){e.preventDefault();cwType('⌫')}else if(/^[A-ZÅÄÖ]$/.test(k)){cwType(k)}});
+
 /* ---------- Spelloop ---------- */
 setInterval(()=>{
   if(!playing||!S.bunnies.length)return;
@@ -1439,7 +1601,7 @@ $$('svg.coin').forEach(s=>s.innerHTML=COIN);
 $('.ic-food').innerHTML=FOODSVG.carrot.replace(/#FF8A3D/g,'#fff').replace(/#E06A1E/g,'#FF8A3D').replace(/#4FB43A/g,'#fff');
 $('.ic-clean').innerHTML=BROOM.replace(/#B5793F/g,'#fff').replace(/#FBD866|#E2B23C/g,'#fff').replace(/#FF5DA2/g,'#10978A');
 $('.ic-love').innerHTML=HEART.replace('#FF5DA2','#fff');
-$('.ic-meadow').innerHTML=MEADOWICON;$('.ic-dress').innerHTML=DRESSICON;$('.ic-hop').innerHTML=HOPICON;$('.ic-shop').innerHTML=SHOPICON;
+$('.ic-meadow').innerHTML=MEADOWICON;$('.ic-dress').innerHTML=DRESSICON;$('.ic-cross').innerHTML=CROSSICON;$('.ic-hop').innerHTML=HOPICON;$('.ic-shop').innerHTML=SHOPICON;
 
 /* Meny */
 function syncSound(){$('#mSound').textContent='Ljud: '+(S.muted?'av':'på')}
@@ -1456,7 +1618,7 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};openAdopt('first');
 });
-const APP_VERSION='1.13';
+const APP_VERSION='1.14';
 const APP_DATE='25 okt 2026';
 $('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
 $('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
