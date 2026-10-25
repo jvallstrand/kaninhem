@@ -462,7 +462,8 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
     <button class="srow" id="mCage">Ändra bur och saker</button>
     <button class="srow" id="mFriend">Skaffa en kaninkompis</button>
     <button class="srow" id="mSound">Ljud: på</button>
-    <button class="srow warn" id="mReset">Börja om från början</button>
+    <button class="srow" id="mReload">Ladda om spelet</button>
+    <button class="srow warn" id="mReset">Töm allt och börja om</button>
     <button class="btn" id="mClose">Stäng</button>
   </div>
 </div>
@@ -1353,15 +1354,30 @@ $('.ic-meadow').innerHTML=MEADOWICON;$('.ic-dress').innerHTML=DRESSICON;$('.ic-h
 /* Meny */
 function syncSound(){$('#mSound').textContent='Ljud: '+(S.muted?'av':'på')}
 let resetArmed=false;
-$('#menuBtn').addEventListener('click',()=>{syncSound();resetArmed=false;$('#mReset').textContent='Börja om från början';$('#mFriend').hidden=S.bunnies.length>1;$('#sheet').hidden=false});
+$('#menuBtn').addEventListener('click',()=>{syncSound();resetArmed=false;$('#mReset').textContent='Töm allt och börja om';$('#mFriend').hidden=S.bunnies.length>1;$('#sheet').hidden=false});
 $('#mClose').addEventListener('click',()=>{$('#sheet').hidden=true});
 $('#sheet').addEventListener('click',e=>{if(e.target.id==='sheet')$('#sheet').hidden=true});
 $('#mSound').addEventListener('click',()=>{S.muted=!S.muted;syncSound();save();beep(700,.1)});
 $('#mCage').addEventListener('click',()=>{$('#sheet').hidden=true;cageFrom='play';$('#moveIn').textContent='Klar!';save();openCage()});
 $('#mFriend').addEventListener('click',()=>{$('#sheet').hidden=true;openAdopt('friend')});
 $('#mReset').addEventListener('click',()=>{
-  if(!resetArmed){resetArmed=true;$('#mReset').textContent='Säker? Tryck igen så börjar allt om';return}
-  const muted=S.muted;S=fresh();S.muted=muted;save();$('#sheet').hidden=true;G++;P={};B=[];openAdopt('first');
+  if(!resetArmed){resetArmed=true;$('#mReset').textContent='Säker? Allt försvinner. Tryck igen';return}
+  const muted=S.muted;S=fresh();S.muted=muted;
+  try{localStorage.removeItem(KEY)}catch(e){}
+  save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};openAdopt('first');
+});
+$('#mReload').addEventListener('click',()=>{
+  save();$('#mReload').textContent='Laddar om...';
+  const go=()=>{try{location.reload()}catch(e){}};
+  setTimeout(go,3000);
+  try{
+    if(!('serviceWorker' in navigator)||!window.caches){go();return}
+    navigator.serviceWorker.getRegistration().then(r=>{
+      if(!r){go();return}
+      r.update().catch(()=>{});
+      return fetch('./index.html',{cache:'no-store'}).then(res=>res.ok?caches.open('kaninhem-v1').then(c=>c.put('./index.html',res)):null).then(go,go);
+    }).catch(go);
+  }catch(e){go()}
 });
 document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
 
