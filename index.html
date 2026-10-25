@@ -297,6 +297,8 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .hopcard svg.ros{width:64px;height:auto}
 .hopcard .row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 
+.foot{text-align:center;margin-top:22px;font-weight:600;font-size:.85rem;color:var(--ink);opacity:.75;font-variant-numeric:tabular-nums}
+.linkbtn{border:0;background:none;padding:4px 2px;font:inherit;color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .sheet{position:fixed;inset:0;background:rgba(43,35,80,.45);display:flex;align-items:flex-end;justify-content:center;z-index:50;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-bottom:calc(16px + env(safe-area-inset-bottom, 0px))}
 .sheet-in{background:var(--paper);border-radius:28px;padding:16px;width:100%;max-width:520px;display:flex;flex-direction:column;gap:10px;animation:trayIn .2s ease-out}
 .sheet-in h3{margin:0 0 4px;font-size:1.3rem}
@@ -459,6 +461,8 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
     <button class="btn big green" id="buildRun">Spring banan!</button>
   </section>
 </div>
+
+<div class="app"><footer class="foot"><span id="ver"></span> · <button class="linkbtn" id="updBtn">Uppdatera appen</button></footer></div>
 
 <div class="sheet" id="sheet" hidden>
   <div class="sheet-in">
@@ -1388,8 +1392,13 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};openAdopt('first');
 });
-$('#mReload').addEventListener('click',()=>{
-  save();$('#mReload').textContent='Laddar om...';
+const APP_VERSION='1.9';
+const APP_DATE='25 okt 2026';
+$('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
+$('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
+$('#mReload').addEventListener('click',()=>updateApp($('#mReload'),'Laddar om...'));
+function updateApp(btn,label){
+  save();btn.textContent=label;
   const go=()=>{try{location.reload()}catch(e){}};
   setTimeout(go,3000);
   try{
@@ -1400,7 +1409,7 @@ $('#mReload').addEventListener('click',()=>{
       return fetch('./index.html',{cache:'no-store'}).then(res=>res.ok?caches.open('kaninhem-v1').then(c=>c.put('./index.html',res)):null).then(go,go);
     }).catch(go);
   }catch(e){go()}
-});
+}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
 
 /* Start */
