@@ -103,6 +103,13 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .ai{position:absolute}
 .ai svg{width:100%;height:auto;display:block}
 .ai-ball{pointer-events:auto;cursor:pointer}
+.acc .ai{pointer-events:auto;cursor:pointer}
+.bbody.sip{animation:sip .3s ease-in-out infinite}
+@keyframes sip{0%,100%{transform:translateY(-16%) rotate(-10deg)}50%{transform:translateY(-12%) rotate(-7deg)}}
+.bbody.rock{animation:rock 1.6s ease-in-out infinite;transform-origin:50% 0}
+@keyframes rock{50%{transform:rotate(6deg) translateX(4%)}}
+.zz{font-weight:800;font-size:1.3rem;color:#7B5CFF;animation:zz 1.6s ease-out forwards}
+@keyframes zz{0%{opacity:0;transform:translate(0,0) scale(.6)}30%{opacity:1}100%{opacity:0;transform:translate(60%,-180%) scale(1.3)}}
 .ai-ball.roll{animation:roll 1.4s ease-in-out}
 @keyframes roll{40%{transform:translateX(-170%) rotate(-400deg)}100%{transform:none}}
 .ai-water.glug svg{animation:glug .5s 3}
@@ -117,7 +124,7 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .scene.big > .bunny.baby{width:12%}
 .scene.big .poop{width:5.5%}
 .scene.big .food{width:8%}
-.scene > .bunny{position:absolute;inset:auto;width:25%;aspect-ratio:1;transition:left var(--dur,800ms) linear;cursor:pointer;outline:none}
+.scene > .bunny{position:absolute;inset:auto;width:25%;aspect-ratio:1;transition:left var(--dur,800ms) linear,bottom .45s ease,opacity .4s;cursor:pointer;outline:none}
 .bflip{width:100%;height:100%;transition:transform .2s}
 .bflip.left{transform:scaleX(-1)}
 .bbody{width:100%;height:100%;transform-origin:50% 90%}
@@ -270,6 +277,11 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .cwc.inword{background:#FFE1EE}
 .cwc.ok{background:#C9F2C0}
 .cwc.cur{background:var(--pink);color:#fff}
+.cwboard.finished .cwc{background:#FFE88A;color:var(--ink)}
+.cdpic{display:flex;justify-content:center;align-items:flex-end;gap:8px}
+.cdpic svg.ros{width:70px;height:auto}
+.cdpic .cdb{width:90px}
+.cdpic .cdb svg{width:100%;overflow:visible}
 .cwc.wrong{animation:wig .4s 2}
 .cwblank{aspect-ratio:1}
 .clue{background:var(--violet);color:#fff;border-radius:20px;padding:8px 14px 8px 8px;font-weight:800;display:flex;gap:10px;align-items:center;min-height:64px;font-size:1.05rem;line-height:1.25}
@@ -579,6 +591,16 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 
 <div class="app"><footer class="foot"><span id="ver"></span> · <button class="linkbtn" id="updBtn">Uppdatera appen</button></footer></div>
 
+<div class="sheet" id="cwDoneSheet" hidden>
+  <div class="sheet-in" style="text-align:center">
+    <div class="cdpic" id="cwDonePic"></div>
+    <h3>Hurra!</h3>
+    <p id="cwDoneText" style="margin:0;font-weight:700;font-size:1.15rem"></p>
+    <button class="btn green" id="cwNext">Nästa korsord</button>
+    <button class="btn small" id="cwStay" style="background:var(--soft);color:var(--ink);box-shadow:none">Titta på korsordet</button>
+  </div>
+</div>
+
 <div class="sheet" id="babySheet" hidden>
   <div class="sheet-in">
     <span class="babypic" id="babyPic"></span>
@@ -623,6 +645,7 @@ const FOODSVG={
   hay:'<g stroke="#E2B23C" stroke-width="3" stroke-linecap="round"><path d="M8 35L15 6"/><path d="M14 35L20 4"/><path d="M20 35L22 5"/><path d="M26 35L27 6"/><path d="M32 35L31 7"/></g><g stroke="#FBD866" stroke-width="3" stroke-linecap="round"><path d="M11 35L18 6"/><path d="M17 35L21 5"/><path d="M23 35L25 5"/><path d="M29 35L29 6"/></g><rect x="8" y="18" width="25" height="6" rx="3" fill="#FF5DA2"/>',
   dandelion:'<path d="M20 37L7 23h5L5 15h7L9 6l11 12Z" fill="#4FB43A"/><path d="M20 37l13-14h-5l7-8h-7l3-9-11 12Z" fill="#6CCB4F"/><circle cx="20" cy="12" r="7.5" fill="#FFD23F"/><circle cx="20" cy="12" r="3.5" fill="#FFAA00"/>',
   carrot:'<path d="M6 36q-3-2 2-6L26 12q6-2 4 4L12 34q-4 4-6 2Z" fill="#FF8A3D"/><path d="M14 26l4 2M18 21l4 2M22 17l3 2" stroke="#E06A1E" stroke-width="2" stroke-linecap="round"/><g stroke="#4FB43A" stroke-width="3.5" stroke-linecap="round"><path d="M28 14l5-10"/><path d="M29 15l9-5"/><path d="M28 14l-3-10"/></g>',
+  porridge:'<path d="M4 22h32q-2 14-16 14T4 22Z" fill="#5BC6F5"/><ellipse cx="20" cy="22" rx="16" ry="5" fill="#FF9A3D"/><circle cx="14" cy="21" r="2" fill="#FFB870"/><circle cx="24" cy="22" r="1.6" fill="#FFB870"/><path d="M28 4q-3 7 1 13" stroke="#4FB43A" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="26" y="8" width="4" height="14" rx="2" fill="#B5793F" transform="rotate(25 28 15)"/>',
   puffs:'<g stroke-linecap="round" fill="none"><path d="M6 30q2-12 13-12" stroke="#FF9A1F" stroke-width="7"/><path d="M18 12q10-4 15 6" stroke="#FFB347" stroke-width="7"/><path d="M22 34q8 2 12-7" stroke="#FF9A1F" stroke-width="7"/></g><g fill="#E07A00"><circle cx="10" cy="24" r="1.2"/><circle cx="25" cy="12" r="1.2"/><circle cx="28" cy="31" r="1.2"/></g>',
   cookie:'<circle cx="20" cy="20" r="15" fill="#D9A066"/><circle cx="20" cy="20" r="15" fill="none" stroke="#B5793F" stroke-width="2"/><path d="M20 26c-5-3.5-7-5.5-7-7.5a3 3 0 0 1 7-1.5a3 3 0 0 1 7 1.5c0 2-2 4-7 7.5Z" fill="#FF5DA2"/><g fill="#B5793F"><circle cx="11" cy="14" r="1.4"/><circle cx="29" cy="14" r="1.4"/><circle cx="13" cy="28" r="1.4"/><circle cx="27" cy="28" r="1.4"/></g>',
   apple:'<circle cx="14" cy="24" r="11" fill="#FF4D6D"/><circle cx="26" cy="24" r="11" fill="#FF4D6D"/><path d="M20 13V6" stroke="#7A4B2A" stroke-width="3" stroke-linecap="round"/><path d="M21 9q6-6 11-2-5 5-11 2Z" fill="#4FB43A"/><circle cx="12" cy="20" r="3" fill="#fff" opacity=".6"/>'
@@ -681,7 +704,7 @@ function outfitOf(w){if(!w)return {};if(typeof w==='string')return {head:w};retu
 function wearDraw(w,slot){const o=outfitOf(w),id=o[slot];return id&&WEAR[id]?WEAR[id].draw:''}
 
 function bunnySVG(f,mood,wear){
-  const sad=mood==='sad', happy=mood==='happy'||mood==='joy', eat=mood==='eat', grumpy=mood==='grumpy';
+  const sad=mood==='sad', happy=mood==='happy'||mood==='joy'||mood==='sleep', eat=mood==='eat', grumpy=mood==='grumpy';
   const eb=sad?-42:(grumpy?-55:-16), ef=sad?-30:(grumpy?-46:8);
   const backEar=f.spot||f.shade;
   let eyes, mouth, extra='';
@@ -780,13 +803,13 @@ const DIRT=(function(){const r=rng(3);let b='';for(let i=0;i<16;i++)b+='<ellipse
 /* ---------- Saker i buren ---------- */
 const ACC={
   hay:{name:'Höhäck',pos:'left:3%;bottom:39%;width:20%',svg:'<svg viewBox="0 0 100 90"><path d="M8 12h84L80 72H20Z" fill="#FBD866"/><g stroke="#E2B23C" stroke-width="3" stroke-linecap="round"><path d="M18 14L12 0"/><path d="M34 14l-2-12"/><path d="M50 14l4-13"/><path d="M66 14l6-11"/><path d="M82 14l9-9"/><path d="M26 30l-4 10"/><path d="M58 34l5 12"/></g><g stroke="#A0652F" stroke-width="5" stroke-linecap="round" fill="none"><path d="M6 10L20 72h60L94 10"/><path d="M30 14l4 58M50 14v58M70 14l-4 58"/><path d="M22 72l-4 15M78 72l4 15M12 87h16M72 87h16"/></g></svg>'},
-  water:{name:'Vattenflaska',pos:'right:5%;top:12%;width:7.5%',svg:'<svg viewBox="0 0 40 112"><rect x="6" y="8" width="28" height="72" rx="13" fill="#D6F3FF" stroke="#5BC6F5" stroke-width="3"/><rect x="9" y="32" width="22" height="45" rx="10" fill="#5BC6F5"/><rect x="12" y="38" width="5" height="16" rx="2.5" fill="#fff" opacity=".6"/><rect x="10" y="1" width="20" height="10" rx="4" fill="#FF5DA2"/><rect x="15" y="79" width="10" height="12" rx="2" fill="#FF5DA2"/><rect x="18" y="90" width="4" height="16" rx="2" fill="#9AA0B5"/><circle cx="20" cy="108" r="3" fill="#5BC6F5"/></svg>'},
+  water:{name:'Vattenflaska',pos:'right:5%;bottom:29%;width:7.5%',svg:'<svg viewBox="0 0 40 112"><rect x="6" y="8" width="28" height="72" rx="13" fill="#D6F3FF" stroke="#5BC6F5" stroke-width="3"/><rect x="9" y="32" width="22" height="45" rx="10" fill="#5BC6F5"/><rect x="12" y="38" width="5" height="16" rx="2.5" fill="#fff" opacity=".6"/><rect x="10" y="1" width="20" height="10" rx="4" fill="#FF5DA2"/><rect x="15" y="79" width="10" height="12" rx="2" fill="#FF5DA2"/><rect x="18" y="90" width="4" height="16" rx="2" fill="#9AA0B5"/><circle cx="20" cy="108" r="3" fill="#5BC6F5"/></svg>'},
   house:{name:'Kaninhus',pos:'right:2%;bottom:8%;width:27%',svg:'<svg viewBox="0 0 120 110"><rect x="12" y="44" width="96" height="62" rx="8" fill="#19C3B2"/><path d="M4 52L60 8l56 44Z" fill="#FF5DA2" stroke="#FF5DA2" stroke-width="6" stroke-linejoin="round"/><path d="M40 106V82a20 20 0 0 1 40 0v24Z" fill="#2B2350"/><path d="M96 68c-6-4-9-7-9-10a3.5 3.5 0 0 1 9-2a3.5 3.5 0 0 1 9 2c0 3-3 6-9 10Z" fill="#FFD23F"/><rect x="18" y="58" width="14" height="14" rx="4" fill="#FFF6D6"/></svg>'},
   tunnel:{name:'Tunnel',pos:'left:1%;bottom:5%;width:32%',svg:'<svg viewBox="0 0 150 70"><rect x="6" y="10" width="132" height="56" rx="28" fill="#FF8A3D"/><g fill="#FFB070"><rect x="34" y="10" width="9" height="56"/><rect x="60" y="10" width="9" height="56"/><rect x="86" y="10" width="9" height="56"/></g><ellipse cx="130" cy="38" rx="17" ry="28" fill="#FFB070"/><ellipse cx="131" cy="38" rx="11" ry="22" fill="#5A2E14"/></svg>'},
   pillow:{name:'Kudde',pos:'left:35%;bottom:3%;width:26%',svg:'<svg viewBox="0 0 120 44"><rect x="4" y="6" width="112" height="34" rx="17" fill="#7B5CFF"/><g fill="#B6A4FF"><circle cx="24" cy="18" r="4"/><circle cx="46" cy="28" r="4"/><circle cx="68" cy="16" r="4"/><circle cx="90" cy="27" r="4"/></g></svg>'},
   ball:{name:'Boll',pos:'left:64%;bottom:5%;width:8%',svg:'<svg viewBox="0 0 40 40"><circle cx="20" cy="21" r="18" fill="#C93A7C"/><circle cx="20" cy="20" r="18" fill="#FF5DA2"/><g stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"><path d="M6 12q14 8 28 0"/><path d="M4 22q16 10 32 0"/></g><path d="M20 2q-8 18 0 36" stroke="#7B5CFF" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="13" cy="10" r="3" fill="#fff" opacity=".7"/></svg>'},
   /* från affären */
-  hammock:{name:'Hängmatta',pos:'left:32%;top:4%;width:30%',svg:'<svg viewBox="0 0 120 70"><path d="M8 2L24 36M112 2L96 36" stroke="#B5793F" stroke-width="3" stroke-linecap="round"/><path d="M18 30Q60 76 102 30Z" fill="#19C3B2"/><path d="M28 39Q60 64 92 39" stroke="#FFF6D6" stroke-width="4" fill="none" stroke-dasharray="6 6" stroke-linecap="round"/></svg>'},
+  hammock:{name:'Hängmatta',pos:'left:32%;top:15%;width:30%',svg:'<svg viewBox="0 0 120 70"><path d="M8 2L24 36M112 2L96 36" stroke="#B5793F" stroke-width="3" stroke-linecap="round"/><path d="M18 30Q60 76 102 30Z" fill="#19C3B2"/><path d="M28 39Q60 64 92 39" stroke="#FFF6D6" stroke-width="4" fill="none" stroke-dasharray="6 6" stroke-linecap="round"/></svg>'},
   digbox:{name:'Grävlåda',pos:'left:40%;bottom:30%;width:18%',svg:'<svg viewBox="0 0 100 56"><rect x="4" y="16" width="92" height="38" rx="10" fill="#FF8A3D"/><ellipse cx="50" cy="18" rx="44" ry="9" fill="#F5D08A"/><circle cx="32" cy="16" r="3" fill="#E2B23C"/><circle cx="62" cy="19" r="2.5" fill="#E2B23C"/><path d="M74 14l14-14" stroke="#FF5DA2" stroke-width="4" stroke-linecap="round"/><ellipse cx="72" cy="16" rx="6" ry="4" fill="#FF5DA2"/></svg>'},
   sunflower:{name:'Solros',pos:'left:25%;bottom:38%;width:8%',svg:'<svg viewBox="0 0 50 110"><path d="M25 40V88" stroke="#4FB43A" stroke-width="5"/><path d="M25 66q-14-6-16 4q10 4 16-4Z" fill="#4FB43A"/><g fill="#FFD23F">'+[0,1,2,3,4,5,6,7].map(k=>'<ellipse cx="25" cy="10" rx="6" ry="11" transform="rotate('+(k*45)+' 25 26)"/>').join('')+'</g><circle cx="25" cy="26" r="9" fill="#7A4B2A"/><path d="M10 86h30l-4 22H14Z" fill="#FF5DA2"/></svg>'},
   box:{name:'Kartong',pos:'left:63%;bottom:37%;width:13%',svg:'<svg viewBox="0 0 60 50"><path d="M4 14h52v36H4Z" fill="#D9A066"/><path d="M4 14l8-12h36l8 12Z" fill="#C98B4E"/><path d="M4 14L-4 4M56 14l8-10" stroke="#C98B4E" stroke-width="5"/><path d="M20 50V32a10 10 0 0 1 20 0v18Z" fill="#5A2E14"/><path d="M10 22h10" stroke="#B5793F" stroke-width="2"/></svg>'},
@@ -818,6 +841,7 @@ const FOODS={
   dandelion:{name:'Maskros',val:22,msg:'Maskrosblad är en riktig kaninfavorit!'},
   carrot:{name:'Morot',val:15,msg:'Morot är godis. Bara lite ibland!'},
   apple:{name:'Äpple',val:12,msg:'Söta äppelbitar, men inte för många!'},
+  porridge:{name:'Morotsvälling',val:25,love:6,baby:true,msg:'Morotsvälling, perfekt för små kaninmagar!'},
   puffs:{name:'Ostbågar',val:12,love:8,treat:true,msg:'Krunsch! Riktig ost är inte bra för kaniner, men kaninostbågar är gjorda just för dem.'},
   cookie:{name:'Kaninkex',val:10,love:8,treat:true,msg:'Ett kaninkex med hjärta. Godis ska man bara få lite av!'}
 };
@@ -979,7 +1003,7 @@ function enterStage(m){
   const sc=$('#playScene');
   sc.innerHTML=sceneHTML(m,true);sc.classList.toggle('big',!!S.bigHome&&m==='home');
   P={sc,floor:sc.querySelector('.floor'),fx:sc.querySelector('.fx'),dirt:sc.querySelector('.dirt')};
-  B=S.bunnies.map((b,i)=>{const el=sc.querySelector('.bunny[data-i="'+i+'"]');return {el,bflip:el.querySelector('.bflip'),bbody:el.querySelector('.bbody'),bubble:el.querySelector('.bubble'),x:START_X[i],y:START_Y[i],busy:false,mood:'',ov:null,ovT:0,lastPet:0}});
+  B=S.bunnies.map((b,i)=>{const el=sc.querySelector('.bunny[data-i="'+i+'"]');return {el,bflip:el.querySelector('.bflip'),bbody:el.querySelector('.bbody'),bubble:el.querySelector('.bubble'),x:START_X[i],y:START_Y[i],homeY:START_Y[i],busy:false,mood:'',ov:null,ovT:0,lastPet:0}});
   B.forEach((r,i)=>{
     r.el.addEventListener('pointerdown',e=>pet(i,e));
     r.el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pet(i)}});
@@ -987,6 +1011,7 @@ function enterStage(m){
   });
   if(m==='home'){
     S.poops.forEach(renderPoop);
+    sc.querySelectorAll('.acc .ai').forEach(el=>{const c=[...el.classList].find(x=>x.startsWith('ai-'));const k=c&&c.slice(3);if(k&&k!=='ball')el.addEventListener('pointerdown',e=>{e.stopPropagation();useItem(k,el)})});
     const ball=sc.querySelector('.ai-ball');
     if(ball)ball.addEventListener('pointerdown',()=>{if(ball.classList.contains('roll'))return;ball.classList.add('roll');beep(500,.2,'triangle');S.bunnies.forEach(b=>b.love=clamp(b.love+2));setTimeout(()=>ball.classList.remove('roll'),1450);updateUI()});
   } else {
@@ -1032,6 +1057,7 @@ function wander(i,g){
       next();return;
     }
   }
+  if(!out&&Math.random()<.06){const w=P.sc.querySelector('.ai-water');if(w){useItem('water',w,i);next();return}}
   if(Math.random()<(out?.1:.25)){next();return}
   moveTo(i,R(3,out?74:70));next();
 }
@@ -1237,6 +1263,56 @@ function findIn(k,el){
 $('#digBtn').addEventListener('click',startDig);
 $('#hideBtn').addEventListener('click',startHide);
 
+/* ---------- Leka med sakerna i buren ---------- */
+const ITEM_ACT={water:'drink',hammock:'hammock',digbox:'dig',tunnel:'tunnel',house:'hide',castlehouse:'hide',box:'hide',pillow:'nap',rug:'nap',plush:'cuddle',sunflower:'sniff',flowerbox:'sniff',hay:'hay'};
+function bunnyW(i){const r=B[i];return r?r.el.getBoundingClientRect().width/P.sc.getBoundingClientRect().width*100:25}
+function itemRect(el){const a=el.getBoundingClientRect(),b=P.sc.getBoundingClientRect();return {l:(a.left-b.left)/b.width*100,r:(a.right-b.left)/b.width*100,cx:(a.left+a.width/2-b.left)/b.width*100,top:(b.bottom-a.top)/b.height*100,bot:(b.bottom-a.bottom)/b.height*100}}
+function setY(i,y){const r=B[i];r.y=y;r.el.style.bottom=y+'%'}
+function zzz(i){const r=B[i];if(!r||!P.fx)return;for(let k=0;k<3;k++)setTimeout(()=>{const z=document.createElement('div');z.className='fx-i zz';z.textContent='z';z.style.left=(r.x+14)+'%';z.style.bottom=(r.y+24)+'%';P.fx.appendChild(z);setTimeout(()=>z.remove(),1600)},k*500)}
+function useItem(k,el,force){
+  if(mode!=='home')return;
+  const act=ITEM_ACT[k];if(!act)return;
+  const rc=itemRect(el);
+  let i=force!=null?force:(B[S.sel]&&!B[S.sel].busy?S.sel:freeBunnyNear(rc.cx));
+  if(i<0||!B[i]||B[i].busy){if(force==null)toast('Vänta lite, kaninerna är upptagna!');return}
+  const r=B[i],b=S.bunnies[i],g=G,home=r.homeY,bw=bunnyW(i);
+  r.busy=true;r.bubble.hidden=true;
+  const done=(msg,love,hun)=>{if(g!==G)return;r.busy=false;if(love)b.love=clamp(b.love+love);if(hun)b.hunger=clamp(b.hunger+hun);if(msg)toast(msg);updateUI();save()};
+  const mouthTo=x=>x-bw*.86, centerTo=x=>x-bw*.5;
+  if(act==='drink'){
+    moveTo(i,mouthTo(rc.cx),()=>{if(g!==G)return;r.bflip.classList.remove('left');el.classList.remove('glug');void el.offsetWidth;el.classList.add('glug');r.bbody.classList.add('sip');setOv(i,'eat',2000);
+      let n=0;const iv=setInterval(()=>{beep(R(500,700),.06,'sine');if(++n>5)clearInterval(iv)},280);
+      setTimeout(()=>{if(g!==G)return;r.bbody.classList.remove('sip');setOv(i,'joy',1000);done(force==null||Math.random()<.4?'Glugg glugg! '+b.name+' dricker vatten.':'',3)},1900)});
+  } else if(act==='hammock'){
+    moveTo(i,centerTo(rc.cx),()=>{if(g!==G)return;beep(600,.15,'triangle');setY(i,rc.bot-1);r.bbody.classList.add('rock');setOv(i,'sleep',6500);
+      setTimeout(()=>{if(g!==G)return;zzz(i)},900);toast(b.name+' gungar i hängmattan.');
+      setTimeout(()=>{if(g!==G)return;r.bbody.classList.remove('rock');setY(i,home);beep(500,.12,'triangle');done('',6)},6500)});
+  } else if(act==='dig'){
+    moveTo(i,mouthTo(rc.cx),()=>{if(g!==G)return;r.bflip.classList.remove('left');r.bbody.classList.add('munch');
+      let n=0;const iv=setInterval(()=>{beep(R(140,220),.06,'sawtooth');sparkles(rc.cx+R(-4,4),rc.top-2,1,true);if(++n>7)clearInterval(iv)},250);
+      setTimeout(()=>{if(g!==G)return;r.bbody.classList.remove('munch');setOv(i,'joy',1200);done('Gräv gräv! '+b.name+' älskar grävlådan.',5)},2200)});
+  } else if(act==='tunnel'){
+    const open=rc.l+(rc.r-rc.l)*.87;
+    moveTo(i,open-bw*.15,()=>{if(g!==G)return;r.bflip.classList.add('left');r.el.style.opacity='0';beep(300,.2,'sine');
+      setTimeout(()=>{if(g!==G)return;r.el.style.setProperty('--dur','0ms');const out=Math.max(2,rc.l-bw*.55);r.el.style.left=out+'%';r.x=out;
+        setTimeout(()=>{if(g!==G)return;r.el.style.opacity='1';anim(i,'binky',850);beep(900,.12,'triangle');done('Tittut! '+b.name+' kom ut ur tunneln.',4)},120)},1600)});
+  } else if(act==='hide'){
+    moveTo(i,centerTo(rc.cx),()=>{if(g!==G)return;r.el.style.opacity='0';beep(300,.2,'sine');toast(b.name+' gick in för att vila.');
+      setTimeout(()=>{if(g!==G)return;r.el.style.opacity='1';setOv(i,'joy',1400);heartsAt(i,2);done(b.name+' kikar ut igen!',4)},3200)});
+  } else if(act==='nap'){
+    moveTo(i,centerTo(rc.cx),()=>{if(g!==G)return;setOv(i,'sleep',5000);zzz(i);setTimeout(()=>{if(g===G)zzz(i)},2200);toast(b.name+' tar en tupplur.');
+      setTimeout(()=>{if(g!==G)return;anim(i,'squish',450);done('',4)},5000)});
+  } else if(act==='cuddle'){
+    moveTo(i,mouthTo(rc.cx),()=>{if(g!==G)return;r.bflip.classList.remove('left');anim(i,'hug',1200);heartsAt(i,5);setOv(i,'joy',1600);setTimeout(()=>done(b.name+' kramar morotsgosiset.',5),1200)});
+  } else if(act==='sniff'){
+    moveTo(i,mouthTo(rc.cx),()=>{if(g!==G)return;r.bflip.classList.remove('left');anim(i,'squish',450);sparkles(rc.cx,rc.bot+6,3,true);setOv(i,'joy',1200);setTimeout(()=>done('Mmm, blommor luktar gott!',2),700)});
+  } else if(act==='hay'){
+    moveTo(i,mouthTo(rc.cx),()=>{if(g!==G)return;r.bflip.classList.remove('left');r.bbody.classList.add('munch');setOv(i,'eat',1600);
+      let n=0;const iv=setInterval(()=>{beep(R(180,260),.05,'square');if(++n>5)clearInterval(iv)},240);
+      setTimeout(()=>{if(g!==G)return;r.bbody.classList.remove('munch');setOv(i,'joy',1000);done('Knaper knaper! Hö från höhäcken.',2,10)},1600)});
+  }
+}
+
 /* ---------- Bricka med val ---------- */
 let trayKind=null;
 function openTray(kind){
@@ -1245,7 +1321,7 @@ function openTray(kind){
   trayKind=kind;
   $$('.act').forEach(b=>b.classList.toggle('open',b.dataset.tray===kind));
   let items=[];
-  if(kind==='food')items=Object.keys(FOODS).filter(k=>!FOODS[k].treat||((S.treats||{})[k]||0)>0).map(k=>['food:'+k,'<svg viewBox="0 0 40 40">'+FOODSVG[k]+'</svg>',FOODS[k].name+(FOODS[k].treat?' ('+S.treats[k]+')':'')]);
+  if(kind==='food')items=Object.keys(FOODS).filter(k=>(!FOODS[k].treat||((S.treats||{})[k]||0)>0)&&(!FOODS[k].baby||S.bunnies.some(b=>b.baby))).map(k=>['food:'+k,'<svg viewBox="0 0 40 40">'+FOODSVG[k]+'</svg>',FOODS[k].name+(FOODS[k].treat?' ('+S.treats[k]+')':'')]);
   if(kind==='clean'){items=[['clean:pick','<svg viewBox="0 0 40 30">'+POOP+'</svg>','Plocka bajs'],['clean:straw','<svg viewBox="0 0 40 40">'+BROOM+'</svg>','Nytt strö']];if(S.acc.includes('water'))items.push(['clean:water','<svg viewBox="0 0 40 40">'+WATERICON+'</svg>','Vatten'])}
   if(kind==='love')items=[['love:pat','<svg viewBox="0 0 40 40">'+PATICON+'</svg>','Klappa'],['love:brush','<svg viewBox="0 0 40 40">'+BRUSH+'</svg>','Borsta'],['love:hug','<svg viewBox="0 0 40 40">'+HUGICON+'</svg>','Krama']];
   t.innerHTML=items.map(i=>'<button class="opt" data-do="'+i[0]+'">'+i[1]+i[2]+'</button>').join('');
@@ -1268,6 +1344,7 @@ $('#tray').addEventListener('click',e=>{
 function feed(key){
   closeTray();
   let free=B.map((r,i)=>i).filter(i=>!B[i].busy);
+  if(FOODS[key].baby){free=free.filter(i=>S.bunnies[i].baby);if(!free.length){toast('Vänta lite, ungen är upptagen!');return}}
   if(FOODS[key].treat){const n=(S.treats||{})[key]||0;if(!n)return;free.sort((a,c)=>(c===S.sel)-(a===S.sel));free=free.slice(0,n);S.treats[key]=n-free.length;save()}
   if(free.length===1){feedOne(free[0],key,R(24,72),true);return}
   free.sort((a,c)=>B[a].x-B[c].x);
@@ -1307,8 +1384,8 @@ function cleanAction(v){
   }
   if(v==='water'){
     const w=P.sc.querySelector('.ai-water');
-    if(w){w.classList.remove('glug');void w.offsetWidth;w.classList.add('glug');sparkles(93,72,4)}
-    S.bunnies.forEach(b=>b.love=clamp(b.love+3));beep(300,.3,'sine');toast('Färskt vatten! Klunk klunk.');updateUI();return;
+    if(w){sparkles(93,40,4);beep(300,.3,'sine');toast('Färskt vatten!');B.forEach((r,i)=>setTimeout(()=>useItem('water',w,i),600+i*2400))}
+    return;
   }
   if(v==='straw'){
     sweeping=true;const g=G;
@@ -1745,7 +1822,7 @@ function renderCross(){
     const cls='cwc'+(key===CW.cell?' cur':(o.cells.includes(key)?' inword':''))+(ok?' ok':'');
     h+='<button class="'+cls+'" data-cell="'+key+'">'+(CW.nums.has(key)?'<span class="n">'+CW.nums.get(key)+'</span>':'')+cell.entry+'</button>';
   }
-  const bd=$('#cwBoard');bd.style.gridTemplateColumns='repeat('+CW.W+',1fr)';bd.style.maxWidth=Math.min(window.innerWidth>=700?640:440,CW.W*(window.innerWidth>=700?62:46))+'px';bd.innerHTML=h;
+  const bd=$('#cwBoard');bd.classList.toggle('finished',!!CW.done);bd.style.gridTemplateColumns='repeat('+CW.W+',1fr)';bd.style.maxWidth=Math.min(window.innerWidth>=700?640:440,CW.W*(window.innerWidth>=700?62:46))+'px';bd.innerHTML=h;
   const b=cur();
   $('#cwClue').innerHTML='<span class="cb">'+(b?bunnySVG(furOf(b),cwSolved(CW.word)?'joy':'happy',S.wear[b.id]):'')+'</span><span><small>'+o.num+' '+(o.d==='a'?'vågrätt':'lodrätt')+' · '+o.w.length+' bokstäver</small><br>'+o.clue+'</span>';
   const grp=d=>CW.words.map((x,i)=>[x,i]).filter(p=>p[0].d===d).sort((a,z)=>a[0].num-z[0].num).map(p=>'<button class="cl'+(cwSolved(p[1])?' done':'')+(p[1]===CW.word?' sel':'')+'" data-word="'+p[1]+'"><b>'+p[0].num+'</b>'+p[0].clue+'</button>').join('');
@@ -1787,7 +1864,8 @@ function cwType(ch){
     CW.done=true;const b=cur();S.cwDone=S.cwDone||[];const first=CW.pz>=0&&!S.cwDone.includes(CW.pz);if(first)S.cwDone.push(CW.pz);
     const prize=CW.pz<0?2:(first?CW_LEVELS[CW.lv].prize:0);S.coins+=prize;if(b)b.love=clamp(b.love+5);save();renderWallet();
     setTimeout(()=>{chime();setTimeout(chime,450)},200);
-    $('#cwMsg').textContent='Hurra! Hela korsordet är klart!'+(prize?' Du fick '+prize+' kr.':'')+(CW.pz>=0&&CW.pz<CW_LEVELS.length*CW_PER-1?' Välj nästa nedanför.':'');
+    $('#cwMsg').textContent='Hurra! Korsordet är klart!';
+    setTimeout(()=>cwShowDone(prize),700);
   }
   renderCross();
 }
@@ -1798,7 +1876,21 @@ $('#cwHint').addEventListener('click',()=>{
 });
 $('#cwLevels').addEventListener('click',e=>{const t=e.target.closest('[data-lv]');if(!t)return;const li=+t.dataset.lv,done=S.cwDone||[];let n=li*CW_PER;for(let j=0;j<CW_PER;j++){if(!done.includes(li*CW_PER+j)){n=li*CW_PER+j;break}}buildCross(n);$('#cwMsg').textContent='';beep(650,.1);renderCross()});
 $('#cwPick').addEventListener('click',e=>{const t=e.target.closest('[data-pz]');if(!t)return;buildCross(+t.dataset.pz);$('#cwMsg').textContent='';beep(650,.1);renderCross();});
-$('#cwNew').addEventListener('click',()=>{buildCross(-1);$('#cwMsg').textContent='';beep(600,.12);renderCross()});
+let cwNewArmed=0;
+$('#cwNew').addEventListener('click',()=>{
+  const started=CW&&!CW.done&&[...CW.cells.values()].some(c=>c.entry&&!(CW_LEVELS[CW.lv].give&&CW.words.some(o=>o.cells[0]&&CW.cells.get(o.cells[0])===c)));
+  if(started&&Date.now()-cwNewArmed>3500){cwNewArmed=Date.now();$('#cwNew').textContent='Säker? Allt suddas';beep(300,.12);setTimeout(()=>{$('#cwNew').textContent='Slumpa ett'},3500);return}
+  cwNewArmed=0;$('#cwNew').textContent='Slumpa ett';buildCross(-1);$('#cwMsg').textContent='';beep(600,.12);renderCross();
+});
+function cwShowDone(prize){
+  const last=CW.pz>=0&&CW.pz>=CW_LEVELS.length*CW_PER-1,b=cur();
+  $('#cwDonePic').innerHTML=rosette(1)+(b?'<span class="cdb">'+bunnySVG(furOf(b),'joy',S.wear[b.id])+'</span>':'');
+  $('#cwDoneText').textContent=(CW.pz>=0?'Korsord '+(CW.pz+1)+' är klart!':'Korsordet är klart!')+(prize?' Du fick '+prize+' kr.':'');
+  $('#cwNext').textContent=CW.pz>=0&&!last?'Nästa korsord ('+(CW.pz+2)+')':'Ett nytt korsord';
+  $('#cwDoneSheet').hidden=false;
+}
+$('#cwNext').addEventListener('click',()=>{$('#cwDoneSheet').hidden=true;const n=CW.pz>=0&&CW.pz<CW_LEVELS.length*CW_PER-1?CW.pz+1:-1;buildCross(n);$('#cwMsg').textContent='';beep(650,.1);renderCross();window.scrollTo(0,0)});
+$('#cwStay').addEventListener('click',()=>{$('#cwDoneSheet').hidden=true});
 $('#cwKb').innerHTML=['QWERTYUIOPÅ','ASDFGHJKLÖÄ','ZXCVBNM⌫'].map(row=>'<div class="kbr">'+[...row].map(ch=>'<button class="key'+(ch==='⌫'?' wide':'')+'" data-k="'+ch+'" aria-label="'+(ch==='⌫'?'Sudda':ch)+'">'+ch+'</button>').join('')+'</div>').join('');
 document.addEventListener('keydown',e=>{if($('#s-cross').hidden||!CW)return;const k=e.key.toUpperCase();if(k==='BACKSPACE'){e.preventDefault();cwType('⌫')}else if(/^[A-ZÅÄÖ]$/.test(k)){cwType(k)}});
 
@@ -1868,7 +1960,7 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};openAdopt('first');
 });
-const APP_VERSION='1.21';
+const APP_VERSION='1.22';
 const APP_DATE='25 okt 2026';
 $('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
 $('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
