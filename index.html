@@ -1121,5 +1121,6 @@ if(S.adopted&&S.bunnies.length){catchUp();enterStage('home')}else{openAdopt('fir
 })();
 </script>
 
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
 </body>
 </html>
