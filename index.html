@@ -126,6 +126,8 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .bbody.binky{animation:binky .85s ease-out}
 @keyframes binky{40%{transform:translateY(-60%) rotate(-20deg)}70%{transform:translateY(-28%) rotate(12deg)}}
 .bbody.hug{animation:hug 1.2s ease-in-out}
+.bbody.stomp{animation:stomp .35s ease-in-out 2}
+@keyframes stomp{30%{transform:rotate(-6deg) translateY(-4%)}60%{transform:rotate(3deg)}}
 @keyframes hug{25%{transform:scale(1.18)}50%{transform:scale(1.05)}75%{transform:scale(1.15)}}
 .ears{transform-box:view-box;transform-origin:72px 50px;animation:ear 5s infinite}
 @keyframes ear{0%,88%,100%{transform:rotate(0)}92%{transform:rotate(-7deg)}96%{transform:rotate(5deg)}}
@@ -558,8 +560,8 @@ function outfitOf(w){if(!w)return {};if(typeof w==='string')return {head:w};retu
 function wearDraw(w,slot){const o=outfitOf(w),id=o[slot];return id&&WEAR[id]?WEAR[id].draw:''}
 
 function bunnySVG(f,mood,wear){
-  const sad=mood==='sad', happy=mood==='happy'||mood==='joy', eat=mood==='eat';
-  const eb=sad?-42:-16, ef=sad?-30:8;
+  const sad=mood==='sad', happy=mood==='happy'||mood==='joy', eat=mood==='eat', grumpy=mood==='grumpy';
+  const eb=sad?-42:(grumpy?-55:-16), ef=sad?-30:(grumpy?-46:8);
   const backEar=f.spot||f.shade;
   let eyes, mouth, extra='';
   if(happy){
@@ -568,6 +570,7 @@ function bunnySVG(f,mood,wear){
   } else {
     eyes='<g class="eye"><ellipse cx="89" cy="57" rx="4.8" ry="5.6" fill="'+INK+'"/><circle cx="90.8" cy="54.8" r="1.8" fill="#fff"/></g>';
     if(eat) mouth='<ellipse cx="100" cy="71" rx="3.2" ry="2.6" fill="'+INK+'"/>';
+    else if(grumpy){ mouth='<path d="M95 72h9" stroke="'+INK+'" stroke-width="2.8" stroke-linecap="round"/>'; extra='<path d="M82 47l13 5" stroke="'+INK+'" stroke-width="3.2" stroke-linecap="round"/><g fill="#fff" stroke="#C9C2DC" stroke-width="1"><circle cx="104" cy="38" r="4"/><circle cx="110" cy="31" r="5"/></g>'; }
     else if(sad){ mouth='<path d="M96 73q4-4 8 0" stroke="'+INK+'" stroke-width="2.6" fill="none" stroke-linecap="round"/>'; extra='<path d="M83 48l10 4" stroke="'+INK+'" stroke-width="2.6" stroke-linecap="round"/><path d="M86 64q-2 4 0 6q2-2 0-6Z" fill="#7FD3FF"/>'; }
     else mouth='<path d="M96 69q2 3 4 0q2 3 4 0" stroke="'+INK+'" stroke-width="2.4" fill="none" stroke-linecap="round"/>';
   }
@@ -696,6 +699,8 @@ const FACTS=[
   'En kanin som ligger utsträckt på sidan är lugn och avslappnad.',
   'Kaniner behöver färskt vatten varje dag.',
   'Kaninbajs ser ut som små runda kulor.',
+  'När en kanin stampar med bakfoten säger den: jag är sur eller rädd!',
+  'De flesta kaniner tycker bäst om att bli klappade på huvudet och bakom öronen.',
   'Kaniner kan vrida sina långa öron åt olika håll för att höra bättre.'
 ];
 
@@ -841,7 +846,7 @@ function enterStage(m){
   P={sc,floor:sc.querySelector('.floor'),fx:sc.querySelector('.fx'),dirt:sc.querySelector('.dirt')};
   B=S.bunnies.map((b,i)=>{const el=sc.querySelector('.bunny[data-i="'+i+'"]');return {el,bflip:el.querySelector('.bflip'),bbody:el.querySelector('.bbody'),bubble:el.querySelector('.bubble'),x:START_X[i],y:START_Y[i],busy:false,mood:'',ov:null,ovT:0,lastPet:0}});
   B.forEach((r,i)=>{
-    r.el.addEventListener('pointerdown',()=>pet(i));
+    r.el.addEventListener('pointerdown',e=>pet(i,e));
     r.el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pet(i)}});
     setTimeout(()=>wander(i,g),1600+i*1400);
   });
@@ -941,13 +946,34 @@ function toast(msg,box){
 }
 
 /* ---------- Mys ---------- */
-function pet(i){
+function pet(i,e){
   if(S.sel!==i){S.sel=i;renderTabs()}
   const r=B[i],b=S.bunnies[i];if(!r||r.busy)return;
   const now=Date.now();if(now-r.lastPet<180)return;r.lastPet=now;
+  if(e&&e.clientX!=null){
+    const rc=r.el.getBoundingClientRect(),left=r.bflip.classList.contains('left');
+    let rel=(e.clientX-rc.left)/rc.width;if(left)rel=1-rel;
+    if(rel<.4){push(i);return}
+  }
+  r.pushes=[];
   b.love=clamp(b.love+5);
   heartsAt(i,2);anim(i,'squish',450);setOv(i,'joy',1300);beep(R(880,1100),.12);
   updateUI();
+}
+
+function push(i){
+  const r=B[i],b=S.bunnies[i],g=G,now=Date.now();
+  r.pushes=(r.pushes||[]).filter(t=>now-t<9000);r.pushes.push(now);
+  if(r.pushes.length>=3){
+    r.pushes=[];b.love=clamp(b.love-8);setOv(i,'grumpy',4500);anim(i,'stomp',700);
+    beep(90,.15,'square');setTimeout(()=>beep(80,.15,'square'),220);
+    toast('Dunk! '+b.name+' stampar med bakfoten. Hen blir sur av att bli puttad!');updateUI();return;
+  }
+  const left=r.bflip.classList.contains('left'),max=mode==='meadow'?75:(S.bigHome?77:72);
+  let dir=left?-1:1,tx=r.x+dir*R(18,26);
+  if(tx>max||tx<2){dir=-dir;tx=r.x+dir*R(18,26)}
+  r.busy=true;beep(330,.12,'triangle');
+  moveTo(i,tx,()=>{if(g!==G)return;r.busy=false;if(r.pushes.length===2)toast(b.name+' vill hellre bli klappad på huvudet.');updateUI()});
 }
 
 /* ---------- Bajs ---------- */
@@ -1405,7 +1431,7 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};openAdopt('first');
 });
-const APP_VERSION='1.11';
+const APP_VERSION='1.12';
 const APP_DATE='25 okt 2026';
 $('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
 $('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
