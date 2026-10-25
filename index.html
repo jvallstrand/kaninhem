@@ -364,12 +364,39 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .hb .bbody{transition:transform .15s}
 .hb .bbody.air{transform:rotate(-12deg)}
 .hb .bbody.crawl{transform:translateY(8%) scale(1.1,.7)}
-.hopbtns{display:grid;grid-template-columns:3fr 2fr;gap:10px}
+.hopbtns{display:grid;grid-template-columns:3fr 2fr 2fr;gap:8px}
+.hopbtns .btn{padding:14px 4px;font-size:1.2rem}
+.hcarrot{position:absolute;width:4%;pointer-events:none;animation:bob 1.2s ease-in-out infinite}
+.hcarrot svg{width:100%;display:block}
+.hcarrot.got{animation:gotc .4s ease-out forwards}
+@keyframes gotc{to{transform:translateY(-200%) scale(1.6);opacity:0}}
+.hudmid{display:flex;gap:6px}
+.hud .hc{display:inline-flex;align-items:center;gap:2px}
+.hud .hc svg{width:18px;height:18px}
+.hb .bbody.tr-volt{animation:trv .55s ease-out}
+@keyframes trv{to{transform:rotate(-360deg)}}
+.hb .bbody.tr-dubbel{animation:trd .6s ease-out}
+@keyframes trd{to{transform:rotate(-720deg)}}
+.hb .bbody.tr-skruv{animation:trs .55s ease-out}
+@keyframes trs{50%{transform:scaleX(-1) rotate(-20deg)}100%{transform:scaleX(1)}}
+.hb .bbody.tr-oron{animation:tro .55s ease-in-out}
+@keyframes tro{25%{transform:rotate(25deg)}50%{transform:rotate(-25deg)}75%{transform:rotate(18deg)}}
+.hb .bbody.tr-sprattel{animation:trp .55s ease-in-out}
+@keyframes trp{25%{transform:scale(1.3,.7)}50%{transform:scale(.8,1.3)}75%{transform:scale(1.2,.85)}}
+.hb .bbody.tr-superman{animation:trm .6s ease-out}
+@keyframes trm{40%{transform:translateX(25%) rotate(-30deg) scale(1.25,.85)}}
+.stars{display:inline-flex;gap:2px;align-items:center}
+.clist{display:flex;flex-direction:column;gap:8px}
+.crow{display:flex;align-items:center;gap:8px;background:var(--cream);border-radius:16px;padding:8px 10px}
+.crow.sel{box-shadow:inset 0 0 0 3px var(--green)}
+.crow .cname{flex:1;min-width:0;font-weight:800;display:flex;flex-direction:column;line-height:1.15}
+.crow .btn.small{padding:6px 12px;font-size:.95rem}
 .btn.orange{background:var(--orange);box-shadow:0 6px 0 #D2641E}
 .hb .bbody.spin{animation:hspin .45s ease-out}
 @keyframes hspin{from{transform:rotate(-12deg)}to{transform:rotate(-372deg)}}
 .hud{position:absolute;top:4%;left:4%;right:4%;display:flex;justify-content:space-between;gap:8px;z-index:4;pointer-events:none}
-.hud span{background:var(--paper);border-radius:99px;padding:2px 12px;font-weight:800;font-size:.95rem;font-variant-numeric:tabular-nums}
+.hud{gap:4px}
+.hud > span,.hudmid > span{white-space:nowrap;font-size:.82rem!important;padding:2px 9px!important;background:var(--paper);border-radius:99px;padding:2px 12px;font-weight:800;font-size:.95rem;font-variant-numeric:tabular-nums}
 .hopover{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(43,35,80,.35);z-index:6;padding:10px}
 .hopcard{background:var(--paper);border-radius:24px;padding:12px 16px;display:flex;flex-direction:column;align-items:center;gap:6px;max-width:94%;text-align:center}
 .hopcard p{margin:0;font-weight:700}
@@ -529,17 +556,18 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
       <div class="bg" id="arena"></div>
       <div class="hurdles" id="hurdles"></div>
       <div class="hb" id="hb"></div>
-      <div class="hud"><span id="hudN">Hinder 0 av 8</span><span id="hudF">Fel 0</span></div>
+      <div class="hud"><span id="hudN">Hinder 0 av 8</span><span class="hudmid"><span class="hc"><svg viewBox="0 0 40 40"></svg><b id="hudC">0</b></span><span class="ht">Trix <b id="hudT">0</b></span></span><span id="hudF">Fel 0</span></div>
       <div class="hopover" id="hopOver"></div>
     </div>
-    <div class="hopbtns"><button class="btn big violet" id="jumpBtn" disabled>Hoppa!</button><button class="btn big orange" id="crawlBtn" disabled>Kryp!</button></div>
+    <div class="hopbtns"><button class="btn big violet" id="jumpBtn" disabled>Hoppa!</button><button class="btn big orange" id="crawlBtn" disabled>Kryp!</button><button class="btn big" id="trickBtn" disabled>Trix!</button></div>
     <div class="panel">
       <h2 class="h2">Vem ska hoppa?</h2>
       <div class="btabs" id="hopTabs"></div>
       <h2 class="h2">Svårighet</h2>
       <div class="wtabs" id="levelTabs"></div>
-      <p style="margin:0;font-weight:600">Tryck på Hoppa! (eller på banan) precis före hindret. Tryck en gång till i luften så hoppar kaninen extra högt. Tryck Kryp! precis före tunneln, och hoppa inte över den. Spring upp på brädan och hoppa ner i slutet. I tävlingen ger färre rivningar finare rosett och lite prispeng. På din egen bana kan ni träna hur mycket ni vill.</p>
-      <button class="btn big green" data-go="build">Bygg egen bana</button>
+      <p style="margin:0;font-weight:600">Tryck på Hoppa! (eller på banan) precis före hindret. Tryck en gång till i luften så hoppar kaninen extra högt, och tryck Trix! i luften för konster. Hoppa eller spring på morötterna för att samla dem. Tryck Kryp! precis före tunneln, och hoppa inte över den. Spring upp på brädan och hoppa ner i slutet. I tävlingen ger färre rivningar finare rosett och lite prispeng. På din egen bana kan ni träna hur mycket ni vill.</p>
+      <h2 class="h2">Banor <span class="hint">stjärnorna visar ditt bästa</span></h2>
+      <div class="clist" id="courseList"></div>
     </div>
   </section>
 
@@ -576,7 +604,8 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
   <section id="s-build" hidden>
     <div class="topline"><button class="mini" data-go="hop">Tillbaka</button><h2 class="title2">Bygg en bana</h2></div>
     <div class="panel">
-      <h2 class="h2">Din bana <span class="hint" id="trackCount"></span></h2>
+      <div class="wtabs" id="buildTabs"></div>
+      <h2 class="h2">Hinder <span class="hint" id="trackCount"></span></h2>
       <div class="track" id="track"></div>
       <p class="hint" style="margin:0">Tryck på ett hinder i banan för att ta bort det.</p>
     </div>
@@ -863,7 +892,7 @@ const FACTS=[
 ];
 
 /* ---------- Sparat läge ---------- */
-function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',course:['low','low','high','tunnel','long','high'],hopLevel:'easy',cwDone:[],treats:{},bigHome:false,t:Date.now(),adopted:false,muted:false}}
+function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',course:['low','low','high','tunnel','long','high'],courses:[['low','low','high','tunnel','long','high'],[],[]],editC:0,trainC:'p0',best:{},hopLevel:'easy',cwDone:[],treats:{},bigHome:false,t:Date.now(),adopted:false,muted:false}}
 function migrate(o){
   if(!o||typeof o!=='object')return fresh();
   if(!Array.isArray(o.bunnies)){
@@ -873,6 +902,8 @@ function migrate(o){
   const f=fresh();
   for(const k in f)if(o[k]===undefined)o[k]=f[k];
   for(const k in o.wear)o.wear[k]=outfitOf(o.wear[k]);
+  if(!Array.isArray(o.courses)){o.courses=[Array.isArray(o.course)?o.course:[],[],[]];o.editC=0;o.trainC=(o.course&&o.course.length)?'c0':'p0'}
+  if(o.editC==null)o.editC=0;if(!o.trainC)o.trainC='p0';if(!o.best)o.best={};
   if(!o.bunnies.length)o.adopted=false;
   if(o.sel>=o.bunnies.length)o.sel=0;
   return o;
@@ -1485,25 +1516,48 @@ let H=null;
 $('#arena').innerHTML=ARENA;
 function openHop(){show('s-hop');renderTabs();renderLevels();hopIntro()}
 function setHopBunny(m){const b=cur();$('#hb').innerHTML='<div class="bbody">'+bunnySVG(furOf(b),m,S.wear[b.id])+'</div>'}
-function hopReset(){H=null;$('#hurdles').innerHTML='';$('#hb').style.bottom='14%';$('#hudN').textContent='Hinder 0';$('#hudF').textContent='Fel 0';$('#jumpBtn').disabled=true;$('#crawlBtn').disabled=true}
+function hopReset(){H=null;$('#hurdles').innerHTML='';$('#hb').style.bottom='14%';$('#hudN').textContent='Hinder 0';$('#hudF').textContent='Fel 0';$('#hudC').textContent='0';$('#hudT').textContent='0';$('#jumpBtn').disabled=true;$('#crawlBtn').disabled=true;$('#trickBtn').disabled=true}
+const PRESETS=[
+  {name:'Nybörjarbanan',obs:['low','low','tunnel','low','ramp','low']},
+  {name:'Tunnelbanan',obs:['tunnel','low','tunnel','high','tunnel','ramp','tunnel']},
+  {name:'Hoppbanan',obs:['high','long','high','low','long','high','high']},
+  {name:'Mästarbanan',obs:['high','long','tunnel','ramp','high','long','tunnel','high','ramp','high']}
+];
+function courseObs(id){const n=+id.slice(1);return id[0]==='p'?PRESETS[n].obs:(S.courses[n]||[])}
+function courseName(id){const n=+id.slice(1);return id[0]==='p'?PRESETS[n].name:'Min bana '+(n+1)}
+const STAR='<path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6Z"/>';
+function starsHTML(n,size){return '<span class="stars">'+[0,1,2].map(k=>'<svg viewBox="0 0 24 24" style="width:'+(size||18)+'px;height:'+(size||18)+'px" fill="'+(k<n?'#FFD23F':'#E7E1F4')+'">'+STAR+'</svg>').join('')+'</span>'}
+function renderCourses(){
+  const ids=PRESETS.map((x,k)=>'p'+k).concat([0,1,2].map(k=>'c'+k));
+  $('#courseList').innerHTML=ids.map(id=>{
+    const ob=courseObs(id),best=(S.best||{})[id],own=id[0]==='c';
+    return '<div class="crow'+(S.trainC===id?' sel':'')+'"><span class="cname">'+courseName(id)+'<span class="hint">'+(ob.length?ob.length+' hinder':'tom')+'</span></span>'+starsHTML(best?best.stars:0)+
+      (own?'<button class="btn small" data-edit="'+id+'">Ändra</button>':'')+
+      '<button class="btn small green" data-run="'+id+'"'+(ob.length?'':' disabled')+'>Spring</button></div>';
+  }).join('');
+}
+$('#courseList').addEventListener('click',e=>{
+  const r=e.target.closest('[data-run]'),ed=e.target.closest('[data-edit]');
+  if(r){S.trainC=r.dataset.run;save();renderCourses();hopReset();hopStart('train');window.scrollTo({top:0,behavior:'smooth'})}
+  if(ed){S.editC=+ed.dataset.edit.slice(1);save();openBuild()}
+});
 function hopIntro(){
-  hopReset();
+  hopReset();renderCourses();
   const b=cur();setHopBunny('happy');
   const ov=$('#hopOver');ov.hidden=false;
   if(b.hunger<25){
     setHopBunny('sad');
     ov.innerHTML='<div class="hopcard"><p class="big">'+esc(b.name)+' är för hungrig.</p><p>Mata '+esc(b.name)+' först, sen kan ni hoppa!</p><button class="btn small" data-go="home">Gå hem</button></div>';
   } else {
-    const n=S.course.length;
-    ov.innerHTML='<div class="hopcard"><p class="big">'+esc(b.name)+' är redo!</p><p>Nivå: '+lvl().name+'. Tävla på 8 hinder, eller träna på din egen bana.</p><div class="row"><button class="btn small violet" id="hopRace">Tävla</button><button class="btn small green" id="hopTrain">'+(n?'Min bana ('+n+')':'Bygg en bana')+'</button></div></div>';
+    ov.innerHTML='<div class="hopcard"><p class="big">'+esc(b.name)+' är redo!</p><p>Nivå: '+lvl().name+'. Samla morötter och gör trix i luften!</p><div class="row"><button class="btn small violet" id="hopRace">Tävla</button><button class="btn small green" id="hopTrain">'+courseName(S.trainC)+'</button></div></div>';
   }
 }
 function hopStart(m){
   if(cur().hunger<25){hopIntro();return}
   let types;
   if(m==='race'){const pool=['low','low','high','high','long','tunnel','ramp'];types=[];for(let k=0;k<8;k++)types.push(pool[Math.floor(Math.random()*pool.length)])}
-  else{types=S.course.slice();if(!types.length){openBuild();return}}
-  H={mode:m,lv:lvl(),obs:[],x:[],els:[],knocked:[],done:[],touched:[],jumped:[],gnd:0,crawlUntil:0,inTunnel:false,rampK:-1,rampTop:false,passed:0,faults:0,y:0,vy:0,dbl:false,running:true,last:performance.now(),ended:false};
+  else{types=courseObs(S.trainC).slice();if(!types.length){openBuild();return}}
+  H={mode:m,lv:lvl(),obs:[],x:[],els:[],knocked:[],done:[],touched:[],jumped:[],gnd:0,crawlUntil:0,inTunnel:false,cid:m==='race'?'race':S.trainC,car:[],got:0,tricks:0,tpts:0,airTricks:0,rampK:-1,rampTop:false,passed:0,faults:0,y:0,vy:0,dbl:false,running:true,last:performance.now(),ended:false};
   const box=$('#hurdles');box.innerHTML='';
   let x=1.1;
   types.forEach((t,k)=>{
@@ -1513,8 +1567,16 @@ function hopStart(m){
     el.innerHTML=o.svg(HCOL[k%4]);el.style.left=(x*100)+'%';box.appendChild(el);
     H.obs.push(t);H.x.push(x);H.els.push(el);x+=o.w+(m==='race'?R(.58,.88):.7);
   });
-  $('#hudN').textContent='Hinder 0 av '+types.length;$('#hudF').textContent='Fel 0';
-  $('#hopOver').hidden=true;$('#jumpBtn').disabled=false;$('#crawlBtn').disabled=false;
+  for(let k=0;k<H.obs.length;k++){
+    const o=OBS[H.obs[k]],gap=(k+1<H.obs.length?H.x[k+1]:H.x[k]+o.w+.6)-(H.x[k]+o.w);
+    if(gap<.3)continue;
+    const cx=H.x[k]+o.w+gap*(H.obs[k]==='ramp'?.25:.5),air=Math.random()<.55,cy=air?R(.1,.16):.02;
+    const el=document.createElement('div');el.className='hcarrot';el.innerHTML='<svg viewBox="0 0 40 40">'+FOODSVG.carrot+'</svg>';
+    el.style.left=(cx*100)+'%';el.style.bottom=(14+cy/.6*100)+'%';box.appendChild(el);H.car.push({x:cx,y:cy,el,got:false});
+  }
+  $('#hudC').textContent='0';$('#hudT').textContent='0';
+  $('#hudN').textContent='Hinder 0/'+types.length;$('#hudF').textContent='Fel 0';
+  $('#hopOver').hidden=true;$('#jumpBtn').disabled=false;$('#crawlBtn').disabled=false;$('#trickBtn').disabled=false;
   setHopBunny('happy');$('#hb .bbody').classList.add('hopping');
   beep(660,.12,'triangle');
   requestAnimationFrame(hopStep);
@@ -1542,6 +1604,19 @@ function hopCrawl(){
   if(!H||!H.running||H.y>(H.gnd||0)+.002)return;
   H.crawlUntil=performance.now()+2200;const bb=$('#hb .bbody');bb.classList.remove('hopping');bb.classList.add('crawl');beep(260,.18,'sine');
 }
+const TRICKS=[['volt','Volt!'],['skruv','Skruven!'],['oron','Öronpropellern!'],['sprattel','Sprattelhoppet!'],['superman','Superkaninen!'],['dubbel','Dubbelvolt!']];
+function hopTrick(){
+  if(!H||!H.running)return;
+  if(H.y<=(H.gnd||0)+.01){toast('Hoppa först, gör trix i luften!',$('#course'));return}
+  if(H.airTricks>=2)return;
+  const t=TRICKS[Math.floor(Math.random()*TRICKS.length)],bb=$('#hb .bbody');
+  H.airTricks++;H.tricks++;const pts=H.airTricks===2?15:10;H.tpts+=pts;
+  if(H.vy<.3)H.vy=Math.max(H.vy,.3);
+  TRICKS.forEach(x=>bb.classList.remove('tr-'+x[0]));void bb.offsetWidth;bb.classList.add('tr-'+t[0]);
+  setTimeout(()=>bb.classList.remove('tr-'+t[0]),600);
+  beep(1000,.08,'triangle');setTimeout(()=>beep(1300,.1,'triangle'),90);
+  toast(t[1]+' +'+pts,$('#course'));$('#hudT').textContent=H.tpts;
+}
 function hopFault(k,msg){H.knocked[k]=true;H.faults++;beep(160,.25,'square');$('#hudF').textContent='Fel '+H.faults;toast(msg,$('#course'))}
 function hopStep(now){
   if(!H||!H.running)return;
@@ -1552,7 +1627,7 @@ function hopStep(now){
   const gnd=groundAt();H.gnd=gnd;
   if(H.vy>0||H.y>gnd+.002){
     H.vy-=3*dt;H.y+=H.vy*dt;
-    if(H.y<=gnd&&H.vy<=0){H.y=gnd;H.vy=0;H.dbl=false;const bb=$('#hb .bbody');bb.classList.remove('air','spin');bb.classList.add('hopping')}
+    if(H.y<=gnd&&H.vy<=0){H.y=gnd;H.vy=0;H.dbl=false;H.airTricks=0;const bb=$('#hb .bbody');bb.classList.remove('air','spin');bb.classList.add('hopping')}
   } else {H.y=gnd;H.vy=0}
   if(H.rampK>=0&&H.y<=gnd+.002)H.touched[H.rampK]=true;
   const crawling=H.crawlUntil>now||H.inTunnel;
@@ -1569,7 +1644,7 @@ function hopStep(now){
       else H.inTunnel=true;
     }
     if(H.x[k]+o.w<(t==='ramp'?CX:b0)){
-      H.done[k]=true;H.passed++;$('#hudN').textContent='Hinder '+H.passed+' av '+N;
+      H.done[k]=true;H.passed++;$('#hudN').textContent='Hinder '+H.passed+'/'+N;
       if(t==='tunnel'){H.inTunnel=false;H.crawlUntil=0;if(!H.knocked[k]){beep(300,.25,'sine');toast('Genom tunneln!',$('#course'))}}
       else if(t==='ramp'){
         if(!H.touched[k])hopFault(k,'Spring upp på brädan!');
@@ -1579,33 +1654,43 @@ function hopStep(now){
       else if(!H.knocked[k])beep(880,.12,'triangle');
     }
   }
+  H.car.forEach(c=>{
+    if(c.got)return;c.x-=v*dt;c.el.style.left=(c.x*100)+'%';
+    if(c.x>.13&&c.x<.24&&c.y>H.y-.02&&c.y<H.y+.13){c.got=true;H.got++;c.el.classList.add('got');beep(1300,.07,'triangle');$('#hudC').textContent=H.got}
+  });
   $('#hb').style.bottom=(14+H.y/.6*100)+'%';
   if(H.passed===N&&!H.ended){H.ended=true;setTimeout(hopFinish,700)}
   requestAnimationFrame(hopStep);
 }
 function hopFinish(){
   if(!H)return;
-  H.running=false;$('#jumpBtn').disabled=true;$('#crawlBtn').disabled=true;
+  H.running=false;$('#jumpBtn').disabled=true;$('#crawlBtn').disabled=true;$('#trickBtn').disabled=true;
   const ot=$('#course > .toast');if(ot)ot.remove();
   const b=cur();
   $('#hb .bbody').classList.remove('hopping');setHopBunny('joy');chime();
-  const faultTxt=H.faults===0?'Felfritt!':(H.faults+' fel.');
+  const nc=H.car.length,stars=1+(H.faults<=1?1:0)+(nc&&H.got>=Math.ceil(nc*.8)?1:0);
+  S.best=S.best||{};const prev=S.best[H.cid]||{stars:0,tpts:0};
+  const rec=stars>prev.stars||H.tpts>prev.tpts;
+  if(H.cid!=='race')S.best[H.cid]={stars:Math.max(stars,prev.stars),tpts:Math.max(H.tpts,prev.tpts)};
+  const stats='<p>'+(H.faults===0?'Felfritt!':H.faults+' fel')+' · Morötter '+H.got+' av '+nc+' · Trix '+H.tpts+' poäng</p>';
+  b.hunger=clamp(b.hunger-8+Math.min(6,H.got));
   const ov=$('#hopOver');ov.hidden=false;
   if(H.mode==='race'){
     const place=H.faults===0?1:(H.faults<=2?2:3),prize=H.lv.prize[place];
-    S.coins+=prize;b.hunger=clamp(b.hunger-10);b.love=clamp(b.love+8);save();renderWallet();
+    S.coins+=prize;b.love=clamp(b.love+8);save();renderWallet();
     const placeTxt=['','1:a','2:a','3:e'][place];
-    ov.innerHTML='<div class="hopcard">'+rosette(place)+'<p class="big">'+esc(b.name)+' kom på '+placeTxt+' plats!</p><p>'+faultTxt+' Nivå: '+H.lv.name+'. Prispeng: '+prize+' kr</p><div class="row"><button class="btn small violet" id="hopAgain">Hoppa igen</button><button class="btn small" data-go="home">Gå hem</button></div></div>';
+    ov.innerHTML='<div class="hopcard">'+rosette(place)+'<p class="big">'+esc(b.name)+' kom på '+placeTxt+' plats!</p>'+starsHTML(stars,26)+stats+'<p>Prispeng: '+prize+' kr</p><div class="row"><button class="btn small violet" id="hopAgain">Hoppa igen</button><button class="btn small" data-go="home">Hem</button></div></div>';
   } else {
-    b.hunger=clamp(b.hunger-5);b.love=clamp(b.love+5);save();
-    ov.innerHTML='<div class="hopcard"><p class="big">Bra tränat, '+esc(b.name)+'!</p><p>'+faultTxt+'</p><div class="row"><button class="btn small green" id="hopTrainAgain">Spring igen</button><button class="btn small violet" data-go="build">Ändra banan</button><button class="btn small" data-go="home">Hem</button></div></div>';
+    b.love=clamp(b.love+5);save();renderCourses();
+    ov.innerHTML='<div class="hopcard"><p class="big">'+(rec&&prev.stars+prev.tpts>0?'Nytt rekord! ':'')+'Bra sprunget, '+esc(b.name)+'!</p>'+starsHTML(stars,26)+stats+'<div class="row"><button class="btn small green" id="hopTrainAgain">Spring igen</button><button class="btn small" id="hopMenu">Välj bana</button></div></div>';
   }
 }
 $('#course').addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;hopJump()});
 $('#jumpBtn').addEventListener('pointerdown',e=>{e.preventDefault();hopJump()});
 $('#crawlBtn').addEventListener('pointerdown',e=>{e.preventDefault();hopCrawl()});
-$('#hopOver').addEventListener('click',e=>{const id=e.target.id;if(id==='hopRace')hopStart('race');if(id==='hopTrain'){if(S.course.length)hopStart('train');else openBuild()}if(id==='hopAgain')hopIntro();if(id==='hopTrainAgain')hopStart('train')});
-document.addEventListener('keydown',e=>{if($('#s-hop').hidden)return;if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();hopJump()}if(e.code==='ArrowDown'){e.preventDefault();hopCrawl()}});
+$('#trickBtn').addEventListener('pointerdown',e=>{e.preventDefault();hopTrick()});
+$('#hopOver').addEventListener('click',e=>{const id=e.target.id;if(id==='hopRace')hopStart('race');if(id==='hopTrain'){if(courseObs(S.trainC).length)hopStart('train');else openBuild()}if(id==='hopAgain')hopIntro();if(id==='hopTrainAgain')hopStart('train');if(id==='hopMenu'){hopIntro();$('#courseList').scrollIntoView({behavior:'smooth'})}});
+document.addEventListener('keydown',e=>{if($('#s-hop').hidden)return;if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();hopJump()}if(e.code==='ArrowDown'){e.preventDefault();hopCrawl()}if(e.code==='KeyT'||e.code==='ArrowRight'){e.preventDefault();hopTrick()}});
 
 /* ---------- Utklädningstävling ---------- */
 const THEMES=[
@@ -1716,17 +1801,19 @@ const MAXOBS=10;
 function obsIcon(t){return t==='tunnel'?tunnelSVG():OBS[t].svg('#7B5CFF')}
 function openBuild(){renderBuild();show('s-build')}
 function renderBuild(){
-  const c=S.course;
+  const c=S.courses[S.editC];
+  $('#buildTabs').innerHTML=[0,1,2].map(k=>'<button class="wtab'+(k===S.editC?' sel':'')+'" data-ec="'+k+'">Min bana '+(k+1)+'</button>').join('');
   $('#trackCount').textContent=c.length+' av '+MAXOBS;
   $('#track').innerHTML=c.length?c.map((t,i)=>'<button class="tslot" data-rm="'+i+'" aria-label="Ta bort '+OBS[t].name+'"><span class="num">'+(i+1)+'</span>'+obsIcon(t)+OBS[t].name+'</button>').join(''):'<div class="tempty">Banan är tom. Lägg till hinder nedanför!</div>';
   $('#palette').innerHTML=OBS_ORDER.map(t=>'<button class="opt" data-add="'+t+'">'+obsIcon(t)+OBS[t].name+'</button>').join('');
   $('#buildRun').disabled=!c.length;
 }
-$('#palette').addEventListener('click',e=>{const t=e.target.closest('[data-add]');if(!t)return;if(S.course.length>=MAXOBS){beep(220,.15,'triangle');$('#trackCount').textContent='Banan är full ('+MAXOBS+' hinder)';return}S.course.push(t.dataset.add);beep(700,.1,'triangle');save();renderBuild();const tr=$('#track');tr.scrollLeft=tr.scrollWidth});
-$('#track').addEventListener('click',e=>{const t=e.target.closest('[data-rm]');if(!t)return;S.course.splice(+t.dataset.rm,1);beep(400,.1);save();renderBuild()});
-$('#buildRandom').addEventListener('click',()=>{const n=6+Math.floor(Math.random()*3);S.course=[];for(let k=0;k<n;k++)S.course.push(OBS_ORDER[Math.floor(Math.random()*OBS_ORDER.length)]);beep(600,.12);save();renderBuild()});
-$('#buildClear').addEventListener('click',()=>{S.course=[];beep(400,.1);save();renderBuild()});
-$('#buildRun').addEventListener('click',()=>{if(!S.course.length)return;show('s-hop');renderTabs();renderLevels();hopReset();hopStart('train')});
+$('#palette').addEventListener('click',e=>{const t=e.target.closest('[data-add]');if(!t)return;if(S.courses[S.editC].length>=MAXOBS){beep(220,.15,'triangle');$('#trackCount').textContent='Banan är full ('+MAXOBS+' hinder)';return}S.courses[S.editC].push(t.dataset.add);beep(700,.1,'triangle');save();renderBuild();const tr=$('#track');tr.scrollLeft=tr.scrollWidth});
+$('#track').addEventListener('click',e=>{const t=e.target.closest('[data-rm]');if(!t)return;S.courses[S.editC].splice(+t.dataset.rm,1);beep(400,.1);save();renderBuild()});
+$('#buildRandom').addEventListener('click',()=>{const n=6+Math.floor(Math.random()*3);S.courses[S.editC]=[];for(let k=0;k<n;k++)S.courses[S.editC].push(OBS_ORDER[Math.floor(Math.random()*OBS_ORDER.length)]);beep(600,.12);save();renderBuild()});
+$('#buildClear').addEventListener('click',()=>{S.courses[S.editC]=[];beep(400,.1);save();renderBuild()});
+$('#buildTabs').addEventListener('click',e=>{const t=e.target.closest('[data-ec]');if(!t)return;S.editC=+t.dataset.ec;beep(650,.08);save();renderBuild()});
+$('#buildRun').addEventListener('click',()=>{if(!S.courses[S.editC].length)return;S.trainC='c'+S.editC;show('s-hop');renderTabs();renderLevels();hopReset();hopStart('train')});
 
 /* ---------- Kaninkorsord ---------- */
 const CROSSWORDS=[
@@ -1943,7 +2030,7 @@ $$('svg.coin').forEach(s=>s.innerHTML=COIN);
 $('.ic-food').innerHTML=FOODSVG.carrot.replace(/#FF8A3D/g,'#fff').replace(/#E06A1E/g,'#FF8A3D').replace(/#4FB43A/g,'#fff');
 $('.ic-clean').innerHTML=BROOM.replace(/#B5793F/g,'#fff').replace(/#FBD866|#E2B23C/g,'#fff').replace(/#FF5DA2/g,'#10978A');
 $('.ic-love').innerHTML=HEART.replace('#FF5DA2','#fff');
-$('.ic-meadow').innerHTML=MEADOWICON;$('.ic-dress').innerHTML=DRESSICON;$('.ic-cross').innerHTML=CROSSICON;$('.ic-hop').innerHTML=HOPICON;$('.ic-shop').innerHTML=SHOPICON;
+$('.ic-meadow').innerHTML=MEADOWICON;$('.hc svg').innerHTML=FOODSVG.carrot;$('.ic-dress').innerHTML=DRESSICON;$('.ic-cross').innerHTML=CROSSICON;$('.ic-hop').innerHTML=HOPICON;$('.ic-shop').innerHTML=SHOPICON;
 
 /* Meny */
 function syncSound(){$('#mSound').textContent='Ljud: '+(S.muted?'av':'på')}
@@ -1960,7 +2047,7 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};openAdopt('first');
 });
-const APP_VERSION='1.22';
+const APP_VERSION='1.23';
 const APP_DATE='25 okt 2026';
 $('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
 $('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
