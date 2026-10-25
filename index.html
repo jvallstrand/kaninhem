@@ -249,7 +249,8 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .tslot svg{width:44px;height:36px}
 .tslot .num{position:absolute;top:3px;left:8px;font-size:.75rem;opacity:.55}
 .tempty{flex:1;display:grid;place-items:center;font-weight:700;opacity:.6;text-align:center;padding:0 8px}
-.palette{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.palette{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.palette .opt{font-size:.78rem;padding:6px 2px;line-height:1.1;text-align:center}
 .palette .opt svg{width:48px;height:40px}
 .row2{display:flex;gap:8px;flex-wrap:wrap}
 .row2 .btn{flex:1 1 auto}
@@ -424,7 +425,7 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
       <div class="bg" id="arena"></div>
       <div class="hurdles" id="hurdles"></div>
       <div class="hb" id="hb"></div>
-      <div class="hud"><span id="hudN">Hinder 0 av 8</span><span id="hudF">Rivningar 0</span></div>
+      <div class="hud"><span id="hudN">Hinder 0 av 8</span><span id="hudF">Fel 0</span></div>
       <div class="hopover" id="hopOver"></div>
     </div>
     <button class="btn big violet" id="jumpBtn" disabled>Hoppa!</button>
@@ -433,7 +434,7 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
       <div class="btabs" id="hopTabs"></div>
       <h2 class="h2">Svårighet</h2>
       <div class="wtabs" id="levelTabs"></div>
-      <p style="margin:0;font-weight:600">Tryck på Hoppa! (eller på banan) precis före hindret. Tryck en gång till i luften så hoppar kaninen extra högt. I tävlingen ger färre rivningar finare rosett och lite prispeng. På din egen bana kan ni träna hur mycket ni vill.</p>
+      <p style="margin:0;font-weight:600">Tryck på Hoppa! (eller på banan) precis före hindret. Tryck en gång till i luften så hoppar kaninen extra högt. Kryp genom tunneln (hoppa inte), spring upp på brädan och hoppa ner i slutet. I tävlingen ger färre rivningar finare rosett och lite prispeng. På din egen bana kan ni träna hur mycket ni vill.</p>
       <button class="btn big green" data-go="build">Bygg egen bana</button>
     </div>
   </section>
@@ -1164,14 +1165,16 @@ $('#weekBtn').addEventListener('click',()=>{
 const HCOL=['#FF5DA2','#19C3B2','#7B5CFF','#FF8A3D'];
 function lowSVG(c){return '<svg viewBox="0 0 40 60"><rect x="1" y="28" width="7" height="32" rx="3" fill="#fff"/><rect x="32" y="28" width="7" height="32" rx="3" fill="#fff"/><g fill="'+c+'"><rect x="1" y="42" width="7" height="6"/><rect x="32" y="42" width="7" height="6"/></g><rect class="hbar" x="3" y="32" width="34" height="6" rx="3" fill="'+c+'"/></svg>'}
 function longSVG(c){return '<svg viewBox="0 0 100 60"><g fill="#fff"><rect x="1" y="30" width="6" height="30" rx="3"/><rect x="47" y="30" width="6" height="30" rx="3"/><rect x="93" y="30" width="6" height="30" rx="3"/></g><rect class="hbar" x="3" y="34" width="47" height="5" rx="2.5" fill="'+c+'"/><rect class="hbar" x="50" y="34" width="47" height="5" rx="2.5" fill="'+c+'"/><path d="M8 56h84" stroke="#fff" stroke-width="3" stroke-dasharray="6 6"/></svg>'}
+function rampSVG(){return '<svg viewBox="0 0 300 80"><g stroke="#A0652F" stroke-width="8" stroke-linecap="round"><path d="M160 26V78M286 26V78"/></g><path d="M0 80L120 8H300V26H128L18 80Z" fill="#19C3B2"/><path d="M4 79L120 10H298" stroke="#7FE3D8" stroke-width="4" fill="none"/><g stroke="#0E9C8E" stroke-width="3"><path d="M40 62l8 10M70 44l8 10M100 26l8 10M150 10v14M190 10v14M230 10v14M270 10v14"/></g><rect x="272" y="8" width="28" height="18" fill="#FF5DA2"/><path d="M286 8V-14" stroke="#fff" stroke-width="3"/><path d="M286 -14l16 6-16 6Z" fill="#FFD23F"/></svg>'}
 function tunnelSVG(){return '<svg viewBox="0 0 120 80"><rect x="4" y="18" width="112" height="62" rx="28" fill="#FF8A3D"/><g fill="#FFB070"><rect x="30" y="18" width="10" height="62"/><rect x="56" y="18" width="10" height="62"/><rect x="82" y="18" width="10" height="62"/></g><ellipse cx="10" cy="50" rx="8" ry="30" fill="#5A2E14"/><ellipse cx="110" cy="50" rx="8" ry="30" fill="#5A2E14"/></svg>'}
 const OBS={
   low:{name:'Lågt hinder',w:.05,h:.036,svg:c=>lowSVG(c)},
   high:{name:'Högt hinder',w:.05,h:.06,svg:c=>hurdleSVG(c)},
   long:{name:'Långhopp',w:.11,h:.032,svg:c=>longSVG(c)},
-  tunnel:{name:'Tunnel',w:.15,h:0,svg:()=>tunnelSVG()}
+  tunnel:{name:'Tunnel',w:.15,h:0,svg:()=>tunnelSVG()},
+  ramp:{name:'Bräda',w:.3,h:0,svg:()=>rampSVG()}
 };
-const OBS_ORDER=['low','high','long','tunnel'];
+const OBS_ORDER=['low','high','long','tunnel','ramp'];
 const LEVELS={
   easy:{name:'Lätt',v0:.28,dv:.06,h:.7,b0:.15,b1:.21,prize:[0,6,4,2]},
   mid:{name:'Medel',v0:.36,dv:.1,h:1,b0:.14,b1:.22,prize:[0,10,6,3]},
@@ -1184,7 +1187,7 @@ let H=null;
 $('#arena').innerHTML=ARENA;
 function openHop(){show('s-hop');renderTabs();renderLevels();hopIntro()}
 function setHopBunny(m){const b=cur();$('#hb').innerHTML='<div class="bbody">'+bunnySVG(furOf(b),m,S.wear[b.id])+'</div>'}
-function hopReset(){H=null;$('#hurdles').innerHTML='';$('#hb').style.bottom='14%';$('#hudN').textContent='Hinder 0';$('#hudF').textContent='Rivningar 0';$('#jumpBtn').disabled=true}
+function hopReset(){H=null;$('#hurdles').innerHTML='';$('#hb').style.bottom='14%';$('#hudN').textContent='Hinder 0';$('#hudF').textContent='Fel 0';$('#jumpBtn').disabled=true}
 function hopIntro(){
   hopReset();
   const b=cur();setHopBunny('happy');
@@ -1200,9 +1203,9 @@ function hopIntro(){
 function hopStart(m){
   if(cur().hunger<25){hopIntro();return}
   let types;
-  if(m==='race'){const pool=['low','low','high','high','long'];types=[];for(let k=0;k<8;k++)types.push(pool[Math.floor(Math.random()*pool.length)])}
+  if(m==='race'){const pool=['low','low','high','high','long','tunnel','ramp'];types=[];for(let k=0;k<8;k++)types.push(pool[Math.floor(Math.random()*pool.length)])}
   else{types=S.course.slice();if(!types.length){openBuild();return}}
-  H={mode:m,lv:lvl(),obs:[],x:[],els:[],knocked:[],done:[],passed:0,faults:0,y:0,vy:0,dbl:false,running:true,last:performance.now(),ended:false};
+  H={mode:m,lv:lvl(),obs:[],x:[],els:[],knocked:[],done:[],touched:[],jumped:[],gnd:0,rampK:-1,rampTop:false,passed:0,faults:0,y:0,vy:0,dbl:false,running:true,last:performance.now(),ended:false};
   const box=$('#hurdles');box.innerHTML='';
   let x=1.1;
   types.forEach((t,k)=>{
@@ -1212,38 +1215,59 @@ function hopStart(m){
     el.innerHTML=o.svg(HCOL[k%4]);el.style.left=(x*100)+'%';box.appendChild(el);
     H.obs.push(t);H.x.push(x);H.els.push(el);x+=o.w+(m==='race'?R(.58,.88):.7);
   });
-  $('#hudN').textContent='Hinder 0 av '+types.length;$('#hudF').textContent='Rivningar 0';
+  $('#hudN').textContent='Hinder 0 av '+types.length;$('#hudF').textContent='Fel 0';
   $('#hopOver').hidden=true;$('#jumpBtn').disabled=false;
   setHopBunny('happy');$('#hb .bbody').classList.add('hopping');
   beep(660,.12,'triangle');
   requestAnimationFrame(hopStep);
 }
+const CX=.18,RAMP={w:.3,up:.12,h:.07};
+function groundAt(){
+  let g=0;H.rampK=-1;H.rampTop=false;
+  for(let k=0;k<H.obs.length;k++){
+    if(H.obs[k]!=='ramp')continue;
+    const rel=CX-H.x[k];
+    if(rel>=0&&rel<=RAMP.w){g=rel<RAMP.up?RAMP.h*rel/RAMP.up:RAMP.h;H.rampK=k;H.rampTop=rel>=RAMP.up}
+  }
+  return g;
+}
 function hopJump(){
   if(!H||!H.running)return;
   const bb=$('#hb .bbody');
-  if(H.y<=0.001&&H.vy<=0){H.vy=1.0;H.dbl=false;bb.classList.remove('hopping');bb.classList.add('air');beep(520,.15,'triangle');return}
+  if(H.y<=(H.gnd||0)+.002&&H.vy<=0){
+    if(H.rampK>=0&&H.rampTop)H.jumped[H.rampK]=true;
+    H.vy=1.0;H.dbl=false;bb.classList.remove('hopping');bb.classList.add('air');beep(520,.15,'triangle');return;
+  }
   if(!H.dbl){H.dbl=true;H.vy=Math.max(H.vy,0)+.75;beep(780,.18,'triangle');bb.classList.remove('spin');void bb.offsetWidth;bb.classList.add('spin')}
 }
+function hopFault(k,msg){H.knocked[k]=true;H.faults++;beep(160,.25,'square');$('#hudF').textContent='Fel '+H.faults;toast(msg,$('#course'))}
 function hopStep(now){
   if(!H||!H.running)return;
   const N=H.obs.length;
   const dt=Math.min(.05,(now-H.last)/1000);H.last=now;
   const L=H.lv,v=L.v0+L.dv*(H.passed/N);
-  if(H.y>0||H.vy>0){
+  for(let k=0;k<N;k++){H.x[k]-=v*dt;H.els[k].style.left=(H.x[k]*100)+'%'}
+  const gnd=groundAt();H.gnd=gnd;
+  if(H.vy>0||H.y>gnd+.002){
     H.vy-=3*dt;H.y+=H.vy*dt;
-    if(H.y<=0){H.y=0;H.vy=0;H.dbl=false;const bb=$('#hb .bbody');bb.classList.remove('air','spin');bb.classList.add('hopping')}
-  }
+    if(H.y<=gnd&&H.vy<=0){H.y=gnd;H.vy=0;H.dbl=false;const bb=$('#hb .bbody');bb.classList.remove('air','spin');bb.classList.add('hopping')}
+  } else {H.y=gnd;H.vy=0}
+  if(H.rampK>=0&&H.y<=gnd+.002)H.touched[H.rampK]=true;
   const b0=L.b0,b1=L.b1;
   for(let k=0;k<N;k++){
-    const o=OBS[H.obs[k]];
-    H.x[k]-=v*dt;H.els[k].style.left=(H.x[k]*100)+'%';
-    if(o.h>0&&!H.knocked[k]&&!H.done[k]&&H.x[k]<b1&&H.x[k]+o.w>b0&&H.y<o.h*L.h){
-      H.knocked[k]=true;H.faults++;H.els[k].classList.add('knock');beep(160,.25,'square');
-      $('#hudF').textContent='Rivningar '+H.faults;toast('Rivning! Det gör inget.',$('#course'));
-    }
-    if(!H.done[k]&&H.x[k]+o.w<b0){
+    const t=H.obs[k],o=OBS[t];
+    if(H.done[k])continue;
+    const over=H.x[k]<b1&&H.x[k]+o.w>b0;
+    if(o.h>0&&!H.knocked[k]&&over&&H.y<o.h*L.h){H.els[k].classList.add('knock');hopFault(k,'Rivning! Det gör inget.')}
+    if(t==='tunnel'&&!H.knocked[k]&&over&&H.y>.02)hopFault(k,'Kryp genom tunneln, hoppa inte över!');
+    if(H.x[k]+o.w<(t==='ramp'?CX:b0)){
       H.done[k]=true;H.passed++;$('#hudN').textContent='Hinder '+H.passed+' av '+N;
-      if(H.obs[k]==='tunnel'){beep(300,.25,'sine');if(H.y<=0.001)toast('Genom tunneln!',$('#course'))}
+      if(t==='tunnel'){if(!H.knocked[k]){beep(300,.25,'sine');toast('Genom tunneln!',$('#course'))}}
+      else if(t==='ramp'){
+        if(!H.touched[k])hopFault(k,'Spring upp på brädan!');
+        else if(!H.jumped[k])hopFault(k,'Ploff! Hoppa ner i slutet av brädan.');
+        else{beep(880,.12,'triangle');toast('Snyggt hopp ner!',$('#course'))}
+      }
       else if(!H.knocked[k])beep(880,.12,'triangle');
     }
   }
@@ -1254,9 +1278,10 @@ function hopStep(now){
 function hopFinish(){
   if(!H)return;
   H.running=false;$('#jumpBtn').disabled=true;
+  const ot=$('#course > .toast');if(ot)ot.remove();
   const b=cur();
   $('#hb .bbody').classList.remove('hopping');setHopBunny('joy');chime();
-  const faultTxt=H.faults===0?'Felfritt! Inga rivningar.':(H.faults===1?'1 rivning.':H.faults+' rivningar.');
+  const faultTxt=H.faults===0?'Felfritt!':(H.faults+' fel.');
   const ov=$('#hopOver');ov.hidden=false;
   if(H.mode==='race'){
     const place=H.faults===0?1:(H.faults<=2?2:3),prize=H.lv.prize[place];
@@ -1390,7 +1415,7 @@ function renderBuild(){
 }
 $('#palette').addEventListener('click',e=>{const t=e.target.closest('[data-add]');if(!t)return;if(S.course.length>=MAXOBS){beep(220,.15,'triangle');$('#trackCount').textContent='Banan är full ('+MAXOBS+' hinder)';return}S.course.push(t.dataset.add);beep(700,.1,'triangle');save();renderBuild();const tr=$('#track');tr.scrollLeft=tr.scrollWidth});
 $('#track').addEventListener('click',e=>{const t=e.target.closest('[data-rm]');if(!t)return;S.course.splice(+t.dataset.rm,1);beep(400,.1);save();renderBuild()});
-$('#buildRandom').addEventListener('click',()=>{const n=6+Math.floor(Math.random()*3);S.course=[];for(let k=0;k<n;k++)S.course.push(OBS_ORDER[Math.floor(Math.random()*4)]);beep(600,.12);save();renderBuild()});
+$('#buildRandom').addEventListener('click',()=>{const n=6+Math.floor(Math.random()*3);S.course=[];for(let k=0;k<n;k++)S.course.push(OBS_ORDER[Math.floor(Math.random()*OBS_ORDER.length)]);beep(600,.12);save();renderBuild()});
 $('#buildClear').addEventListener('click',()=>{S.course=[];beep(400,.1);save();renderBuild()});
 $('#buildRun').addEventListener('click',()=>{if(!S.course.length)return;show('s-hop');renderTabs();renderLevels();hopReset();hopStart('train')});
 
@@ -1431,7 +1456,7 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};openAdopt('first');
 });
-const APP_VERSION='1.12';
+const APP_VERSION='1.13';
 const APP_DATE='25 okt 2026';
 $('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
 $('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
