@@ -2,7 +2,7 @@
 <html lang="sv">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -23,7 +23,9 @@
   --font:'Baloo 2', ui-rounded, 'Arial Rounded MT Bold', system-ui, sans-serif;
   color-scheme: light;
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box;touch-action:manipulation}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;overscroll-behavior:none}
+button,[role=button]{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 html,body{min-height:100%}
 body{
   background-color:var(--sun);
@@ -37,6 +39,7 @@ body{
   padding-right:max(16px, env(safe-area-inset-right, 0px));
   padding-block:14px 32px;
   -webkit-tap-highlight-color:transparent;
+  overscroll-behavior:none;
 }
 .app{max-width:520px;margin:0 auto}
 section,.group{display:flex;flex-direction:column;gap:14px}
@@ -268,6 +271,15 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .cl b{margin-right:8px;color:var(--violet)}
 .cl.done{text-decoration:line-through;opacity:.5}
 .cl.sel{background:#FFE1EE}
+.cwtitle{margin:0;font-weight:600;text-align:center;line-height:1.3}
+.cwtitle b{font-size:1.15rem}
+.pick{display:flex;flex-direction:column;gap:8px}
+.pkrow{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pkname{font-weight:800}
+.pkbtns{display:flex;gap:6px}
+.pk{border:0;width:44px;height:44px;border-radius:14px;background:var(--cream);font-weight:800;font-size:1.05rem;box-shadow:0 3px 0 rgba(43,35,80,.15)}
+.pk.done{background:#C9F2C0}
+.pk.sel{background:var(--pink);color:#fff}
 
 /* Banbygge */
 .track{display:flex;gap:6px;overflow-x:auto;padding:4px 2px 8px;min-height:88px;align-items:stretch}
@@ -341,6 +353,30 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .sheet-in h3{margin:0 0 4px;font-size:1.3rem}
 .srow{border:0;background:var(--cream);border-radius:18px;padding:12px 16px;font-weight:800;font-size:1.1rem;text-align:left}
 .srow.warn{background:#FFE1EE;color:#B0245F}
+
+/* Stående iPad och större */
+@media (min-width:700px){
+  .app{max-width:720px}
+  body{font-size:18px}
+  .act{font-size:1.5rem;padding:14px 4px 12px}
+  .act svg{width:54px;height:54px}
+  .navb{font-size:1.25rem;padding:12px 14px}
+  .navb svg{width:48px;height:48px}
+  .btab{font-size:1.45rem}
+  .ml{font-size:1rem}
+  .bar{height:16px}
+  .opt{font-size:1.1rem}
+  .opt svg{width:56px;height:56px}
+  .key{max-width:58px;height:58px;font-size:1.35rem}
+  .key.wide{max-width:96px}
+  .clue{font-size:1.25rem;min-height:76px}
+  .clue .cb{width:64px}
+  .pk{width:54px;height:54px;font-size:1.2rem}
+  .witem{font-size:.9rem}
+  .witem .ic svg{width:66px;height:48px}
+  .title2{font-size:2rem}
+  .fact p{font-size:1.1rem}
+}
 
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
@@ -488,12 +524,14 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
   <!-- KORSORD -->
   <section id="s-cross" hidden>
     <div class="topline"><button class="mini" data-go="home">Hem</button><h2 class="title2">Kaninkorsord</h2></div>
+    <p class="cwtitle" id="cwTitle"></p>
     <div class="panel cwpanel"><div class="cwboard" id="cwBoard"></div></div>
     <div class="clue" id="cwClue"></div>
     <p class="shopmsg" id="cwMsg" role="status"></p>
     <div class="kb" id="cwKb"></div>
-    <div class="row2"><button class="btn small violet" id="cwHint">Ge mig en bokstav</button><button class="btn small" id="cwNew">Nytt korsord</button></div>
+    <div class="row2"><button class="btn small violet" id="cwHint">Ge mig en bokstav</button><button class="btn small" id="cwNew">Slumpa ett</button></div>
     <div class="panel cluelist" id="cwList"></div>
+    <div class="panel"><h2 class="h2">Välj korsord</h2><div class="pick" id="cwPick"></div></div>
   </section>
 
   <!-- BANBYGGE -->
@@ -747,7 +785,7 @@ const FACTS=[
 ];
 
 /* ---------- Sparat läge ---------- */
-function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',course:['low','low','high','tunnel','long','high'],hopLevel:'easy',bigHome:false,t:Date.now(),adopted:false,muted:false}}
+function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',course:['low','low','high','tunnel','long','high'],hopLevel:'easy',cwDone:[],bigHome:false,t:Date.now(),adopted:false,muted:false}}
 function migrate(o){
   if(!o||typeof o!=='object')return fresh();
   if(!Array.isArray(o.bunnies)){
@@ -1474,19 +1512,32 @@ $('#buildRun').addEventListener('click',()=>{if(!S.course.length)return;show('s-
 
 /* ---------- Kaninkorsord ---------- */
 const CROSSWORDS=[
-  ['KANIN','Djuret med långa öron som skuttar'],['MOROT','Orange grönsak som kaniner gillar'],['ÖRON','Kaniner har långa sådana'],
-  ['TASS','En kanins fot'],['SVANS','Kaninens lilla vita tofs där bak'],['MASKROS','Gul blomma som kaniner älskar'],
-  ['HOPPA','Det kaniner gör över hinder'],['BUR','Ett hem för en kanin'],['TUNNEL','Kaniner kryper gärna genom en sån'],
-  ['KATT','Djuret som säger mjau'],['HUND','Djuret som skäller'],['HÄST','Ett djur man kan rida på'],
-  ['GRIS','Rosa djur som säger nöff'],['UGGLA','Fågel som är vaken på natten'],['RÄV','Rött djur med yvig svans'],
-  ['IGELKOTT','Litet djur med taggar på ryggen'],['EKORRE','Klättrar i träd och samlar nötter'],['MUS','Litet djur som piper'],
-  ['FÅR','Djuret som ger ull'],['ANKA','Fågel som säger kvack'],['GRODA','Grön och hoppar vid dammen'],
-  ['HAMSTER','Litet husdjur med stora kinder'],['ÄPPLE','Rund frukt, röd eller grön'],['KLAPPA','Det man gör när man myser med kaninen'],
-  ['GRÄS','Grönt som växer på ängen'],['BJÖRN','Stort djur som sover hela vintern'],['ÄLG','Skogens kung med stora horn'],
-  ['HARE','Kaninens släkting med ännu längre ben'],['ZEBRA','Randig häst i Afrika'],['LEJON','Djurens kung med stor man'],
-  ['ROSETT','Det man vinner i kaninhopp'],['HINDER','Det kaninen hoppar över'],['VATTEN','Kaniner behöver färskt sånt varje dag'],
-  ['KOMPIS','Kaniner trivs bäst med en sån']
+  ['KANIN','Djuret med långa öron som skuttar',1],['MUS','Litet djur som piper',1],['KATT','Djuret som säger mjau',1],
+  ['HUND','Djuret som skäller',1],['GRIS','Rosa djur som säger nöff',1],['RÄV','Rött djur med yvig svans',1],
+  ['FÅR','Djuret som ger ull',1],['ANKA','Fågel som säger kvack',1],['BUR','Ett hem för en kanin',1],
+  ['TASS','En kanins fot',1],['ÖRON','Kaniner har långa sådana',1],['HARE','Kaninens släkting med ännu längre ben',1],
+  ['ÄLG','Skogens kung med stora horn',1],['GRÄS','Grönt som växer på ängen',1],['MOROT','Orange grönsak som kaniner gillar',1],
+  ['HOPPA','Det kaniner gör över hinder',1],['HÖNA','Hon lägger ägg',1],['KO','Djuret som säger mu',0],
+  ['SVANS','Kaninens lilla vita tofs där bak',2],['UGGLA','Fågel som är vaken på natten',2],['EKORRE','Klättrar i träd och samlar nötter',2],
+  ['GRODA','Grön och hoppar vid dammen',2],['ZEBRA','Randig häst i Afrika',2],['LEJON','Djurens kung med stor man',2],
+  ['BJÖRN','Stort djur som sover hela vintern',2],['ÄPPLE','Rund frukt, röd eller grön',2],['HÄST','Ett djur man kan rida på',2],
+  ['KLAPPA','Det man gör när man myser med kaninen',2],['TUNNEL','Kaniner kryper genom en sån',2],['HINDER','Det kaninen hoppar över',2],
+  ['VATTEN','Kaniner behöver färskt sånt varje dag',2],['KOMPIS','Kaniner trivs bäst med en sån',2],['ROSETT','Det man vinner i kaninhopp',2],
+  ['MASKROS','Gul blomma som kaniner älskar',2],['HAMSTER','Litet husdjur med stora kinder',2],['GIRAFF','Djuret med världens längsta hals',2],
+  ['PINGVIN','Fågel som inte kan flyga men simmar',2],['SNIGEL','Långsam och har sitt hus på ryggen',2],['FJÄRIL','Den var en larv förut',2],
+  ['IGELKOTT','Litet djur med taggar på ryggen',3],['MARSVIN','Litet husdjur som piper och inte har någon svans',3],['KÄNGURU','Hoppar och bär ungen i en ficka',3],
+  ['SKÖLDPADDA','Har ett hårt skal och går väldigt långsamt',3],['PAPEGOJA','Färgglad fågel som kan prata',3],['KROKODIL','Grönt djur med väldigt många tänder',3],
+  ['ELEFANT','Det största djuret på land, har snabel',3],['FLODHÄST','Tjockt djur som bor i floder i Afrika',3],['NYCKELPIGA','Röd skalbagge med svarta prickar',3],
+  ['DAGGMASK','Kryper i jorden när det regnar',3],['KANINUNGE','En liten bebiskanin',3],['MORRHÅR','Långa hår vid kaninens nos',3],
+  ['HARDJUR','Kaniner är inte gnagare utan ...',3],['DROMEDAR','Ökendjur med en puckel',3],['BÄVER','Bygger dammar och har platt svans',3]
+].filter(w=>w[2]>0);
+const CW_LEVELS=[
+  {name:'Kaninsvårt',sub:'Lättast. Första bokstaven finns redan.',words:5,pool:[1],give:true,hints:99,prize:3},
+  {name:'Lagom svårt',sub:'Lite längre ord.',words:6,pool:[1,2],hints:99,prize:3},
+  {name:'Riktigt svårt',sub:'Långa och kluriga ord.',words:7,pool:[2,3],hints:5,prize:4},
+  {name:'Kanonsvårt',sub:'För korsordsproffs! Bara 3 ledtrådar.',words:8,pool:[3,3,2],hints:3,prize:5}
 ];
+const CW_PER=3;
 const CROSSICON='<rect x="4" y="4" width="10" height="10" rx="2" fill="#7B5CFF"/><rect x="15" y="4" width="10" height="10" rx="2" fill="#FF5DA2"/><rect x="26" y="4" width="10" height="10" rx="2" fill="#7B5CFF"/><rect x="15" y="15" width="10" height="10" rx="2" fill="#FFD23F"/><rect x="15" y="26" width="10" height="10" rx="2" fill="#19C3B2"/><text x="20" y="12.5" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="8" fill="#fff">K</text>';
 let CW=null;
 function cwKey(r,c){return r+','+c}
@@ -1505,14 +1556,19 @@ function cwFits(grid,o){
 }
 function cwPut(grid,o){const dr=o.d==='d'?1:0,dc=o.d==='a'?1:0;for(let k=0;k<o.w.length;k++){const key=cwKey(o.r+dr*k,o.c+dc*k);const cell=grid.get(key)||{ch:o.w[k]};cell[o.d]=true;grid.set(key,cell)}}
 function cwBox(list){let r0=1e9,r1=-1e9,c0=1e9,c1=-1e9;list.forEach(o=>{const dr=o.d==='d'?1:0,dc=o.d==='a'?1:0;r0=Math.min(r0,o.r);c0=Math.min(c0,o.c);r1=Math.max(r1,o.r+dr*(o.w.length-1));c1=Math.max(c1,o.c+dc*(o.w.length-1))});return {r0,r1,c0,c1}}
-function buildCross(){
+function buildCross(pz){
+  if(pz==null)pz=-1;
+  const lv=pz>=0?Math.floor(pz/CW_PER):Math.floor(Math.random()*CW_LEVELS.length),L=CW_LEVELS[lv];
+  const rnd=pz>=0?rng(1000+pz*77):Math.random;
+  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  const lvPool=CROSSWORDS.filter(w=>L.pool.includes(w[2]));
   let best=null;
-  for(let attempt=0;attempt<60;attempt++){
-    const pool=CROSSWORDS.slice().sort(()=>Math.random()-.5);
+  for(let attempt=0;attempt<80;attempt++){
+    const pool=shuffle(lvPool.slice());
     const grid=new Map(),placed=[];
-    const f={w:pool[0][0],clue:pool[0][1],r:0,c:0,d:Math.random()<.5?'a':'d'};placed.push(f);cwPut(grid,f);
+    const f={w:pool[0][0],clue:pool[0][1],r:0,c:0,d:rnd()<.5?'a':'d'};placed.push(f);cwPut(grid,f);
     for(const [w,clue] of pool.slice(1)){
-      if(placed.length>=7)break;
+      if(placed.length>=L.words)break;
       const opts=[];
       grid.forEach((cell,key)=>{
         const [pr,pc]=key.split(',').map(Number);
@@ -1521,11 +1577,11 @@ function buildCross(){
           ['a','d'].forEach(d=>{if(cell[d])return;const o={w,clue,d,r:d==='a'?pr:pr-j,c:d==='a'?pc-j:pc};if(cwFits(grid,o))opts.push(o)});
         }
       });
-      const ok=opts.filter(o=>{const b=cwBox(placed.concat([o]));return b.r1-b.r0<9&&b.c1-b.c0<9});
-      if(ok.length){const o=ok[Math.floor(Math.random()*ok.length)];placed.push(o);cwPut(grid,o)}
+      const ok=opts.filter(o=>{const b=cwBox(placed.concat([o]));return b.r1-b.r0<11&&b.c1-b.c0<11});
+      if(ok.length){const o=ok[Math.floor(rnd()*ok.length)];placed.push(o);cwPut(grid,o)}
     }
     if(!best||placed.length>best.length)best=placed;
-    if(placed.length>=6)break;
+    if(placed.length>=L.words)break;
   }
   const b=cwBox(best);
   const words=best.map(o=>({w:o.w,clue:o.clue,d:o.d,r:o.r-b.r0,c:o.c-b.c0}));
@@ -1533,9 +1589,10 @@ function buildCross(){
   words.forEach((o,i)=>{const dr=o.d==='d'?1:0,dc=o.d==='a'?1:0;o.cells=[];for(let k=0;k<o.w.length;k++){const key=cwKey(o.r+dr*k,o.c+dc*k);if(!cells.has(key))cells.set(key,{ch:o.w[k],entry:'',words:[]});cells.get(key).words.push(i);o.cells.push(key)}});
   let n=0;const nums=new Map();
   for(let r=0;r<Hh;r++)for(let c=0;c<W;c++){const starts=words.filter(o=>o.r===r&&o.c===c);if(starts.length){n++;nums.set(cwKey(r,c),n);starts.forEach(o=>o.num=n)}}
-  CW={W,H:Hh,words,cells,nums,word:0,cell:words[0].cells[0],done:false};
+  if(L.give)words.forEach(o=>{const c=cells.get(o.cells[0]);c.entry=c.ch});
+  CW={W,H:Hh,words,cells,nums,word:0,cell:words[0].cells[1]||words[0].cells[0],done:false,pz,lv,hints:L.hints};
 }
-function openCross(){if(!CW||CW.done)buildCross();$('#cwMsg').textContent='';renderCross();show('s-cross')}
+function openCross(){if(!CW||CW.done){const n=CW_LEVELS.length*CW_PER;let p=0;while(p<n&&(S.cwDone||[]).includes(p))p++;buildCross(p<n?p:-1)}$('#cwMsg').textContent='';renderCross();show('s-cross')}
 function cwSolved(i){const o=CW.words[i];return o.cells.every(k=>CW.cells.get(k).entry===CW.cells.get(k).ch)}
 function renderCross(){
   const o=CW.words[CW.word];
@@ -1547,11 +1604,16 @@ function renderCross(){
     const cls='cwc'+(key===CW.cell?' cur':(o.cells.includes(key)?' inword':''))+(ok?' ok':'');
     h+='<button class="'+cls+'" data-cell="'+key+'">'+(CW.nums.has(key)?'<span class="n">'+CW.nums.get(key)+'</span>':'')+cell.entry+'</button>';
   }
-  const bd=$('#cwBoard');bd.style.gridTemplateColumns='repeat('+CW.W+',1fr)';bd.style.maxWidth=Math.min(440,CW.W*46)+'px';bd.innerHTML=h;
+  const bd=$('#cwBoard');bd.style.gridTemplateColumns='repeat('+CW.W+',1fr)';bd.style.maxWidth=Math.min(window.innerWidth>=700?640:440,CW.W*(window.innerWidth>=700?62:46))+'px';bd.innerHTML=h;
   const b=cur();
   $('#cwClue').innerHTML='<span class="cb">'+(b?bunnySVG(furOf(b),cwSolved(CW.word)?'joy':'happy',S.wear[b.id]):'')+'</span><span><small>'+o.num+' '+(o.d==='a'?'vågrätt':'lodrätt')+' · '+o.w.length+' bokstäver</small><br>'+o.clue+'</span>';
   const grp=d=>CW.words.map((x,i)=>[x,i]).filter(p=>p[0].d===d).sort((a,z)=>a[0].num-z[0].num).map(p=>'<button class="cl'+(cwSolved(p[1])?' done':'')+(p[1]===CW.word?' sel':'')+'" data-word="'+p[1]+'"><b>'+p[0].num+'</b>'+p[0].clue+'</button>').join('');
   $('#cwList').innerHTML='<h2 class="h2">Vågrätt</h2>'+grp('a')+'<h2 class="h2">Lodrätt</h2>'+grp('d');
+  const L=CW_LEVELS[CW.lv];
+  $('#cwTitle').innerHTML='<b>'+(CW.pz>=0?'Korsord '+(CW.pz+1):'Slumpat korsord')+'</b> · '+L.name+'<br><span class="hint">'+L.sub+'</span>';
+  $('#cwHint').textContent=CW.hints>20?'Ge mig en bokstav':'Ge mig en bokstav ('+CW.hints+' kvar)';$('#cwHint').disabled=CW.hints<=0||CW.done;
+  const done=S.cwDone||[];
+  $('#cwPick').innerHTML=CW_LEVELS.map((lv,li)=>'<div class="pkrow"><span class="pkname">'+lv.name+'</span><span class="pkbtns">'+[0,1,2].map(j=>{const n=li*CW_PER+j;return '<button class="pk'+(done.includes(n)?' done':'')+(n===CW.pz?' sel':'')+'" data-pz="'+n+'" aria-label="Korsord '+(n+1)+'">'+(n+1)+'</button>'}).join('')+'</span></div>').join('');
 }
 $('#cwBoard').addEventListener('click',e=>{
   const t=e.target.closest('[data-cell]');if(!t)return;const key=t.dataset.cell,cell=CW.cells.get(key);
@@ -1580,18 +1642,20 @@ function cwType(ch){
   }
   if(cwSolved(CW.word)){const nx=CW.words.findIndex((x,j)=>!cwSolved(j));if(nx>=0){CW.word=nx;CW.cell=CW.words[nx].cells.find(k=>CW.cells.get(k).entry!==CW.cells.get(k).ch)}}
   if(now.every(Boolean)){
-    CW.done=true;const b=cur();S.coins+=3;if(b)b.love=clamp(b.love+5);save();renderWallet();
+    CW.done=true;const b=cur();S.cwDone=S.cwDone||[];const first=CW.pz>=0&&!S.cwDone.includes(CW.pz);if(first)S.cwDone.push(CW.pz);
+    const prize=CW.pz<0?2:(first?CW_LEVELS[CW.lv].prize:0);S.coins+=prize;if(b)b.love=clamp(b.love+5);save();renderWallet();
     setTimeout(()=>{chime();setTimeout(chime,450)},200);
-    $('#cwMsg').textContent='Hurra! Hela korsordet är klart! Du fick 3 kr.';
+    $('#cwMsg').textContent='Hurra! Hela korsordet är klart!'+(prize?' Du fick '+prize+' kr.':'')+(CW.pz>=0&&CW.pz<CW_LEVELS.length*CW_PER-1?' Välj nästa nedanför.':'');
   }
   renderCross();
 }
 $('#cwKb').addEventListener('click',e=>{const k=e.target.closest('[data-k]');if(k)cwType(k.dataset.k)});
 $('#cwHint').addEventListener('click',()=>{
-  if(CW.done)return;const o=CW.words[CW.word];const k=o.cells.find(x=>CW.cells.get(x).entry!==CW.cells.get(x).ch);if(!k)return;
+  if(CW.done||CW.hints<=0)return;const o=CW.words[CW.word];const k=o.cells.find(x=>CW.cells.get(x).entry!==CW.cells.get(x).ch);if(!k)return;CW.hints--;
   CW.cell=k;cwType(CW.cells.get(k).ch);$('#cwMsg').textContent=$('#cwMsg').textContent||'Där fick du en bokstav!';
 });
-$('#cwNew').addEventListener('click',()=>{buildCross();$('#cwMsg').textContent='';beep(600,.12);renderCross()});
+$('#cwPick').addEventListener('click',e=>{const t=e.target.closest('[data-pz]');if(!t)return;buildCross(+t.dataset.pz);$('#cwMsg').textContent='';beep(650,.1);renderCross();window.scrollTo({top:0,behavior:'smooth'})});
+$('#cwNew').addEventListener('click',()=>{buildCross(-1);$('#cwMsg').textContent='';beep(600,.12);renderCross()});
 $('#cwKb').innerHTML=['QWERTYUIOPÅ','ASDFGHJKLÖÄ','ZXCVBNM⌫'].map(row=>'<div class="kbr">'+[...row].map(ch=>'<button class="key'+(ch==='⌫'?' wide':'')+'" data-k="'+ch+'" aria-label="'+(ch==='⌫'?'Sudda':ch)+'">'+ch+'</button>').join('')+'</div>').join('');
 document.addEventListener('keydown',e=>{if($('#s-cross').hidden||!CW)return;const k=e.key.toUpperCase();if(k==='BACKSPACE'){e.preventDefault();cwType('⌫')}else if(/^[A-ZÅÄÖ]$/.test(k)){cwType(k)}});
 
@@ -1632,7 +1696,7 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};openAdopt('first');
 });
-const APP_VERSION='1.15';
+const APP_VERSION='1.17';
 const APP_DATE='25 okt 2026';
 $('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
 $('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
