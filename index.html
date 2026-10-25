@@ -107,6 +107,11 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .ai-hammock svg{transform-origin:50% 0;animation:swing 3s ease-in-out infinite}
 @keyframes swing{50%{transform:rotate(3deg)}}
 
+.inred{position:absolute;top:3%;left:3%;z-index:7;border:0;background:var(--paper);border-radius:99px;padding:4px 12px 4px 8px;font-weight:800;font-size:.85rem;box-shadow:0 3px 0 rgba(43,35,80,.18);display:flex;align-items:center;gap:4px}
+.inred svg{width:20px;height:20px}
+.scene.big > .bunny{width:19%}
+.scene.big .poop{width:5.5%}
+.scene.big .food{width:8%}
 .scene > .bunny{position:absolute;inset:auto;width:25%;aspect-ratio:1;transition:left var(--dur,800ms) linear;cursor:pointer;outline:none}
 .bflip{width:100%;height:100%;transition:transform .2s}
 .bflip.left{transform:scaleX(-1)}
@@ -338,7 +343,9 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
     <div class="panel">
       <h2 class="h2">Välj bur</h2>
       <div class="cage-grid" id="cageGrid"></div>
-      <h2 class="h2">Saker i buren <span class="hint">tryck för att lägga till</span></h2>
+      <h2 class="h2">Storlek</h2>
+      <div class="wtabs" id="sizeTabs"></div>
+      <h2 class="h2">Saker i buren <span class="hint">tryck för att lägga till eller ta bort</span></h2>
       <div class="acc-grid" id="accGrid"></div>
       <button class="btn big" id="moveIn">Flytta in!</button>
     </div>
@@ -693,7 +700,7 @@ const FACTS=[
 ];
 
 /* ---------- Sparat läge ---------- */
-function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',course:['low','low','high','tunnel','long','high'],hopLevel:'easy',t:Date.now(),adopted:false,muted:false}}
+function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',course:['low','low','high','tunnel','long','high'],hopLevel:'easy',bigHome:false,t:Date.now(),adopted:false,muted:false}}
 function migrate(o){
   if(!o||typeof o!=='object')return fresh();
   if(!Array.isArray(o.bunnies)){
@@ -761,6 +768,7 @@ function go(where){
   if(where==='friend'){openAdopt('friend');return}
   if(where==='dress'){openDress();return}
   if(where==='build'){openBuild();return}
+  if(where==='cage'){cageFrom='play';$('#moveIn').textContent='Klar!';save();openCage();return}
 }
 
 /* ---------- Adoptera ---------- */
@@ -799,10 +807,12 @@ $('#adoptBtn').addEventListener('click',()=>{
 function openCage(){renderCage();show('s-cage')}
 function accChoices(){return FREE_ACC.concat(SHOP.filter(s=>s.kind==='acc'&&S.owned.includes(s.id)).map(s=>s.id))}
 function renderCage(){
-  $('#preview').innerHTML=sceneHTML('home',false);
+  $('#preview').innerHTML=sceneHTML('home',false);$('#preview').classList.toggle('big',!!S.bigHome);
+  $('#sizeTabs').innerHTML=[[false,'Vanlig bur'],[true,'Stor bur']].map(z=>'<button class="wtab'+(!!S.bigHome===z[0]?' sel':'')+'" data-size="'+(z[0]?1:0)+'">'+z[1]+'</button>').join('');
   $('#cageGrid').innerHTML=Object.keys(CAGES).map(k=>'<button class="cage-card'+(S.cage===k?' sel':'')+'" data-cage="'+k+'" aria-pressed="'+(S.cage===k)+'"><span class="sw">'+CAGES[k].svg+'</span>'+CAGES[k].name+'</button>').join('');
   $('#accGrid').innerHTML=accChoices().map(k=>{const on=S.acc.includes(k);return '<button class="acc-chip'+(on?' on':'')+'" data-acc="'+k+'" aria-pressed="'+on+'"><span class="ic">'+ACC[k].svg+'</span>'+ACC[k].name+'</button>'}).join('');
 }
+$('#sizeTabs').addEventListener('click',e=>{const t=e.target.closest('[data-size]');if(!t)return;S.bigHome=t.dataset.size==='1';beep(650,.1);renderCage()});
 $('#cageGrid').addEventListener('click',e=>{const b=e.target.closest('[data-cage]');if(!b)return;S.cage=b.dataset.cage;beep(600,.12);renderCage()});
 $('#accGrid').addEventListener('click',e=>{const b=e.target.closest('[data-acc]');if(!b)return;const k=b.dataset.acc;if(S.acc.includes(k)){S.acc=S.acc.filter(a=>a!==k);beep(400,.1)}else{S.acc.push(k);beep(800,.1)}renderCage()});
 $('#cageBack').addEventListener('click',()=>{if(cageFrom==='play'){enterStage('home')}else{const keep=D;S.bunnies=[];openAdopt('first');D=keep;renderAdopt()}});
@@ -812,19 +822,22 @@ $('#moveIn').addEventListener('click',()=>{const first=!S.adopted;S.adopted=true
 const START_X=[28,54], START_Y=[6,13];
 function sceneHTML(m,interactive){
   let h='<div class="bg">'+(m==='meadow'?OUTING:CAGES[S.cage].svg)+'</div>';
-  if(m==='home')h+='<div class="dirt">'+DIRT+'</div><div class="acc">'+S.acc.filter(k=>ACC[k]).map(k=>'<div class="ai ai-'+k+'" style="'+ACC[k].pos+'">'+ACC[k].svg+'</div>').join('')+'</div>';
+  const k=S.bigHome?.72:1,pos=q=>q.replace(/width:([\d.]+)%/,(x,w)=>'width:'+(w*k).toFixed(1)+'%');
+  if(m==='home')h+='<div class="dirt">'+DIRT+'</div><div class="acc">'+S.acc.filter(k=>ACC[k]).map(k=>'<div class="ai ai-'+k+'" style="'+pos(ACC[k].pos)+'">'+ACC[k].svg+'</div>').join('')+'</div>';
   h+='<div class="floor"></div>';
   S.bunnies.forEach((b,i)=>{
     h+='<div class="bunny" data-i="'+i+'" style="left:'+START_X[i]+'%;bottom:'+START_Y[i]+'%;z-index:'+(5-i)+'"'+(interactive?' role="button" tabindex="0" aria-label="Klappa '+esc(b.name)+'"':'')+'><div class="bubble" hidden></div><div class="bflip"><div class="bbody">'+bunnySVG(furOf(b),'ok',S.wear[b.id])+'</div></div></div>';
   });
-  return h+'<div class="fx"></div>';
+  h+='<div class="fx"></div>';
+  if(m==='home'&&interactive)h+='<button class="inred" data-go="cage"><svg viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16Z" fill="#FF8A3D"/><path d="M14 7l3 3" stroke="#2B2350" stroke-width="2"/></svg>Inred</button>';
+  return h;
 }
 
 let P={},B=[],G=0,mode='home',sweeping=false,toastT=0,tickN=0;
 function enterStage(m){
   mode=m;G++;const g=G;
   const sc=$('#playScene');
-  sc.innerHTML=sceneHTML(m,true);
+  sc.innerHTML=sceneHTML(m,true);sc.classList.toggle('big',!!S.bigHome&&m==='home');
   P={sc,floor:sc.querySelector('.floor'),fx:sc.querySelector('.fx'),dirt:sc.querySelector('.dirt')};
   B=S.bunnies.map((b,i)=>{const el=sc.querySelector('.bunny[data-i="'+i+'"]');return {el,bflip:el.querySelector('.bflip'),bbody:el.querySelector('.bbody'),bubble:el.querySelector('.bubble'),x:START_X[i],y:START_Y[i],busy:false,mood:'',ov:null,ovT:0,lastPet:0}});
   B.forEach((r,i)=>{
@@ -850,7 +863,7 @@ function enterStage(m){
 
 function moveTo(i,x,cb){
   const r=B[i];if(!r)return;
-  x=Math.max(2,Math.min(mode==='meadow'?75:72,x));
+  x=Math.max(2,Math.min(mode==='meadow'?75:(S.bigHome?77:72),x));
   const dx=x-r.x;
   if(Math.abs(dx)>1)r.bflip.classList.toggle('left',dx<0);
   const dur=Math.max(350,Math.abs(dx)*(mode==='meadow'?32:42));
@@ -1392,7 +1405,7 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};openAdopt('first');
 });
-const APP_VERSION='1.9';
+const APP_VERSION='1.10';
 const APP_DATE='25 okt 2026';
 $('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
 $('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
