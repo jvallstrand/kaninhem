@@ -188,8 +188,9 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .brush{animation:brush .4s ease-in-out 5 alternate}
 @keyframes brush{from{transform:translateX(-30%) rotate(-12deg)}to{transform:translateX(40%) rotate(8deg)}}
 
-.scene > .toast,.course > .toast{position:absolute;inset:4% auto auto 50%;transform:translateX(-50%);max-width:88%;width:max-content;background:var(--paper);color:var(--ink);border-radius:20px;padding:6px 14px;font-weight:800;font-size:clamp(.9rem,3.6vw,1.05rem);text-align:center;box-shadow:0 4px 0 rgba(43,35,80,.18);z-index:8;animation:pop .3s ease-out}
+.scene > .toast,.course > .toast,.walkscene > .toast{position:absolute;inset:4% auto auto 50%;transform:translateX(-50%);max-width:88%;width:max-content;background:var(--paper);color:var(--ink);border-radius:20px;padding:6px 14px;font-weight:800;font-size:clamp(.9rem,3.6vw,1.05rem);text-align:center;box-shadow:0 4px 0 rgba(43,35,80,.18);z-index:8;animation:pop .3s ease-out}
 .course > .toast{top:18%}
+.walkscene > .toast{top:5%;z-index:9}
 @keyframes pop{0%{transform:translateX(-50%) scale(.6)}70%{transform:translateX(-50%) scale(1.06)}100%{transform:translateX(-50%) scale(1)}}
 
 /* Play UI */
@@ -371,6 +372,72 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .hamscene .hi-tube{z-index:6}
 .ic-ham{overflow:visible}
 .hamnm{font-size:1.5rem;cursor:default}
+/* Hunden */
+.a-play{background:var(--violet);box-shadow:0 6px 0 #5838D6}
+.scene > .dog{position:absolute;inset:auto;aspect-ratio:140/110;transition:left var(--dur,700ms) linear,bottom .45s ease,opacity .4s;cursor:pointer;z-index:5}
+.dog .bflip,.dog .bbody,.walkdog .bflip,.walkdog .bbody{width:100%;height:100%;position:relative}
+.dog svg,.walkdog svg,.wobj .flipx svg{width:100%;height:100%;overflow:visible;display:block}
+.dog .bubble{top:-42%;right:-2%;width:34%}
+.dog .bbody,.walkdog .bbody{transform-origin:50% 95%}
+.tail{transform-box:view-box;animation:wag .4s ease-in-out infinite alternate}
+@keyframes wag{from{transform:rotate(-16deg)}to{transform:rotate(16deg)}}
+.la,.lb,.fleg{transform-box:view-box}
+.walking .la{animation:legsw .3s ease-in-out infinite alternate}
+.walking .lb{animation:legsw .3s ease-in-out infinite alternate-reverse}
+@keyframes legsw{from{transform:rotate(18deg)}to{transform:rotate(-18deg)}}
+.walking .bbody,.bbody.dwalk{animation:dbob .3s ease-in-out infinite}
+@keyframes dbob{50%{transform:translateY(-3%)}}
+.bbody.sit{transform:scale(1.03,.84)}
+.bbody.paw .fleg{animation:pawup 1.4s ease-in-out}
+@keyframes pawup{20%,80%{transform:rotate(-75deg)}}
+.bbody.droll{animation:droll .9s ease-in-out}
+@keyframes droll{50%{transform:translateY(-18%) rotate(-180deg)}100%{transform:rotate(-360deg)}}
+.bbody.tilt{animation:tilt .5s ease-in-out 2 alternate}
+@keyframes tilt{to{transform:rotate(9deg)}}
+.bbody.lie{transform:scale(1.07,.8)}
+.bbody.stand{transform:rotate(-24deg) translate(2%,-14%)}
+.bbody.tug{animation:tug .28s ease-in-out infinite alternate}
+@keyframes tug{from{transform:translateX(-4%) rotate(-4deg)}to{transform:translateX(3%) rotate(2deg)}}
+.bbody.wiggle{animation:wig .3s 4}
+.bbody.sniff{animation:sniff .25s ease-in-out 4 alternate}
+@keyframes sniff{to{transform:rotate(7deg) translateY(3%)}}
+.bbody.pee{transform:rotate(-7deg)}
+.bbody.squat{transform:scale(1.03,.86)}
+.mouthtoy{position:absolute;left:74%;top:48%;width:24%;pointer-events:none}
+.mouthtoy svg{width:100%;display:block}
+.di-foodbowl .kib{opacity:0;transition:opacity .3s}
+.di-foodbowl.filled .kib{opacity:1}
+.dball{position:absolute;width:6%;transition:left .55s ease-out,bottom .55s cubic-bezier(.3,-0.6,.7,1);z-index:6;pointer-events:none}
+.dball svg{width:100%;display:block}
+.rope{position:absolute;left:0;height:2.5%;background:repeating-linear-gradient(90deg,#FF5DA2 0 10px,#fff 10px 14px);border-radius:99px;z-index:6;pointer-events:none}
+.bird{width:7%;animation:bird 1.5s ease-in forwards}
+.bird svg{width:100%}
+@keyframes bird{to{transform:translate(260%,-120%)}}
+.bubb{width:3.5%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.85);box-shadow:inset 0 0 0 2px #9FDCFF;animation:bubb 1.2s ease-out forwards}
+@keyframes bubb{to{transform:translateY(-200%) scale(1.4);opacity:0}}
+.ic-dog,.ic-ham{overflow:visible}
+/* Promenad */
+.walkscene{position:relative;width:100%;aspect-ratio:16/10;border-radius:24px;overflow:hidden;box-shadow:0 8px 0 rgba(43,35,80,.18);background:linear-gradient(#8FD3FF,#E3F6FF);touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.wsun{position:absolute;right:8%;top:8%;width:11%;aspect-ratio:1;border-radius:50%;background:#FFD23F;box-shadow:0 0 0 10px rgba(255,210,63,.25)}
+.wfar{position:absolute;left:0;right:0;top:14%;height:46%;background-image:var(--wfar);background-repeat:repeat-x;background-size:auto 100%}
+.wnear{position:absolute;left:0;right:0;bottom:0;height:42%;background-image:var(--wnear);background-repeat:repeat-x;background-size:auto 100%}
+.wobjs,.wfx{position:absolute;inset:0}
+.wfx{pointer-events:none;z-index:7}
+.wobj{position:absolute;cursor:pointer;z-index:3}
+.wobj svg{width:100%;display:block}
+.wo-dog,.wo-puddle,.wo-poop{z-index:5}
+.wo-poop{animation:wig .5s infinite}
+.wo-poop.bagged{animation:gotc .8s ease-out forwards}
+.flipx{transform:scaleX(-1);width:100%;height:100%}
+.wname{position:absolute;left:50%;top:-14%;transform:translateX(-50%);background:var(--paper);border-radius:99px;padding:0 8px;font-weight:800;font-size:.8rem;white-space:nowrap}
+.wo-squirrel.flee{animation:flee 1s ease-in forwards}
+@keyframes flee{to{transform:translate(120%,-240%)}}
+.walkdog{position:absolute;left:24%;bottom:6%;aspect-ratio:140/110;z-index:4;pointer-events:none}
+.leash{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:6;overflow:visible}
+.splash{width:2.2%;aspect-ratio:1;border-radius:50%;background:#8A5A2B;animation:spl .9s ease-out forwards}
+@keyframes spl{to{transform:translate(var(--dx),-260%);opacity:0}}
+.skhud svg.wi-tree{width:16px;height:24px}
+.skhud .wi-heart,.skhud .wi-bag{width:22px;height:22px}
 /* Banbygge */
 .track{display:flex;gap:6px;overflow-x:auto;padding:4px 2px 8px;min-height:88px;align-items:stretch}
 .tslot{border:0;flex:0 0 70px;background:var(--cream);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:800;font-size:.75rem;position:relative;padding:14px 2px 4px;text-align:center;line-height:1.1}
@@ -563,7 +630,8 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
         <button class="navb" data-go="meadow"><svg viewBox="0 0 40 40" class="ic-meadow"></svg>Ängen</button>
         <button class="navb" data-go="shop"><svg viewBox="0 0 40 40" class="ic-shop"></svg>Affären</button>
         <button class="navb" data-go="hamster"><svg viewBox="0 0 40 40" class="ic-ham"></svg>Hamstern</button>
-        <button class="navb navgames" data-go="games"><svg viewBox="0 0 40 40" class="ic-games"></svg>Spel</button>
+        <button class="navb" data-go="dog"><svg viewBox="0 0 40 40" class="ic-dog"></svg>Hunden</button>
+        <button class="navb navgames wide" data-go="games"><svg viewBox="0 0 40 40" class="ic-games"></svg>Spel</button>
       </div>
       <div class="friend" id="friendCard" hidden>
         <span class="fb" id="friendPic"></span>
@@ -643,6 +711,58 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
       <div class="wgrid" id="wgrid"></div>
       <button class="btn big" id="catwalkBtn">Gå ut på catwalken!</button>
     </div>
+  </section>
+
+  <!-- HUNDEN -->
+  <section id="s-dog" hidden>
+    <div class="topline"><button class="mini" data-go="home">Hem</button><h2 class="title2">Hundens vardagsrum</h2></div>
+    <div id="dogAdopt" class="group" hidden>
+      <div class="panel">
+        <h2 class="h2">Vilken valp vill du ha?</h2>
+        <div class="pick-grid" id="dogBreeds"></div>
+        <p id="dogBlurb" class="mhint" style="text-align:left"></p>
+        <h2 class="h2">Vad ska valpen heta?</h2>
+        <input id="dogNameIn" class="name-in" maxlength="14" placeholder="Skriv ett namn" autocomplete="off">
+        <div class="chips" id="dogNames"></div>
+        <button class="btn big" id="dogAdoptBtn" disabled>Hämta hem valpen!</button>
+      </div>
+    </div>
+    <div id="dogGame" class="group" hidden>
+      <div class="playbar"><span class="btab hamnm" id="dogName"></span><span class="hint" id="dogBreed"></span></div>
+      <div class="meters">
+        <div class="meter"><svg viewBox="0 0 40 40" class="dic-food"></svg><div class="mcol"><span class="ml">Mätt</span><div class="bar"><div class="fill" id="dfH" style="background:var(--orange)"></div></div></div></div>
+        <div class="meter"><svg viewBox="0 0 40 40" class="dic-walk"></svg><div class="mcol"><span class="ml">Rastad</span><div class="bar"><div class="fill" id="dfW" style="background:var(--teal)"></div></div></div></div>
+        <div class="meter"><svg viewBox="0 0 24 24" class="dic-love"></svg><div class="mcol"><span class="ml">Glad</span><div class="bar"><div class="fill" id="dfL" style="background:var(--pink)"></div></div></div></div>
+      </div>
+      <div class="scene dogscene" id="dogScene"></div>
+      <div class="tray" id="dogTray" hidden></div>
+      <div class="actions" id="dogActs">
+        <button class="act a-food" data-dt="food"><svg viewBox="0 0 40 40" class="dic-food2"></svg>Mata</button>
+        <button class="act a-play" data-dt="play"><svg viewBox="0 0 40 40" class="dic-play"></svg>Leka</button>
+        <button class="act a-love" data-dt="love"><svg viewBox="0 0 24 24" class="dic-love2"></svg>Mysa</button>
+      </div>
+      <button class="btn big green" id="dogWalkBtn">Gå ut på promenad</button>
+      <p class="hint" style="margin:0;text-align:center">Tryck på soffan, korgen, skålarna, leksakslådan, fönstret eller dörren!</p>
+      <div class="fact"><span class="fact-k">Hundfakta</span><p id="dogFact"></p><p id="dogTricks" style="margin-top:6px;font-weight:800"></p></div>
+    </div>
+  </section>
+
+  <!-- PROMENADEN -->
+  <section id="s-walk" hidden>
+    <div class="topline"><h2 class="title2">Promenad</h2></div>
+    <div class="skhud"><span><svg viewBox="0 0 60 100" class="wi-tree"></svg><b id="wTrees">0</b></span><span><svg viewBox="0 0 24 24" class="wi-heart"></svg><b id="wFriends">0</b></span><span><svg viewBox="0 0 40 40" class="wi-bag"></svg><b id="wBags">0</b></span><span id="wTime">50 s</span></div>
+    <div class="walkscene" id="walkScene">
+      <div class="wsun"></div>
+      <div class="wfar" id="wFar"></div>
+      <div class="wnear" id="wNear"></div>
+      <div class="wobjs" id="walkObjs"></div>
+      <div class="walkdog" id="walkDog"></div>
+      <svg class="leash" viewBox="0 0 100 100" preserveAspectRatio="none"><path id="leashPath" d="" stroke="#FF4D6D" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke" style="stroke-width:3px"/></svg>
+      <div class="wfx" id="walkFx"></div>
+      <div class="hopover" id="walkOver" hidden></div>
+    </div>
+    <p class="mhint">Tryck på träd, brandposter, blommor, andra hundar, ekorrar och vattenpölar. Och plocka upp bajset!</p>
+    <button class="btn big violet" id="walkHome">Gå hem</button>
   </section>
 
   <!-- HAMSTERN -->
@@ -1020,7 +1140,7 @@ const FACTS=[
 ];
 
 /* ---------- Sparat läge ---------- */
-function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',course:['low','low','high','tunnel','long','high'],courses:[['low','low','high','tunnel','long','high'],[],[]],editC:0,trainC:'p0',best:{},hopLevel:'easy',ham:null,cwDone:[],treats:{},bigHome:false,t:Date.now(),adopted:false,muted:false}}
+function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',course:['low','low','high','tunnel','long','high'],courses:[['low','low','high','tunnel','long','high'],[],[]],editC:0,trainC:'p0',best:{},hopLevel:'easy',ham:null,dog:null,cwDone:[],treats:{},bigHome:false,t:Date.now(),adopted:false,muted:false}}
 function migrate(o){
   if(!o||typeof o!=='object')return fresh();
   if(!Array.isArray(o.bunnies)){
@@ -1066,7 +1186,7 @@ function chime(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.14,'tr
 
 /* ---------- Skärmar ---------- */
 let playing=false;
-function show(id){['s-adopt','s-cage','s-play','s-shop','s-hop','s-dress','s-build','s-cross','s-games','s-dig','s-skate','s-hamster'].forEach(s=>{$('#'+s).hidden=(s!==id)});playing=(id==='s-play');if(id!=='s-hop'&&H)H.running=false;window.scrollTo(0,0)}
+function show(id){['s-adopt','s-cage','s-play','s-shop','s-hop','s-dress','s-build','s-cross','s-games','s-dig','s-skate','s-hamster','s-dog','s-walk'].forEach(s=>{$('#'+s).hidden=(s!==id)});playing=(id==='s-play');if(id!=='s-hop'&&H)H.running=false;window.scrollTo(0,0)}
 (function(){const el=$('#logo'),t=el.textContent,c=['#FF5DA2','#19C3B2','#7B5CFF','#FF8A3D'];let i=0;el.innerHTML=t.split('').map(ch=>ch===' '?' ':'<span style="color:'+c[(i++)%4]+'">'+ch+'</span>').join('')})();
 
 function renderTabs(){
@@ -1094,6 +1214,7 @@ function go(where){
   if(where==='cross'){openCross();return}
   if(where==='games'){openGames();return}
   if(where==='hamster'){openHamster();return}
+  if(where==='dog'){openDog();return}
   if(where==='dig'){openDig();return}
   if(where==='skate'){openSkate();return}
   if(where==='cage'){cageFrom='play';$('#moveIn').textContent='Klar!';save();openCage();return}
@@ -2492,6 +2613,333 @@ setInterval(()=>{
   hamUI();if(++hamTickN%5===0)save();
 },1000);
 
+/* ---------- Hunden ---------- */
+const DOGS={
+  cocker:{name:'Cocker spaniel',fur:'#D99A4E',dark:'#B07432',light:'#F2C487',ear:'long',earC:'#B07432',blurb:'Glad och gosig. Älskar att apportera bollar!'},
+  tax:{name:'Tax',fur:'#9A4E22',dark:'#73360F',light:'#C27A48',ear:'long',earC:'#73360F',body:1.4,legs:.62,blurb:'Lång och modig, med en jättebra nos.'},
+  collie:{name:'Border collie',fur:'#2E2A36',dark:'#1C1922',light:'#FFFFFF',ear:'fold',earC:'#2E2A36',sock:'#FFFFFF',blaze:true,tailTip:true,blurb:'Supersmart! Lär sig trix snabbast av alla.'},
+  cavalier:{name:'Cavalier King Charles',fur:'#FFFFFF',dark:'#E7DCCD',light:'#FFFFFF',patch:'#B8602A',head:'#B8602A',blaze:true,ear:'feather',earC:'#B8602A',bigEyes:true,blurb:'Älskar att mysa och sitta i knät.'},
+  bernard:{name:'Sankt Bernhard',fur:'#FFFFFF',dark:'#E7DCCD',light:'#FFFFFF',patch:'#A6532A',ear:'drop',earC:'#A6532A',mask:'#6E3A1C',big:true,jowl:true,blurb:'En snäll jätte från Alperna. Blir jättestor!'}
+};
+const DNAMES=['Bella','Charlie','Sigge','Molly','Ludde','Kasper','Tessan','Rufus'];
+const DOGFACTS=['Hundar behöver gå ut flera gånger om dagen för att kissa och nosa.','Hundens nos är tusentals gånger bättre än människans!','När hunden viftar på svansen är den oftast glad.','Valpar sover upp till 18 timmar om dygnet.','Plocka alltid upp hundbajset med en påse.','Border collies vallar får och är bland de smartaste hundarna.','Sankt Bernhardshundar räddade förr människor i snön i Alperna.','Taxar avlades för att krypa ner i grävlingsgryt.','Choklad är farligt för hundar. Ge bara hundgodis!','Hundar lär sig trix bäst med beröm och lite godis.'];
+const LEASHICON='<path d="M6 6q12 2 10 14t8 16" stroke="#FF4D6D" stroke-width="3.2" fill="none" stroke-linecap="round"/><rect x="2" y="2" width="9" height="9" rx="3" fill="none" stroke="#FF4D6D" stroke-width="3"/><circle cx="25" cy="37" r="3" fill="#9AA0B5"/>';
+const BONEICON='<g fill="#F5E6C8" stroke="#D9C49A" stroke-width="1.5"><circle cx="9" cy="14" r="5"/><circle cx="9" cy="24" r="5"/><circle cx="31" cy="14" r="5"/><circle cx="31" cy="24" r="5"/><rect x="9" y="14" width="22" height="10" rx="4"/></g>';
+const KIBBLE='<g fill="#A0652F"><circle cx="12" cy="20" r="4"/><circle cx="20" cy="16" r="4"/><circle cx="28" cy="21" r="4"/><circle cx="17" cy="25" r="4"/><circle cx="25" cy="27" r="3.5"/></g><g fill="#C98B4E"><circle cx="11" cy="19" r="1.4"/><circle cx="19" cy="15" r="1.4"/></g>';
+const TREAT='<path d="M8 20c-6-2-4-10 2-8 2-6 10-4 8 2h4c-2-6 6-8 8-2 6-2 8 6 2 8 6 2 4 10-2 8-2 6-10 4-8-2h-4c2 6-6 8-8 2-6 2-8-6-2-8Z" fill="#D9A066"/><path d="M20 24c-3-2-4-3-4-4.5a2 2 0 0 1 4-.5a2 2 0 0 1 4 .5c0 1.5-1 2.5-4 4.5Z" fill="#FF5DA2"/>';
+const DBALL='<circle cx="20" cy="20" r="16" fill="#C6F03C"/><path d="M6 14q14 10 28 0M6 26q14-10 28 0" stroke="#fff" stroke-width="3" fill="none"/>';
+const ROPE='<path d="M4 20q8-10 16 0t16 0" stroke="#FF5DA2" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M4 20q8-10 16 0t16 0" stroke="#fff" stroke-width="2" fill="none" stroke-dasharray="3 5"/>';
+const SQUEAK='<ellipse cx="20" cy="22" rx="14" ry="10" fill="#FFD23F"/><circle cx="30" cy="16" r="7" fill="#FFD23F"/><path d="M36 16l4-1-4 3Z" fill="#FF8A3D"/><circle cx="31" cy="14" r="1.6" fill="#2B2350"/>';
+function dogSVG(bk,mood,o){
+  o=o||{};const d=DOGS[bk]||DOGS.cocker,tax=bk==='tax';
+  const L=Math.round(24*(d.legs||1)),cx=tax?58:62,rx=Math.round(32*(d.body||1)),ry=tax?15:19,cy=102-L-(tax?3:5);
+  const hx=Math.round(cx+rx*.78+4),hy=cy-20,hr=d.big?23:21,lw=d.big?11:9,lt=cy+4;
+  const fur=d.fur,light=d.light,dark=d.dark,happy=mood==='happy'||mood==='joy',sleep=mood==='sleep',sad=mood==='sad';
+  const leg=(x,cls,col)=>'<g class="'+cls+'" style="transform-origin:'+(x+lw/2)+'px '+lt+'px"><rect x="'+x+'" y="'+lt+'" width="'+lw+'" height="'+(102-lt)+'" rx="'+(lw/2)+'" fill="'+col+'"/><ellipse cx="'+(x+lw/2+1)+'" cy="101" rx="'+(lw/2+1.5)+'" ry="3" fill="'+(d.sock||col)+'"/></g>';
+  const bx=Math.round(cx-rx*.62),fx=Math.round(cx+rx*.42);
+  const tb=[cx-rx+5,cy-6];
+  const tail=bk==='cocker'?'M'+tb+' q-8 -3 -11 -13':(tax?'M'+tb+' q-16 -2 -20 -14':'M'+tb+' q-14 -4 -17 -20');
+  const tw=tax?5:(d.big?10:8);
+  let s='<svg viewBox="0 0 140 110" aria-hidden="true"><ellipse cx="'+(cx+6)+'" cy="104" rx="'+(rx+16)+'" ry="5" fill="rgba(43,35,80,.14)"/>';
+  s+=leg(bx+5,'lb',dark)+leg(fx+5,'la',dark);
+  s+='<g class="tail" style="transform-origin:'+tb[0]+'px '+tb[1]+'px"><path d="'+tail+'" stroke="'+(d.patch&&bk==='bernard'?d.patch:fur)+'" stroke-width="'+tw+'" fill="none" stroke-linecap="round"/>'+(d.tailTip?'<circle cx="'+(tb[0]-17)+'" cy="'+(tb[1]-20)+'" r="5" fill="#fff"/>':'')+'</g>';
+  s+='<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="'+fur+'"/>';
+  if(d.patch)s+='<ellipse cx="'+(cx-6)+'" cy="'+(cy-5)+'" rx="'+Math.round(rx*.55)+'" ry="'+Math.round(ry*.72)+'" fill="'+d.patch+'"/>';
+  if(light!==fur)s+='<ellipse cx="'+Math.round(cx+rx*.55)+'" cy="'+(cy+4)+'" rx="12" ry="'+(ry-4)+'" fill="'+light+'"/>';
+  if(o.muddy)s+='<g fill="#8A5A2B" opacity=".85"><circle cx="'+(cx-12)+'" cy="'+(cy+10)+'" r="5"/><circle cx="'+(cx+8)+'" cy="'+(cy+12)+'" r="3.5"/><circle cx="'+(bx+4)+'" cy="96" r="5"/><circle cx="'+(fx+4)+'" cy="97" r="5"/></g>';
+  s+=leg(bx,'la',fur)+leg(fx,'lb fleg',fur);
+  s+='<g transform="rotate(-30 '+(hx-13)+' '+(hy+18)+')"><rect x="'+(hx-17)+'" y="'+(hy+8)+'" width="7" height="20" rx="3" fill="#FF4D6D"/></g><circle cx="'+(hx-9)+'" cy="'+(hy+26)+'" r="3.2" fill="#FFD23F"/>';
+  if(d.ear==='fold')s+='<path d="M'+(hx+3)+' '+(hy-17)+'L'+(hx+10)+' '+(hy-35)+'L'+(hx+16)+' '+(hy-15)+'Z" fill="'+dark+'"/>';
+  s+='<circle cx="'+hx+'" cy="'+hy+'" r="'+hr+'" fill="'+(d.head||fur)+'"/>';
+  if(bk==='bernard')s+='<path d="M'+(hx-hr)+' '+hy+'a'+hr+' '+hr+' 0 0 1 '+(hr*2)+' 0Z" fill="'+d.patch+'"/>';
+  if(d.blaze)s+='<ellipse cx="'+(hx+7)+'" cy="'+(hy-3)+'" rx="4.5" ry="13" fill="#fff" transform="rotate(-22 '+(hx+7)+' '+(hy-3)+')"/>';
+  if(d.mask)s+='<ellipse cx="'+(hx+6)+'" cy="'+(hy-3)+'" rx="7.5" ry="6.5" fill="'+d.mask+'"/>';
+  const ex=hx+6,ey=hy-3,er=d.bigEyes?5:4,eyeC=d.mask||bk==='collie'?'#fff':INK;
+  if(happy)s+='<path d="M'+(ex-5)+' '+(ey+1)+'q5 -6 10 0" stroke="'+(d.mask?'#fff':INK)+'" stroke-width="3" fill="none" stroke-linecap="round"/>';
+  else if(sleep)s+='<path d="M'+(ex-5)+' '+ey+'q5 4 10 0" stroke="'+(d.mask?'#fff':INK)+'" stroke-width="3" fill="none" stroke-linecap="round"/>';
+  else s+='<g class="eye"><circle cx="'+ex+'" cy="'+ey+'" r="'+er+'" fill="'+INK+'"/><circle cx="'+(ex+1.5)+'" cy="'+(ey-1.5)+'" r="1.6" fill="#fff"/></g>'+(sad?'<path d="M'+(ex-6)+' '+(ey-9)+'l9 3" stroke="'+(bk==='collie'?'#fff':INK)+'" stroke-width="2.4" stroke-linecap="round"/>':'');
+  s+='<ellipse cx="'+(hx+16)+'" cy="'+(hy+8)+'" rx="12" ry="'+(d.jowl?10:9)+'" fill="'+(bk==='collie'||bk==='cavalier'?'#fff':(bk==='tax'?'#B0602E':light))+'"/>';
+  if(d.jowl)s+='<ellipse cx="'+(hx+13)+'" cy="'+(hy+15)+'" rx="8" ry="5" fill="#fff"/>';
+  s+='<ellipse cx="'+(hx+26)+'" cy="'+(hy+4)+'" rx="5" ry="3.8" fill="'+INK+'"/>';
+  s+='<path d="M'+(hx+25)+' '+(hy+9)+'q-4 5 -9 3" stroke="'+INK+'" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
+  if(happy)s+='<ellipse cx="'+(hx+19)+'" cy="'+(hy+16)+'" rx="4" ry="6" fill="#FF7FAE"/><path d="M'+(hx+19)+' '+(hy+12)+'v6" stroke="#E0567F" stroke-width="1.2"/>';
+  if(mood==='eat')s+='<ellipse cx="'+(hx+20)+'" cy="'+(hy+13)+'" rx="3" ry="2" fill="'+INK+'"/>';
+  if(d.ear==='long')s+='<ellipse cx="'+(hx-9)+'" cy="'+(hy+6)+'" rx="8" ry="18" fill="'+d.earC+'" transform="rotate(12 '+(hx-9)+' '+(hy+6)+')"/>'+(bk==='cocker'?'<g fill="'+d.earC+'"><circle cx="'+(hx-15)+'" cy="'+(hy+20)+'" r="4"/><circle cx="'+(hx-8)+'" cy="'+(hy+23)+'" r="4"/></g>':'');
+  if(d.ear==='feather')s+='<ellipse cx="'+(hx-10)+'" cy="'+(hy+7)+'" rx="10" ry="19" fill="'+d.earC+'" transform="rotate(10 '+(hx-10)+' '+(hy+7)+')"/><g fill="'+d.earC+'"><circle cx="'+(hx-17)+'" cy="'+(hy+22)+'" r="5"/><circle cx="'+(hx-9)+'" cy="'+(hy+25)+'" r="5"/></g>';
+  if(d.ear==='fold')s+='<path d="M'+(hx-9)+' '+(hy-14)+'L'+(hx-6)+' '+(hy-34)+'L'+(hx+5)+' '+(hy-17)+'Z" fill="'+d.earC+'"/><path d="M'+(hx-6)+' '+(hy-34)+'L'+(hx-1)+' '+(hy-25)+'L'+(hx-8)+' '+(hy-24)+'Z" fill="#5A5466"/>';
+  if(d.ear==='drop')s+='<ellipse cx="'+(hx-8)+'" cy="'+(hy-1)+'" rx="9" ry="13" fill="'+d.earC+'" transform="rotate(16 '+(hx-8)+' '+(hy-1)+')"/>';
+  return s+'</svg>';
+}
+const DITEMS={
+  sofa:{name:'Soffa',pos:'left:1%;bottom:31%;width:40%',svg:'<svg viewBox="0 0 160 80"><rect x="14" y="4" width="132" height="44" rx="16" fill="#19C3B2"/><rect x="2" y="30" width="28" height="44" rx="12" fill="#0E9C8E"/><rect x="130" y="30" width="28" height="44" rx="12" fill="#0E9C8E"/><rect x="24" y="40" width="112" height="28" rx="10" fill="#7FE3D8"/><rect x="34" y="14" width="30" height="24" rx="10" fill="#FF5DA2" transform="rotate(-8 49 26)"/><rect x="96" y="14" width="30" height="24" rx="10" fill="#FFD23F" transform="rotate(6 111 26)"/><g fill="#5A3A22"><rect x="20" y="72" width="6" height="8" rx="2"/><rect x="134" y="72" width="6" height="8" rx="2"/></g></svg>'},
+  window:{name:'Fönster',pos:'left:44%;top:8%;width:20%',svg:'<svg viewBox="0 0 80 72"><rect x="4" y="4" width="72" height="56" rx="6" fill="#fff"/><rect x="10" y="10" width="60" height="44" rx="3" fill="#9FDCFF"/><circle cx="56" cy="22" r="7" fill="#FFD23F"/><path d="M10 46q14-10 30 0t30-4V54H10Z" fill="#7ED957"/><path d="M40 10v44M10 32h60" stroke="#fff" stroke-width="4"/><path d="M0 2q12 30 4 64H-2Z" fill="#FF8FC0"/><path d="M80 2q-12 30-4 64h6Z" fill="#FF8FC0"/><rect x="0" y="0" width="80" height="5" rx="2" fill="#B5793F"/></svg>'},
+  door:{name:'Dörren',pos:'right:2%;bottom:34%;width:15%',svg:'<svg viewBox="0 0 60 120"><rect x="4" y="2" width="52" height="118" rx="4" fill="#B5793F"/><rect x="10" y="10" width="40" height="44" rx="3" fill="#C98B4E"/><rect x="10" y="62" width="40" height="50" rx="3" fill="#C98B4E"/><circle cx="46" cy="66" r="4" fill="#FFD23F"/><circle cx="16" cy="28" r="3" fill="#7A4B2A"/><path d="M16 28q-6 18 2 30q10 6 6-12" stroke="#FF4D6D" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="18" y="56" width="8" height="8" rx="2" fill="#9AA0B5"/></svg>'},
+  bed:{name:'Hundkorg',pos:'right:2%;bottom:3%;width:30%',svg:'<svg viewBox="0 0 120 50"><ellipse cx="60" cy="30" rx="58" ry="20" fill="#FF5DA2"/><ellipse cx="60" cy="27" rx="46" ry="13" fill="#FFC6DE"/><g transform="translate(46 18) scale(.7)" opacity=".55"><circle cx="9" cy="14" r="4" fill="#FF5DA2"/><circle cx="9" cy="22" r="4" fill="#FF5DA2"/><circle cx="31" cy="14" r="4" fill="#FF5DA2"/><circle cx="31" cy="22" r="4" fill="#FF5DA2"/><rect x="9" y="14" width="22" height="8" rx="3" fill="#FF5DA2"/></g></svg>'},
+  foodbowl:{name:'Matskål',pos:'left:42%;bottom:4%;width:11%',svg:'<svg viewBox="0 0 60 34"><g class="kib">'+'<circle cx="20" cy="9" r="4.5" fill="#A0652F"/><circle cx="30" cy="7" r="4.5" fill="#A0652F"/><circle cx="40" cy="9" r="4.5" fill="#A0652F"/><circle cx="25" cy="12" r="4" fill="#8A5A2B"/><circle cx="35" cy="12" r="4" fill="#8A5A2B"/></g><path d="M2 12h56l-6 20H8Z" fill="#7B5CFF"/><ellipse cx="30" cy="12" rx="28" ry="4" fill="#B6A4FF"/><path d="M30 25c-3-2-4.5-3-4.5-4.5a2 2 0 0 1 4.5-.5a2 2 0 0 1 4.5.5c0 1.5-1.5 2.5-4.5 4.5Z" fill="#fff"/></svg>'},
+  waterbowl:{name:'Vattenskål',pos:'left:55%;bottom:4%;width:11%',svg:'<svg viewBox="0 0 60 34"><path d="M2 12h56l-6 20H8Z" fill="#19C3B2"/><ellipse cx="30" cy="12" rx="28" ry="4.5" fill="#5BC6F5"/><ellipse cx="24" cy="11" rx="8" ry="1.6" fill="#fff" opacity=".7"/></svg>'},
+  toybox:{name:'Leksakslåda',pos:'left:2%;bottom:3%;width:19%',svg:'<svg viewBox="0 0 80 60"><circle cx="24" cy="16" r="11" fill="#C6F03C"/><path d="M48 4l8 4-4 22-8-2Z" fill="#FF5DA2"/><g transform="translate(50 6) rotate(30) scale(.6)">'+'<circle cx="9" cy="14" r="5" fill="#F5E6C8"/><circle cx="9" cy="24" r="5" fill="#F5E6C8"/><circle cx="31" cy="14" r="5" fill="#F5E6C8"/><circle cx="31" cy="24" r="5" fill="#F5E6C8"/><rect x="9" y="14" width="22" height="10" rx="4" fill="#F5E6C8"/></g><rect x="2" y="22" width="76" height="38" rx="6" fill="#FFD23F"/><rect x="2" y="22" width="76" height="8" fill="#F2B600"/><g fill="#fff" opacity=".8"><circle cx="40" cy="44" r="5"/><circle cx="32" cy="38" r="2.6"/><circle cx="40" cy="35" r="2.6"/><circle cx="48" cy="38" r="2.6"/></g></svg>'}
+};
+const LIVINGBG=(function(){let st='';for(let x=0;x<400;x+=24)st+='<rect x="'+x+'" y="0" width="12" height="190" fill="#FFDCCB"/>';let pl='';for(let y=196;y<300;y+=16)pl+='<path d="M0 '+y+'H400" stroke="#C98B4E" stroke-width="2"/>';for(let k=0;k<14;k++){const y=196+Math.floor(k/2)*16,x=(k*67+(k%2)*33)%400;pl+='<path d="M'+x+' '+y+'v16" stroke="#C98B4E" stroke-width="2"/>'}
+  return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><rect width="400" height="300" fill="#FFE9DC"/>'+st+
+  '<rect x="16" y="24" width="56" height="44" rx="4" fill="#fff"/><rect x="22" y="30" width="44" height="32" fill="#DDF7F3"/><g fill="#7B5CFF"><circle cx="44" cy="49" r="6"/><circle cx="36" cy="40" r="3"/><circle cx="44" cy="37" r="3"/><circle cx="52" cy="40" r="3"/></g>'+
+  '<rect y="186" width="400" height="8" fill="#fff"/><rect y="194" width="400" height="106" fill="#D9A066"/>'+pl+
+  '<ellipse cx="190" cy="252" rx="128" ry="34" fill="#7B5CFF"/><ellipse cx="190" cy="252" rx="108" ry="26" fill="#B6A4FF"/><ellipse cx="190" cy="252" rx="86" ry="18" fill="#ECE5FF"/></svg>'})();
+let DH=null,DGEN=0,dTickN=0,dWhine=0;
+function dogFresh(){return {adopted:false,breed:'cocker',name:'',hunger:70,love:60,walk:55,muddy:false,tricks:{sit:0,paw:0,roll:0},t:Date.now()}}
+function dW(bk){bk=bk||S.dog.breed;return bk==='bernard'?33:(bk==='tax'?31:28)}
+function openDog(){
+  if(!S.dog)S.dog=dogFresh();
+  show('s-dog');
+  if(!S.dog.adopted){dogAdoptUI();return}
+  const dt=Math.min(3600,Math.max(0,(Date.now()-(S.dog.t||Date.now()))/1000)),d=S.dog;
+  d.hunger=Math.max(20,d.hunger-dt*.07);d.love=Math.max(20,d.love-dt*.06);d.walk=Math.max(15,d.walk-dt*.07);
+  dogScene();
+}
+let dDraft={breed:null,name:''};
+function dogAdoptUI(){
+  $('#dogGame').hidden=true;$('#dogAdopt').hidden=false;dDraft={breed:null,name:''};$('#dogNameIn').value='';dogAdoptDraw();
+}
+function dogAdoptDraw(){
+  $('#dogBreeds').innerHTML=Object.keys(DOGS).map(k=>'<button class="card'+(dDraft.breed===k?' sel':'')+'" data-breed="'+k+'"><span class="disc" style="background:'+['#FFF3C4','#FFE9D6','#DDF7F3','#FFE1EE','#ECE5FF'][Object.keys(DOGS).indexOf(k)]+'">'+dogSVG(k,dDraft.breed===k?'happy':'ok')+'</span>'+DOGS[k].name+'</button>').join('');
+  $('#dogBlurb').textContent=dDraft.breed?DOGS[dDraft.breed].name+': '+DOGS[dDraft.breed].blurb:'Tryck på en valp för att läsa om den.';
+  $('#dogNames').innerHTML=DNAMES.map(n=>'<button class="chip" data-dname="'+n+'">'+n+'</button>').join('');
+  $('#dogAdoptBtn').disabled=!(dDraft.breed&&dDraft.name.trim());
+}
+$('#dogBreeds').addEventListener('click',e=>{const t=e.target.closest('[data-breed]');if(!t)return;dDraft.breed=t.dataset.breed;beep(700,.1);setTimeout(()=>beep(900,.08),90);dogAdoptDraw()});
+$('#dogNames').addEventListener('click',e=>{const t=e.target.closest('[data-dname]');if(!t)return;dDraft.name=t.dataset.dname;$('#dogNameIn').value=dDraft.name;beep(900,.08);dogAdoptDraw()});
+$('#dogNameIn').addEventListener('input',e=>{dDraft.name=e.target.value.slice(0,14);$('#dogAdoptBtn').disabled=!(dDraft.breed&&dDraft.name.trim())});
+$('#dogAdoptBtn').addEventListener('click',()=>{const d=S.dog;d.adopted=true;d.breed=dDraft.breed;d.name=dDraft.name.trim();save();chime();dogScene();setTimeout(()=>dToast('Välkommen hem, '+d.name+'! Voff!'),300)});
+function dogScene(){
+  $('#dogAdopt').hidden=true;$('#dogGame').hidden=false;DGEN++;const g=DGEN,d=S.dog;
+  $('#dogName').textContent=d.name;$('#dogBreed').textContent=DOGS[d.breed].name+'valp';
+  const sc=$('#dogScene');
+  sc.innerHTML='<div class="bg">'+LIVINGBG+'</div><div class="acc">'+Object.keys(DITEMS).map(k=>'<div class="ai di-'+k+'" data-di="'+k+'" style="'+DITEMS[k].pos+'">'+DITEMS[k].svg+'</div>').join('')+'</div><div class="floor"></div>'+
+    '<div class="dog" style="left:38%;bottom:5%;width:'+dW()+'%"><div class="bubble" hidden></div><div class="bflip"><div class="bbody"></div><div class="mouthtoy"></div></div></div><div class="fx"></div>';
+  const el=sc.querySelector('.dog');
+  DH={sc,el,flip:el.querySelector('.bflip'),body:el.querySelector('.bbody'),toy:el.querySelector('.mouthtoy'),bubble:el.querySelector('.bubble'),fx:sc.querySelector('.fx'),floor:sc.querySelector('.floor'),x:38,busy:false,mood:'',ov:null,ovT:0,last:0};
+  el.addEventListener('pointerdown',()=>dPet());
+  sc.querySelectorAll('[data-di]').forEach(it=>it.addEventListener('pointerdown',e=>{e.stopPropagation();dUse(it.dataset.di,it)}));
+  $('#dogTray').hidden=true;$('#dogFact').textContent=DOGFACTS[Math.floor(Math.random()*DOGFACTS.length)];
+  dTricksLine();dUI();setTimeout(()=>dWander(g),1500);
+  if(d.muddy)setTimeout(()=>{if(g===DGEN)dToast(d.name+' är lerig! Bada under Mysa.')},900);
+}
+function dToast(m){if(DH)toast(m,DH.sc)}
+function dMoodNow(){const d=S.dog,avg=(d.hunger+d.walk+d.love)/3,mn=Math.min(d.hunger,d.walk,d.love);return (mn<22||avg<38)?'sad':(avg>70?'happy':'ok')}
+function dDraw(){if(!DH)return;const m=(DH.ov&&Date.now()<DH.ovT)?DH.ov:(DH.ov=null,dMoodNow()),key=m+(S.dog.muddy?'m':'');if(key!==DH.mood){DH.mood=key;DH.body.innerHTML=dogSVG(S.dog.breed,m,{muddy:S.dog.muddy})}}
+function dOv(m,ms){DH.ov=m;DH.ovT=Date.now()+ms;dDraw()}
+function dUI(){
+  if(!DH)return;const d=S.dog;
+  $('#dfH').style.width=d.hunger+'%';$('#dfW').style.width=d.walk+'%';$('#dfL').style.width=d.love+'%';
+  dDraw();
+  const need=[['walk',d.walk],['hunger',d.hunger],['love',d.love]].sort((a,z)=>a[1]-z[1])[0];
+  if(need[1]<32&&!DH.busy){DH.bubble.innerHTML=need[0]==='walk'?'<svg viewBox="0 0 40 40">'+LEASHICON+'</svg>':need[0]==='hunger'?'<svg viewBox="0 0 40 40">'+KIBBLE+'</svg>':'<svg viewBox="0 0 24 24">'+HEART+'</svg>';DH.bubble.hidden=false}else DH.bubble.hidden=true;
+}
+function dMove(x,cb,fast){
+  x=Math.max(1,Math.min(100-dW()-1,x));const dx=x-DH.x;if(Math.abs(dx)>1)DH.flip.classList.toggle('left',dx<0);
+  const dur=Math.max(300,Math.abs(dx)*(fast?14:24));DH.el.style.setProperty('--dur',dur+'ms');DH.el.classList.add('walking');DH.body.classList.add('dwalk');DH.el.style.left=x+'%';DH.x=x;
+  setTimeout(()=>{if(!DH)return;DH.el.classList.remove('walking');DH.body.classList.remove('dwalk');cb&&cb()},dur);
+}
+function dRect(el){const a=el.getBoundingClientRect(),b=DH.sc.getBoundingClientRect();return {l:(a.left-b.left)/b.width*100,r:(a.right-b.left)/b.width*100,cx:(a.left+a.width/2-b.left)/b.width*100,bot:(b.bottom-a.bottom)/b.height*100,top:(b.bottom-a.top)/b.height*100}}
+function dY(y){DH.el.style.bottom=y+'%'}
+function dHearts(n){for(let k=0;k<n;k++)setTimeout(()=>{if(!DH)return;const h=document.createElement('div');h.className='fx-i heart';h.style.left=(DH.x+dW()*.7+R(-4,4))+'%';h.style.bottom=(parseFloat(DH.el.style.bottom)+20)+'%';h.style.setProperty('--dx',R(-40,40)+'%');h.innerHTML='<svg viewBox="0 0 24 24">'+HEART+'</svg>';DH.fx.appendChild(h);setTimeout(()=>h.remove(),1350)},k*110)}
+function dAnim(cls,ms){DH.body.classList.remove(cls);void DH.body.offsetWidth;DH.body.classList.add(cls);setTimeout(()=>{if(DH)DH.body.classList.remove(cls)},ms)}
+function woof(n){for(let k=0;k<(n||1);k++)setTimeout(()=>{beep(260,.07,'square');setTimeout(()=>beep(200,.09,'square'),60)},k*260)}
+function dPet(){if(!DH||DH.busy)return;const now=Date.now();if(now-DH.last<200)return;DH.last=now;const d=S.dog;d.love=clamp(d.love+(d.breed==='cavalier'?6:4));dHearts(2);dAnim('squish',450);dOv('joy',1300);beep(R(900,1150),.08);dUI()}
+function mouthTo(x){return x-dW()*.86}
+function dUse(k,el){
+  if(!DH||DH.busy)return;const g=DGEN,rc=dRect(el),d=S.dog,w=dW();
+  if(k==='foodbowl'){dTray('food');return}
+  DH.busy=true;DH.bubble.hidden=true;
+  const done=(msg,love,more)=>{if(g!==DGEN)return;DH.busy=false;if(love)d.love=clamp(d.love+love);if(more)more();if(msg)dToast(msg);dUI();save()};
+  if(k==='door'){dMove(rc.l-w*.7,()=>{if(g!==DGEN)return;DH.flip.classList.remove('left');dOv('joy',1500);woof(2);dAnim('binky',850);dToast('Promenad! '+d.name+' viftar på svansen.');setTimeout(()=>{if(g!==DGEN)return;DH.busy=false;startWalk()},1100)},true);return}
+  if(k==='bed'){dMove(rc.cx-w/2,()=>{if(g!==DGEN)return;DH.body.classList.add('lie');dOv('sleep',4200);zzzAt(DH);dToast(d.name+' sover i korgen.');setTimeout(()=>{if(g===DGEN)zzzAt(DH)},2000);setTimeout(()=>{if(g!==DGEN)return;DH.body.classList.remove('lie');dAnim('squish',450);done('',6)},4200)});return}
+  if(k==='sofa'){dMove(rc.cx-w/2,()=>{if(g!==DGEN)return;dY(rc.bot+(rc.top-rc.bot)*.4);beep(600,.12,'triangle');DH.body.classList.add('lie');dOv('sleep',3200);dToast('Upp i soffan! Okej då, bara en liten stund.');setTimeout(()=>{if(g!==DGEN)return;DH.body.classList.remove('lie');dY(5);beep(400,.1,'triangle');done('',5)},3200)});return}
+  if(k==='window'){dMove(rc.cx-w/2,()=>{if(g!==DGEN)return;DH.body.classList.add('stand');woof(3);
+      const b=document.createElement('div');b.className='fx-i bird';b.style.left=(rc.l+4)+'%';b.style.top='18%';b.innerHTML='<svg viewBox="0 0 30 20"><ellipse cx="14" cy="12" rx="9" ry="6" fill="#5BC6F5"/><circle cx="22" cy="8" r="5" fill="#5BC6F5"/><path d="M26 8l4 1-4 2Z" fill="#FF8A3D"/><circle cx="23" cy="7" r="1.2" fill="#2B2350"/><path d="M8 10q4-8 10-2" fill="#2E9FD6"/></svg>';DH.fx.appendChild(b);setTimeout(()=>b.remove(),1500);
+      dToast('Voff voff! '+d.name+' skäller på en fågel.');setTimeout(()=>{if(g!==DGEN)return;DH.body.classList.remove('stand');done('',3)},1800)});return}
+  if(k==='waterbowl'){dMove(mouthTo(rc.cx),()=>{if(g!==DGEN)return;DH.flip.classList.remove('left');DH.body.classList.add('sip');dOv('eat',1800);let n=0;const iv=setInterval(()=>{beep(R(500,700),.05,'sine');if(++n>6)clearInterval(iv)},230);setTimeout(()=>{if(g!==DGEN)return;DH.body.classList.remove('sip');done('Slurp slurp! '+d.name+' dricker vatten.',3)},1800)});return}
+  if(k==='toybox'){dMove(mouthTo(rc.cx)+4,()=>{if(g!==DGEN)return;const toys=[['en tennisboll',DBALL],['ett gnisselben',BONEICON],['en repknut',ROPE],['en pipande anka',SQUEAK]],t=toys[Math.floor(Math.random()*toys.length)];
+      DH.flip.classList.remove('left');DH.toy.innerHTML='<svg viewBox="0 0 40 40">'+t[1]+'</svg>';dOv('joy',3000);dAnim('wiggle',1200);let n=0;const iv=setInterval(()=>{beep(R(1400,1800),.05,'square');if(++n>4)clearInterval(iv)},260);
+      dToast(d.name+' hittade '+t[0]+'!');setTimeout(()=>{if(g!==DGEN)return;dMove(R(20,55),()=>{if(g!==DGEN)return;DH.toy.innerHTML='';done('',6)})},1700)});return}
+  done('',0);
+}
+function zzzAt(o){if(!o||!o.fx)return;const x=(o.x||40)+dW()*.75,y=parseFloat(o.el.style.bottom)+18;for(let k=0;k<3;k++)setTimeout(()=>{if(!o.fx)return;const z=document.createElement('div');z.className='fx-i zz';z.textContent='z';z.style.left=x+'%';z.style.bottom=y+'%';o.fx.appendChild(z);setTimeout(()=>z.remove(),1600)},k*500)}
+function dTray(kind){
+  const t=$('#dogTray');if(!t.hidden&&t.dataset.k===kind){t.hidden=true;return}
+  t.dataset.k=kind;let items=[];
+  if(kind==='food')items=[['f:kibble',KIBBLE,'Hundmat'],['f:treat',TREAT,'Hundgodis'],['f:bone',BONEICON,'Tuggben'],['f:water',WATERICON,'Vatten']];
+  if(kind==='play')items=[['p:fetch',DBALL,'Apport'],['p:tug',ROPE,'Dragkamp'],['t:sit','<text x="20" y="27" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="16" fill="#7B5CFF">Sitt</text>','Sitt!'],['t:paw','<g transform="translate(8 6) scale(1)"><circle cx="12" cy="20" r="8" fill="#FF8A3D"/><circle cx="4" cy="9" r="3.5" fill="#FF8A3D"/><circle cx="12" cy="5" r="3.5" fill="#FF8A3D"/><circle cx="20" cy="9" r="3.5" fill="#FF8A3D"/></g>','Ge tass!'],['t:roll','<path d="M30 20a10 10 0 1 1-4-8" stroke="#19C3B2" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M27 6l0 8-8-1Z" fill="#19C3B2"/>','Rulla runt!']];
+  if(kind==='love')items=[['l:pat','<g transform="scale(1.66)">'+HEART+'</g>','Klappa'],['l:brush',BRUSH,'Borsta'],['l:bath','<g fill="#5BC6F5" stroke="#2E9FD6" stroke-width="1.5"><circle cx="14" cy="22" r="8"/><circle cx="26" cy="16" r="6"/><circle cx="27" cy="29" r="5"/></g><circle cx="12" cy="19" r="2" fill="#fff"/>','Bada'],['l:belly','<path d="M8 28q12-20 24 0" stroke="#FF5DA2" stroke-width="4" fill="none" stroke-linecap="round"/><g fill="#FF5DA2"><circle cx="10" cy="12" r="3"/><circle cx="20" cy="8" r="3"/><circle cx="30" cy="12" r="3"/></g>','Klia magen']];
+  t.innerHTML=items.map(i=>'<button class="opt" data-dg="'+i[0]+'"><svg viewBox="0 0 40 40">'+i[1]+'</svg>'+i[2]+'</button>').join('');t.hidden=false;beep(650,.08);
+}
+$('#dogActs').addEventListener('click',e=>{const b=e.target.closest('[data-dt]');if(b)dTray(b.dataset.dt)});
+$('#dogWalkBtn').addEventListener('click',()=>{if(!DH)return;const door=DH.sc.querySelector('.di-door');if(door&&!DH.busy)dUse('door',door);else if(!DH.busy)startWalk()});
+$('#dogTray').addEventListener('click',e=>{
+  const b=e.target.closest('[data-dg]');if(!b||!DH)return;const [k,v]=b.dataset.dg.split(':');
+  if(DH.busy){dToast('Vänta lite, '+S.dog.name+' är upptagen!');return}
+  $('#dogTray').hidden=true;
+  if(k==='f')dFeed(v);if(k==='p')dPlay(v);if(k==='t')dTrick(v);if(k==='l')dLove(v);
+});
+function dFeed(v){
+  const g=DGEN,d=S.dog;
+  if(v==='water'){const w=DH.sc.querySelector('.di-waterbowl');if(w)dUse('waterbowl',w);return}
+  if(v==='kibble'){const bowl=DH.sc.querySelector('.di-foodbowl');if(!bowl)return;bowl.classList.add('filled');beep(300,.2,'triangle');DH.busy=true;const rc=dRect(bowl);
+    dMove(mouthTo(rc.cx),()=>{if(g!==DGEN)return;DH.flip.classList.remove('left');DH.body.classList.add('munch');dOv('eat',2200);let n=0;const iv=setInterval(()=>{beep(R(180,260),.05,'square');if(++n>8)clearInterval(iv)},240);
+      setTimeout(()=>{if(g!==DGEN)return;bowl.classList.remove('filled');DH.body.classList.remove('munch');dOv('joy',1400);dHearts(2);DH.busy=false;d.hunger=clamp(d.hunger+35);dToast('Mums! Skålen är tom och '+d.name+' är mätt.');dUI();save()},2200)},true);return}
+  if(v==='treat'){DH.busy=true;DH.toy.innerHTML='<svg viewBox="0 0 40 40">'+TREAT+'</svg>';dAnim('squish',450);setTimeout(()=>{if(g!==DGEN)return;DH.toy.innerHTML='';DH.body.classList.add('munch');dOv('eat',900);beep(300,.05,'square');setTimeout(()=>{if(g!==DGEN)return;DH.body.classList.remove('munch');dOv('joy',1200);dHearts(3);DH.busy=false;d.love=clamp(d.love+8);d.hunger=clamp(d.hunger+5);dToast('Hundgodis! Bara lite, det är som godis för hundar.');dUI();save()},900)},500);return}
+  if(v==='bone'){DH.busy=true;DH.toy.innerHTML='<svg viewBox="0 0 40 40">'+BONEICON+'</svg>';DH.body.classList.add('lie');dOv('joy',3200);let n=0;const iv=setInterval(()=>{beep(R(220,320),.04,'square');if(++n>10)clearInterval(iv)},280);dToast(d.name+' tuggar på tuggbenet.');
+    setTimeout(()=>{if(g!==DGEN)return;DH.toy.innerHTML='';DH.body.classList.remove('lie');DH.busy=false;d.love=clamp(d.love+6);d.hunger=clamp(d.hunger+8);dUI();save()},3200)}
+}
+function dPlay(v){
+  const g=DGEN,d=S.dog,w=dW();DH.busy=true;
+  if(v==='fetch'){
+    const tx=R(62,100-w*.4),b=document.createElement('div');b.className='dball';b.style.left='3%';b.style.bottom='45%';b.innerHTML='<svg viewBox="0 0 40 40">'+DBALL+'</svg>';DH.floor.appendChild(b);
+    beep(500,.15,'triangle');requestAnimationFrame(()=>requestAnimationFrame(()=>{b.style.left=tx+'%';b.style.bottom='5%'}));woof(1);
+    setTimeout(()=>{if(g!==DGEN)return;dMove(mouthTo(tx+2.5),()=>{if(g!==DGEN)return;b.remove();DH.toy.innerHTML='<svg viewBox="0 0 40 40">'+DBALL+'</svg>';beep(900,.08,'triangle');
+      dMove(8,()=>{if(g!==DGEN)return;DH.flip.classList.add('left');DH.toy.innerHTML='';dAnim('binky',850);dOv('joy',1500);dHearts(3);DH.busy=false;d.love=clamp(d.love+10);d.hunger=clamp(d.hunger-2);dToast('Apport! '+d.name+' kom tillbaka med bollen.');dUI();save()},true)},true)},500);
+    return;
+  }
+  if(v==='tug'){
+    dMove(18,()=>{if(g!==DGEN)return;DH.flip.classList.add('left');
+      const r=document.createElement('div');r.className='rope';const bot=parseFloat(DH.el.style.bottom)+dW()*.42;r.style.bottom=bot+'%';r.style.width=(DH.x+dW()*.16)+'%';DH.floor.appendChild(r);
+      DH.body.classList.add('tug');dOv('joy',2400);let n=0;const iv=setInterval(()=>{beep(R(90,120),.12,'sawtooth');if(++n>7)clearInterval(iv)},280);dToast('Dragkamp! Grrr...');
+      setTimeout(()=>{if(g!==DGEN)return;r.remove();DH.body.classList.remove('tug');DH.toy.innerHTML='<svg viewBox="0 0 40 40">'+ROPE+'</svg>';dAnim('binky',850);dHearts(3);
+        setTimeout(()=>{if(g!==DGEN)return;DH.toy.innerHTML='';DH.busy=false;d.love=clamp(d.love+8);dToast(d.name+' vann dragkampen!');dUI();save()},900)},2400)},true);
+  }
+}
+const TRICKNAMES={sit:'Sitt',paw:'Ge tass',roll:'Rulla runt'};
+function dTricksLine(){const t=S.dog.tricks,need=S.dog.breed==='collie'?2:3,known=Object.keys(t).filter(k=>t[k]>=need).map(k=>TRICKNAMES[k]);$('#dogTricks').textContent=known.length?S.dog.name+' kan: '+known.join(', ')+'.':S.dog.name+' kan inga trix än. Öva under Leka!'}
+function dTrick(k){
+  const g=DGEN,d=S.dog,need=d.breed==='collie'?2:3,n=d.tricks[k]||0,learned=n>=need,ok=learned||Math.random()<(d.breed==='collie'?.65:.45);
+  DH.busy=true;DH.flip.classList.remove('left');beep(700,.1,'triangle');
+  if(!ok){dAnim('tilt',1000);beep(500,.15);setTimeout(()=>{if(g!==DGEN)return;DH.busy=false;dToast(d.name+' lägger huvudet på sned... Försök igen!')},1000);return}
+  const cls={sit:'sit',paw:'paw',roll:'droll'}[k],ms={sit:1600,paw:1400,roll:900}[k];
+  DH.body.classList.add(cls);dOv('joy',ms+600);
+  setTimeout(()=>{if(g!==DGEN)return;DH.body.classList.remove(cls);dHearts(2);DH.busy=false;d.love=clamp(d.love+4);
+    if(!learned){d.tricks[k]=n+1;if(n+1>=need){chime();dToast('Nu kan '+d.name+' '+TRICKNAMES[k].toLowerCase()+'!')}else dToast('Duktig! '+(n+1)+' av '+need+' gånger för att lära sig '+TRICKNAMES[k].toLowerCase()+'.')}
+    else dToast(['Duktig hund!','Bra jobbat, '+d.name+'!','Snyggt!'][Math.floor(Math.random()*3)]);
+    dTricksLine();dUI();save()},ms);
+}
+function dLove(v){
+  const g=DGEN,d=S.dog;
+  if(v==='pat'){dToast('Tryck på '+d.name+' för att klappa!');dAnim('squish',450);return}
+  DH.busy=true;
+  if(v==='brush'){const br=document.createElement('div');br.className='fx-i tool brush';br.style.left=(DH.x+dW()*.3)+'%';br.style.bottom=(parseFloat(DH.el.style.bottom)+dW()*.5)+'%';br.innerHTML='<svg viewBox="0 0 40 40">'+BRUSH+'</svg>';DH.fx.appendChild(br);dOv('joy',2200);
+    let n=0;const iv=setInterval(()=>{beep(R(600,800),.05,'triangle');if(++n>7)clearInterval(iv)},250);
+    setTimeout(()=>{if(g!==DGEN)return;br.remove();dHearts(3);DH.busy=false;d.love=clamp(d.love+12);dToast(d.name+' blir alldeles blank i pälsen!');dUI();save()},2100);return}
+  if(v==='bath'){dOv('happy',2800);for(let k=0;k<14;k++)setTimeout(()=>{if(!DH)return;const b=document.createElement('div');b.className='fx-i bubb';b.style.left=(DH.x+R(0,dW()))+'%';b.style.bottom=(parseFloat(DH.el.style.bottom)+R(0,dW()*.6))+'%';DH.fx.appendChild(b);setTimeout(()=>b.remove(),1200)},k*150);
+    let n=0;const iv=setInterval(()=>{beep(R(800,1200),.04,'sine');if(++n>8)clearInterval(iv)},250);
+    setTimeout(()=>{if(g!==DGEN)return;dAnim('wiggle',1200);beep(300,.3,'sawtooth');d.muddy=false;DH.mood='';dDraw();dToast('Skaka skaka! Nu är '+d.name+' ren och fin.');setTimeout(()=>{if(g!==DGEN)return;DH.busy=false;d.love=clamp(d.love+5);dUI();save()},1200)},2300);return}
+  if(v==='belly'){dAnim('droll',900);setTimeout(()=>{if(g!==DGEN)return;DH.body.classList.add('lie');dOv('joy',1800);dHearts(5);let n=0;const iv=setInterval(()=>{beep(R(900,1200),.05);if(++n>5)clearInterval(iv)},200);dToast('Klia klia på magen! '+d.name+' sprattlar med benen.');
+    setTimeout(()=>{if(g!==DGEN)return;DH.body.classList.remove('lie');DH.busy=false;d.love=clamp(d.love+10);dUI();save()},1800)},900)}
+}
+function dWander(g){
+  if(g!==DGEN)return;setTimeout(()=>dWander(g),R(2600,5200));
+  if(!DH||DH.busy||$('#s-dog').hidden||$('#dogGame').hidden)return;
+  const d=S.dog,r=Math.random();
+  if(d.walk<30&&Date.now()-dWhine>20000){dWhine=Date.now();const door=DH.sc.querySelector('.di-door');if(door){const rc=dRect(door);DH.busy=true;dMove(rc.l-dW()*.7,()=>{DH.flip.classList.remove('left');let n=0;const iv=setInterval(()=>{beep(1100-n*120,.12,'sine');if(++n>3)clearInterval(iv)},180);dToast('Gnyy! '+d.name+' vill gå ut.');DH.busy=false});return}}
+  if(r<.12){const b=DH.sc.querySelector('.di-bed');if(b){dUse('bed',b);return}}
+  if(r<.45)return;
+  dMove(R(2,100-dW()-2),null,Math.random()<.4);
+}
+setInterval(()=>{
+  if(!S.dog||!S.dog.adopted||$('#s-dog').hidden||!DH)return;
+  const d=S.dog;d.hunger=clamp(d.hunger-.2);d.love=clamp(d.love-.16);d.walk=clamp(d.walk-.18);d.t=Date.now();
+  dUI();if(++dTickN%5===0)save();
+},1000);
+
+/* ---------- Promenaden ---------- */
+const WFAR=(function(){const s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160"><ellipse cx="80" cy="170" rx="160" ry="70" fill="#B4EC8C"/><ellipse cx="320" cy="170" rx="150" ry="60" fill="#9BE27A"/><g><rect x="40" y="70" width="60" height="70" fill="#FFC6DE"/><path d="M34 72L70 40l36 32Z" fill="#FF5DA2"/><rect x="62" y="110" width="16" height="30" fill="#B5793F"/><rect x="48" y="84" width="12" height="12" fill="#B7E9FF"/><rect x="82" y="84" width="12" height="12" fill="#B7E9FF"/></g><g><rect x="170" y="60" width="70" height="80" fill="#FFF3C4"/><path d="M164 62L205 30l41 32Z" fill="#7B5CFF"/><rect x="198" y="108" width="16" height="32" fill="#B5793F"/><rect x="178" y="74" width="14" height="14" fill="#B7E9FF"/><rect x="218" y="74" width="14" height="14" fill="#B7E9FF"/></g><g fill="#4FB43A"><circle cx="140" cy="100" r="22"/><circle cx="300" cy="95" r="26"/><circle cx="360" cy="110" r="18"/></g><g fill="#8A5A2B"><rect x="137" y="115" width="6" height="25"/><rect x="297" y="115" width="6" height="25"/><rect x="357" y="122" width="6" height="18"/></g><rect y="138" width="400" height="22" fill="#7ED957"/></svg>';return 'url("data:image/svg+xml,'+encodeURIComponent(s)+'")'})();
+const WNEAR=(function(){const s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><rect width="200" height="34" fill="#7ED957"/><g fill="#fff"><circle cx="30" cy="20" r="3"/><circle cx="130" cy="14" r="3"/></g><g fill="#FFD23F"><circle cx="30" cy="20" r="1.4"/><circle cx="130" cy="14" r="1.4"/></g><g fill="#FF5DA2"><circle cx="80" cy="24" r="3"/><circle cx="170" cy="22" r="3"/></g><rect y="34" width="200" height="8" fill="#C9C2DC"/><rect y="42" width="200" height="58" fill="#E7E1F4"/><g stroke="#D6CCEB" stroke-width="2"><path d="M50 42v58M100 42v58M150 42v58M0 70h200"/></g></svg>';return 'url("data:image/svg+xml,'+encodeURIComponent(s)+'")'})();
+const WOBJ={
+  tree:{w:17,bot:30,meet:.5,svg:'<svg viewBox="0 0 60 100"><rect x="25" y="55" width="10" height="45" rx="3" fill="#8A5A2B"/><circle cx="30" cy="34" r="26" fill="#4FB43A"/><circle cx="14" cy="46" r="14" fill="#3E9E2E"/><circle cx="46" cy="44" r="15" fill="#3E9E2E"/><circle cx="24" cy="24" r="6" fill="#7ED957"/></svg>'},
+  hydrant:{w:6,bot:28,meet:.5,svg:'<svg viewBox="0 0 30 50"><rect x="7" y="12" width="16" height="36" rx="3" fill="#FF4D6D"/><path d="M5 14q10-14 20 0Z" fill="#FF4D6D"/><rect x="2" y="24" width="26" height="7" rx="3" fill="#D93C5A"/><rect x="4" y="46" width="22" height="4" rx="2" fill="#B02A45"/><circle cx="15" cy="6" r="3" fill="#D93C5A"/></svg>'},
+  flowers:{w:11,bot:29,meet:.5,svg:'<svg viewBox="0 0 50 40"><g stroke="#3E9E2E" stroke-width="2.5"><path d="M10 40V20M25 40V14M40 40V22"/></g><g><circle cx="10" cy="18" r="6" fill="#FF5DA2"/><circle cx="25" cy="12" r="6" fill="#FFD23F"/><circle cx="40" cy="20" r="6" fill="#7B5CFF"/></g><g fill="#fff"><circle cx="10" cy="18" r="2"/><circle cx="25" cy="12" r="2"/><circle cx="40" cy="20" r="2"/></g></svg>'},
+  dog:{w:24,bot:6,meet:.12},
+  squirrel:{w:8,bot:29,meet:.3,svg:'<svg viewBox="0 0 50 50"><path d="M14 44q-14-10-6-30q8-12 16 0q-10 6-4 24Z" fill="#E07A2B"/><ellipse cx="30" cy="36" rx="10" ry="12" fill="#F29A4A"/><circle cx="36" cy="22" r="8" fill="#F29A4A"/><path d="M34 15l2-7 4 7Z" fill="#E07A2B"/><circle cx="39" cy="21" r="1.6" fill="#2B2350"/><ellipse cx="34" cy="40" rx="5" ry="6" fill="#FFE3C4"/></svg>'},
+  puddle:{w:18,bot:5,meet:.45,svg:'<svg viewBox="0 0 80 24"><ellipse cx="40" cy="12" rx="38" ry="10" fill="#8A5A2B"/><ellipse cx="40" cy="11" rx="30" ry="7" fill="#5BC6F5"/><ellipse cx="30" cy="9" rx="8" ry="2" fill="#fff" opacity=".7"/></svg>'},
+  poop:{w:5,bot:7,svg:'<svg viewBox="0 0 40 30">'+'<circle cx="12" cy="20" r="7" fill="#7A4B2A"/><circle cx="27" cy="21" r="6.5" fill="#6A3F22"/><circle cx="19" cy="11" r="6.5" fill="#86552F"/></svg>'}
+};
+const OTHERNAMES=['Fido','Tessan','Bamse','Lady','Max','Pricken','Doris','Kalle'];
+let W=null;
+function startWalk(){
+  show('s-walk');const d=S.dog,wd=dW()+2;
+  $('#walkOver').hidden=true;$('#walkObjs').innerHTML='';
+  const dogEl=$('#walkDog');dogEl.style.width=wd+'%';dogEl.innerHTML='<div class="bflip"><div class="bbody">'+dogSVG(d.breed,'happy',{muddy:d.muddy})+'</div></div>';dogEl.classList.add('walking');
+  W={t:0,objs:[],paused:false,target:null,trees:0,friends:0,bags:0,missed:false,poopAt:R(10,16),poopDone:false,spawn:1.2,far:0,near:0,running:true,last:performance.now(),dogL:24,dogW:wd,muddy:false,busyT:0};
+  wHud();beep(600,.15,'triangle');requestAnimationFrame(wLoop);
+}
+function wHud(){$('#wTime').textContent=Math.max(0,50-Math.floor(W.t))+' s';$('#wTrees').textContent=W.trees;$('#wFriends').textContent=W.friends;$('#wBags').textContent=W.bags}
+function wSpawn(){
+  const r=Math.random(),type=r<.28?'tree':r<.38?'hydrant':r<.48?'flowers':r<.68?'dog':r<.83?'squirrel':'puddle';
+  const o=Object.assign({type,x:104,done:false},WOBJ[type]);
+  const el=document.createElement('div');el.className='wobj wo-'+type;el.style.width=o.w+'%';el.style.bottom=o.bot+'%';el.style.left=o.x+'%';
+  if(type==='dog'){const keys=Object.keys(DOGS);o.breed=keys[Math.floor(Math.random()*keys.length)];o.name=OTHERNAMES[Math.floor(Math.random()*OTHERNAMES.length)];el.innerHTML='<div class="flipx">'+dogSVG(o.breed,'happy')+'</div><span class="wname">'+o.name+'</span>';el.style.aspectRatio='140/110'}
+  else el.innerHTML=o.svg;
+  el.addEventListener('pointerdown',e=>{e.stopPropagation();wTap(o)});
+  o.el=el;$('#walkObjs').appendChild(el);W.objs.push(o);
+}
+function wTap(o){
+  if(!W||!W.running||o.done)return;
+  if(o.type==='poop'){o.done=true;W.bags++;o.el.innerHTML='<svg viewBox="0 0 40 40"><path d="M8 14h24l-3 24H11Z" fill="#7ED957"/><path d="M8 14l4-8M32 14l-4-8" stroke="#7ED957" stroke-width="3"/></svg>';o.el.classList.add('bagged');beep(1000,.1,'triangle');setTimeout(()=>beep(1300,.1,'triangle'),110);toast('Bra! Bajset åkte ner i påsen.',$('#walkScene'));wHud();return}
+  if(W.paused||W.target){return}
+  const front=W.dogL+W.dogW*.86;
+  if(o.x+o.w*o.meet<W.dogL+W.dogW*.4){toast('Den har ni redan gått förbi!',$('#walkScene'));return}
+  W.target=o;beep(800,.08,'triangle');
+}
+function wAct(o){
+  const d=S.dog,dogEl=$('#walkDog'),body=dogEl.querySelector('.bbody'),sc=$('#walkScene');
+  W.paused=true;dogEl.classList.remove('walking');o.done=true;
+  const fin=(ms)=>setTimeout(()=>{if(!W||!W.running)return;W.paused=false;dogEl.classList.add('walking');body.innerHTML=dogSVG(d.breed,'happy',{muddy:d.muddy||W.muddy});wHud()},ms);
+  if(o.type==='tree'||o.type==='hydrant'){body.classList.add('sniff');beep(700,.06);setTimeout(()=>{body.classList.remove('sniff');body.classList.add('pee');toast(o.type==='tree'?'Nosa nosa... och kissa vid trädet!':'Nosa nosa... och kissa vid brandposten!',sc);W.trees++;setTimeout(()=>body.classList.remove('pee'),1000)},800);fin(1900);return}
+  if(o.type==='flowers'){body.classList.add('sniff');setTimeout(()=>body.classList.remove('sniff'),900);toast('Mmm, blommor luktar gott!',sc);d.love=clamp(d.love+2);fin(1100);return}
+  if(o.type==='dog'){body.innerHTML=dogSVG(d.breed,'joy',{muddy:d.muddy||W.muddy});woof(2);for(let k=0;k<5;k++)setTimeout(()=>{const h=document.createElement('div');h.className='fx-i heart';h.style.left=(W.dogL+W.dogW*.9+R(-3,3))+'%';h.style.bottom='38%';h.style.setProperty('--dx',R(-40,40)+'%');h.innerHTML='<svg viewBox="0 0 24 24">'+HEART+'</svg>';$('#walkFx').appendChild(h);setTimeout(()=>h.remove(),1350)},k*140);
+    toast('Nosa nosa! '+d.name+' hälsar på '+o.name+'.',sc);W.friends++;fin(2000);return}
+  if(o.type==='squirrel'){body.classList.add('binky');woof(3);o.el.classList.add('flee');toast('Voff voff! Ekorren rymde upp i ett träd.',sc);setTimeout(()=>body.classList.remove('binky'),900);fin(1500);return}
+  if(o.type==='puddle'){body.classList.add('binky');beep(300,.3,'sine');W.muddy=true;for(let k=0;k<10;k++){const sp=document.createElement('div');sp.className='fx-i splash';sp.style.left=(o.x+o.w*.5+R(-6,6))+'%';sp.style.bottom=(8+R(0,6))+'%';sp.style.setProperty('--dx',R(-120,120)+'%');$('#walkFx').appendChild(sp);setTimeout(()=>sp.remove(),900)}
+    setTimeout(()=>{body.classList.remove('binky');body.innerHTML=dogSVG(d.breed,'joy',{muddy:true})},700);toast('Plask! Nu blev '+d.name+' lerig.',sc);fin(1600);return}
+  fin(300);
+}
+function wLoop(now){
+  if(!W||!W.running)return;
+  if($('#s-walk').hidden){W.running=false;return}
+  const dt=Math.min(.05,(now-W.last)/1000);W.last=now;
+  const sc=$('#walkScene'),sw=sc.clientWidth;
+  if(!W.paused){
+    W.t+=dt;
+    const v=W.target?36:11;
+    W.far-=v*.3*dt*sw/100;W.near-=v*dt*sw/100;
+    $('#wFar').style.backgroundPositionX=W.far+'px';$('#wNear').style.backgroundPositionX=W.near+'px';
+    W.objs.forEach(o=>{o.x-=v*dt;o.el.style.left=o.x+'%'});
+    if(W.target){const o=W.target;if(o.x+o.w*o.meet<=W.dogL+W.dogW*(o.type==='puddle'?.55:.86)){W.target=null;wAct(o)}}
+    if(!W.target){W.spawn-=dt;if(W.spawn<=0){W.spawn=R(2.2,3.6);wSpawn()}}
+    if(!W.poopDone&&W.t>W.poopAt&&!W.target){
+      W.poopDone=true;W.paused=true;const dogEl=$('#walkDog'),body=dogEl.querySelector('.bbody');dogEl.classList.remove('walking');body.classList.add('squat');toast('Hoppsan! '+S.dog.name+' bajsar. Tryck på bajset för att plocka upp det!',sc);
+      setTimeout(()=>{if(!W||!W.running)return;body.classList.remove('squat');const o=Object.assign({type:'poop',x:W.dogL-2,done:false},WOBJ.poop);const el=document.createElement('div');el.className='wobj wo-poop';el.style.width=o.w+'%';el.style.bottom=o.bot+'%';el.style.left=o.x+'%';el.innerHTML=o.svg;el.addEventListener('pointerdown',e=>{e.stopPropagation();wTap(o)});o.el=el;$('#walkObjs').appendChild(el);W.objs.push(o);W.paused=false;dogEl.classList.add('walking')},1500);
+    }
+    W.objs=W.objs.filter(o=>{if(o.x<-o.w-4){if(o.type==='poop'&&!o.done){W.missed=true;toast('Oj! Bajset blev kvar. Glöm inte påsen nästa gång.',sc)}o.el.remove();return false}return true});
+    if(Math.floor(W.t*4)!==Math.floor((W.t-dt)*4))wHud();
+    if(W.t>=50){wEnd();return}
+  }
+  wLeash();
+  requestAnimationFrame(wLoop);
+}
+function wLeash(){
+  const sc=$('#walkScene').getBoundingClientRect(),dg=$('#walkDog').getBoundingClientRect();if(!sc.width)return;
+  const d=DOGS[S.dog.breed],B=d.body||1,L=Math.round(24*(d.legs||1)),cx=S.dog.breed==='tax'?58:62,rx=Math.round(32*B),cy=102-L-(S.dog.breed==='tax'?3:5),hx=Math.round(cx+rx*.78+4),hy=cy-20;
+  const px=(dg.left-sc.left+dg.width*(hx-11)/140)/sc.width*100,py=(dg.top-sc.top+dg.height*(hy+20)/110)/sc.height*100;
+  $('#leashPath').setAttribute('d','M-2 30 Q'+((px-2)/2).toFixed(1)+' '+(Math.max(30,py)+14).toFixed(1)+' '+px.toFixed(1)+' '+py.toFixed(1));
+}
+function wEnd(){
+  if(!W||!W.running)return;W.running=false;$('#walkDog').classList.remove('walking');
+  const d=S.dog,coins=1+(W.bags?2:0);
+  d.walk=clamp(d.walk+35+W.trees*15);d.love=clamp(d.love+8+W.friends*3);d.hunger=clamp(d.hunger-8);if(W.muddy)d.muddy=true;S.coins+=coins;save();renderWallet();chime();
+  const ov=$('#walkOver');ov.hidden=false;
+  ov.innerHTML='<div class="hopcard"><p class="big">Hemma igen!</p><p>Kiss: '+W.trees+' · Nya kompisar: '+W.friends+' · Bajspåsar: '+W.bags+'</p><p>'+(W.bags?'Snyggt, du plockade upp bajset! ':(W.missed?'Glöm inte bajspåsen nästa gång. ':''))+'+'+coins+' kr</p>'+(W.muddy?'<p>'+esc(d.name)+' är lerig. Bada under Mysa!</p>':'')+'<div class="row"><button class="btn small green" data-go="dog">Gå in</button></div></div>';
+}
+$('#walkHome').addEventListener('click',()=>{if(W&&W.running)wEnd();else go('dog')});
+$('#walkScene').addEventListener('pointerdown',e=>{if(e.target.closest('.wobj')||e.target.closest('button'))return;if(W&&W.running&&!W.paused&&!W.target){const dogEl=$('#walkDog').querySelector('.bbody');dogEl.classList.remove('binky');void dogEl.offsetWidth;dogEl.classList.add('binky');woof(1);setTimeout(()=>dogEl.classList.remove('binky'),850)}});
+
 /* ---------- Spelloop ---------- */
 setInterval(()=>{
   if(!playing||!S.bunnies.length)return;
@@ -2518,7 +2966,7 @@ $$('svg.coin').forEach(s=>s.innerHTML=COIN);
 $('.ic-food').innerHTML=FOODSVG.carrot.replace(/#FF8A3D/g,'#fff').replace(/#E06A1E/g,'#FF8A3D').replace(/#4FB43A/g,'#fff');
 $('.ic-clean').innerHTML=BROOM.replace(/#B5793F/g,'#fff').replace(/#FBD866|#E2B23C/g,'#fff').replace(/#FF5DA2/g,'#10978A');
 $('.ic-love').innerHTML=HEART.replace('#FF5DA2','#fff');
-$('.ic-meadow').innerHTML=MEADOWICON;$('.ic-games').innerHTML=GAMESICON;$('.ic-ham').innerHTML='<g transform="scale(.34) translate(-4 12)">'+hamSVG(HFURS[0],'happy',0).replace(/^<svg[^>]*>/,'').replace('</svg>','')+'</g>';$('.hic-food').innerHTML=HFOODS.seeds.svg;$('.hic-clean').innerHTML=SPARK;$('.hic-love').innerHTML=HEART;$('.hic-food2').innerHTML=HFOODS.seeds.svg.replace(/#C9A26B/g,'#fff');$('.hic-clean2').innerHTML=$('.ic-clean').innerHTML;$('.hic-love2').innerHTML=$('.ic-love').innerHTML;$('.gi-hop').innerHTML=HOPICON;$('.gi-dress').innerHTML=DRESSICON;$('.gi-dig').innerHTML=DIGICON;$('.gi-skate').innerHTML=SKATEICON;$('.gi-cross').innerHTML=CROSSICON;$('.sk-c').innerHTML=FOODSVG.carrot;$('.hc svg').innerHTML=FOODSVG.carrot;$('.ic-shop').innerHTML=SHOPICON;
+$('.ic-meadow').innerHTML=MEADOWICON;$('.ic-games').innerHTML=GAMESICON;$('.ic-dog').innerHTML='<g transform="translate(-14 -6) scale(.36)">'+dogSVG('cocker','happy').replace(/^<svg[^>]*>/,'').replace('</svg>','')+'</g>';$('.dic-food').innerHTML=KIBBLE;$('.dic-walk').innerHTML=LEASHICON;$('.dic-love').innerHTML=HEART;$('.dic-food2').innerHTML=KIBBLE.replace(/#A0652F|#C98B4E/g,'#fff');$('.dic-play').innerHTML=DBALL.replace('#C6F03C','#fff').replace('stroke="#fff"','stroke="#7B5CFF"');$('.dic-love2').innerHTML=HEART.replace('#FF5DA2','#fff');$('.wi-tree').innerHTML=WOBJ.tree.svg.replace(/^<svg[^>]*>/,'').replace('</svg>','');$('.wi-heart').innerHTML=HEART;$('.wi-bag').innerHTML='<path d="M8 14h24l-3 24H11Z" fill="#7ED957"/><path d="M8 14l4-8M32 14l-4-8" stroke="#7ED957" stroke-width="3"/>';document.documentElement.style.setProperty('--wfar',WFAR);document.documentElement.style.setProperty('--wnear',WNEAR);$('.ic-ham').innerHTML='<g transform="scale(.34) translate(-4 12)">'+hamSVG(HFURS[0],'happy',0).replace(/^<svg[^>]*>/,'').replace('</svg>','')+'</g>';$('.hic-food').innerHTML=HFOODS.seeds.svg;$('.hic-clean').innerHTML=SPARK;$('.hic-love').innerHTML=HEART;$('.hic-food2').innerHTML=HFOODS.seeds.svg.replace(/#C9A26B/g,'#fff');$('.hic-clean2').innerHTML=$('.ic-clean').innerHTML;$('.hic-love2').innerHTML=$('.ic-love').innerHTML;$('.gi-hop').innerHTML=HOPICON;$('.gi-dress').innerHTML=DRESSICON;$('.gi-dig').innerHTML=DIGICON;$('.gi-skate').innerHTML=SKATEICON;$('.gi-cross').innerHTML=CROSSICON;$('.sk-c').innerHTML=FOODSVG.carrot;$('.hc svg').innerHTML=FOODSVG.carrot;$('.ic-shop').innerHTML=SHOPICON;
 
 /* Meny */
 function syncSound(){$('#mSound').textContent='Ljud: '+(S.muted?'av':'på')}
@@ -2535,7 +2983,7 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};openAdopt('first');
 });
-const APP_VERSION='1.26';
+const APP_VERSION='1.27';
 const APP_DATE='25 okt 2026';
 $('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
 $('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
