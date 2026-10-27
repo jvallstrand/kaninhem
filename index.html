@@ -476,6 +476,19 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .scene > .sitter{position:absolute;inset:auto;left:11%;bottom:35%;width:19%;z-index:4;cursor:pointer;animation:plop .5s ease-out}
 .sitter svg{width:100%;display:block}
 .sitopt svg{width:56px!important;height:68px!important}
+/* Joystick */
+.joywrap,.joy{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.joywrap{display:flex;justify-content:center;align-items:center;gap:16px;padding:4px 0}
+.joy{position:relative;width:132px;height:132px;border-radius:50%;background:var(--paper);box-shadow:0 6px 0 rgba(43,35,80,.18);touch-action:none;cursor:grab;flex-shrink:0}
+.joyring{position:absolute;inset:14px;border-radius:50%;border:3px dashed #D6CCEB}
+.joyknob{position:absolute;left:50%;top:50%;width:58px;height:58px;border-radius:50%;background:var(--violet);box-shadow:0 5px 0 #5838D6;transform:translate(-50%,-50%);transition:transform .12s ease-out}
+.joy.on .joyknob{transition:none}
+.joyblue .joyknob{background:#2AA6D0;box-shadow:0 5px 0 #1E6FA8}
+.breath{display:flex;flex-direction:column;gap:4px;width:110px;font-weight:800;opacity:.35;transition:opacity .3s}
+.breath.vis{opacity:1}
+.breath .fill{background:#5BC6F5}
+.breath.low .fill{background:var(--orange);animation:nudge .6s infinite}
+@media (min-width:700px){.joy{width:160px;height:160px}.joyknob{width:70px;height:70px}}
 /* Snorkla */
 .snreef{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:4/3;border-radius:28px;overflow:hidden;box-shadow:0 8px 0 rgba(43,35,80,.18);background:#2AA6D0;touch-action:manipulation;user-select:none;-webkit-user-select:none}
 .snworld{position:absolute;top:0;left:0;height:100%;width:300%;will-change:transform}
@@ -490,9 +503,10 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .sea .sfl2{transform-box:fill-box;transform-origin:80% 50%;animation:sfl 1.6s ease-in-out infinite alternate-reverse}
 @keyframes sfl{to{transform:rotate(-18deg)}}
 .sea.snapped{filter:drop-shadow(0 0 8px #fff)}
-.snorkeler{position:absolute;top:3%;width:7%;z-index:4;pointer-events:none}
+.snorkeler{position:absolute;top:4%;width:8%;z-index:4;pointer-events:none}
 .snorkeler svg{width:100%;display:block;overflow:visible}
 .snorkeler .kick{transform-box:fill-box;transform-origin:100% 50%}
+.snorkeler.under svg path[d^='M90 12V-2']{opacity:.9}
 .snorkeler.swimming .kick{animation:kick .3s ease-in-out infinite alternate}
 @keyframes kick{to{transform:scaleY(.4)}}
 .snbub{position:absolute;top:6%;width:.6%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.8);animation:snbub 1.6s ease-out forwards;pointer-events:none}
@@ -848,8 +862,8 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
     <div class="topline"><button class="mini" data-go="turtles">Stranden</button><h2 class="title2">Korallrevet</h2></div>
     <div class="skhud"><span>Martinique</span><span id="snCount"></span></div>
     <div class="snreef" id="snReef"><div class="snworld" id="snWorld"></div><div class="hopover snover" id="snOver" hidden></div></div>
-    <div class="skpad"><button class="btn big" id="snL" aria-label="Simma vänster" style="background:#2AA6D0;box-shadow:0 6px 0 #1E6FA8">◀</button><button class="btn big" id="snR" aria-label="Simma höger" style="background:#2AA6D0;box-shadow:0 6px 0 #1E6FA8">▶</button></div>
-    <p class="hint" style="margin:0;text-align:center">Håll in pilarna eller tryck i vattnet för att simma. Tryck på ett djur för att ta ett foto.</p>
+    <div class="joywrap"><div class="joy joyblue" id="snJoy"><div class="joyring"></div><div class="joyknob"></div></div><div class="breath" id="snBreath"><span>Luft</span><div class="bar"><div class="fill" id="snAir"></div></div></div></div>
+    <p class="hint" style="margin:0;text-align:center">Dra i joysticken för att simma åt alla håll, även ner till korallerna. Tryck på ett djur för att ta ett foto.</p>
     <button class="btn violet" id="snAlbumBtn">Fotoalbum</button>
     <div class="album" id="snAlbum" hidden></div>
   </section>
@@ -972,8 +986,8 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
     <div class="topline"><button class="mini" data-go="games">Spel</button><h2 class="title2">Kaninskridskor</h2></div>
     <div class="skhud"><span id="skHearts" class="skhearts"></span><span class="skgot"><svg viewBox="0 0 40 40" class="sk-c"></svg><b id="skGot">0</b></span><span id="skTime">60 s</span></div>
     <div class="skwrap"><canvas id="skCanvas" class="skcanvas"></canvas><div class="hopover" id="skOver" hidden></div></div>
-    <div class="skpad"><button class="btn big violet" id="skL" aria-label="Sväng vänster">◀</button><button class="btn big violet" id="skR" aria-label="Sväng höger">▶</button></div>
-    <p class="hint" style="margin:0;text-align:center">Håll in pilarna, eller dra med fingret på isen.</p>
+    <div class="joywrap"><div class="joy" id="skJoy"><div class="joyring"></div><div class="joyknob"></div></div></div>
+    <p class="hint" style="margin:0;text-align:center">Dra i joysticken: åt sidan för att svänga, uppåt för att åka fortare och nedåt för att bromsa.</p>
   </section>
 
   <!-- KORSORD -->
@@ -2494,6 +2508,19 @@ $('#digOver').addEventListener('click',e=>{if(e.target.id==='digAgain'){digNew()
 $('#digNewBtn').addEventListener('click',()=>{digNew();$('#digOver').hidden=true;beep(600,.1);renderDig()});
 document.addEventListener('keydown',e=>{if($('#s-dig').hidden)return;const m={ArrowUp:[-1,0],ArrowDown:[1,0],ArrowLeft:[0,-1],ArrowRight:[0,1]}[e.key];if(m){e.preventDefault();digMove(m[0],m[1])}});
 
+/* ---------- Joystick ---------- */
+function makeJoy(el){
+  const J={x:0,y:0,on:false},knob=el.querySelector('.joyknob');
+  const upd=e=>{const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,max=r.width*.38;let dx=e.clientX-cx,dy=e.clientY-cy;const d=Math.hypot(dx,dy);if(d>max){dx=dx/d*max;dy=dy/d*max}
+    J.x=dx/max;J.y=dy/max;if(Math.abs(J.x)<.12)J.x=0;if(Math.abs(J.y)<.12)J.y=0;knob.style.transform='translate(calc(-50% + '+dx+'px),calc(-50% + '+dy+'px))'};
+  el.addEventListener('mousedown',e=>e.preventDefault());
+  el.addEventListener('pointerdown',e=>{e.preventDefault();try{getSelection().removeAllRanges()}catch(_){}J.on=true;el.classList.add('on');try{el.setPointerCapture(e.pointerId)}catch(_){}upd(e)});
+  el.addEventListener('pointermove',e=>{if(J.on)upd(e)});
+  const end=()=>{J.on=false;J.x=0;J.y=0;el.classList.remove('on');knob.style.transform='translate(-50%,-50%)'};
+  ['pointerup','pointercancel','lostpointercapture'].forEach(ev=>el.addEventListener(ev,end));
+  return J;
+}
+const JOYHTML=id=>'<div class="joywrap"><div class="joy" id="'+id+'"><div class="joyring"></div><div class="joyknob"></div></div></div>';
 /* ---------- Kaninskridskor ---------- */
 let SK=null;
 function openSkate(){show('s-skate');skReset();skResize();skDraw();const ov=$('#skOver');ov.hidden=false;ov.innerHTML='<div class="hopcard"><p class="big">Kaninskridskor</p><p>Glid på isen, samla morötter och sväng undan snögubbar, isblock och stenar. Åk i en minut!</p>'+(S.skateBest?'<p>Ditt rekord: '+S.skateBest+' morötter</p>':'')+'<div class="row"><button class="btn small violet" id="skGo">Åk!</button></div></div>'}
@@ -2505,9 +2532,9 @@ function skStart(){skReset();SK.running=true;SK.last=performance.now();$('#skOve
 function skLoop(now){
   if(!SK||!SK.running||$('#s-skate').hidden){if(SK)SK.running=false;return}
   const dt=Math.min(.05,(now-SK.last)/1000);SK.last=now;SK.t+=dt;
-  SK.speed=.32+Math.min(.4,SK.t*.007);
-  let dir=SK.input;if(SK.tx!=null){const d=SK.tx-SK.x;dir=Math.abs(d)<.04?0:Math.sign(d)}
-  SK.x=Math.max(-.85,Math.min(.85,SK.x+dir*dt*1.4));SK.lean+=(dir-SK.lean)*Math.min(1,dt*8);
+  SK.speed=(.32+Math.min(.4,SK.t*.007))*(SKJ.on?1-SKJ.y*.35:1);
+  let dir=SKJ.on?SKJ.x:SK.input;if(!SKJ.on&&SK.tx!=null){const d=SK.tx-SK.x;dir=Math.abs(d)<.04?0:Math.sign(d)}
+  SK.x=Math.max(-.85,Math.min(.85,SK.x+dir*dt*1.6));SK.lean+=(dir-SK.lean)*Math.min(1,dt*8);
   SK.dist+=SK.speed*dt*40;
   SK.spawn-=dt;
   if(SK.spawn<=0){
@@ -2579,7 +2606,7 @@ function skObj(g,t,x,y,s){
   if(t==='carrot'){g.save();g.translate(x,y-s*.5);g.rotate(.6);g.fillStyle='#FF8A3D';g.beginPath();g.moveTo(-s*.12,-s*.35);g.lineTo(s*.12,-s*.35);g.lineTo(0,s*.35);g.fill();g.strokeStyle='#4FB43A';g.lineWidth=Math.max(1,s*.07);g.beginPath();g.moveTo(0,-s*.35);g.lineTo(-s*.1,-s*.55);g.moveTo(0,-s*.35);g.lineTo(s*.1,-s*.55);g.stroke();g.restore()}
 }
 $('#skOver').addEventListener('click',e=>{if(e.target.id==='skGo')skStart()});
-['skL','skR'].forEach((id,k)=>{const el=$('#'+id);const on=e=>{e.preventDefault();if(SK){SK.tx=null;SK.input=k?1:-1}},off=()=>{if(SK)SK.input=0};el.addEventListener('pointerdown',on);['pointerup','pointerleave','pointercancel'].forEach(ev=>el.addEventListener(ev,off))});
+const SKJ=makeJoy($('#skJoy'));
 {const cv=$('#skCanvas');const mv=e=>{if(!SK||!SK.running||!SK.drag)return;const r=cv.getBoundingClientRect();SK.tx=Math.max(-.85,Math.min(.85,((e.clientX-r.left)/r.width-.5)*2.1))};cv.addEventListener('pointerdown',e=>{if(SK){SK.drag=true;mv(e)}});cv.addEventListener('pointermove',mv);['pointerup','pointercancel','pointerleave'].forEach(ev=>cv.addEventListener(ev,()=>{if(SK){SK.drag=false;SK.tx=null}}))}
 document.addEventListener('keydown',e=>{if($('#s-skate').hidden||!SK)return;if(e.key==='ArrowLeft'){SK.tx=null;SK.input=-1}if(e.key==='ArrowRight'){SK.tx=null;SK.input=1}});
 document.addEventListener('keyup',e=>{if($('#s-skate').hidden||!SK)return;if(e.key==='ArrowLeft'||e.key==='ArrowRight')SK.input=0});
@@ -3339,7 +3366,7 @@ function openSnorkel(){
   if(!S.snorkel)S.snorkel={found:{}};
   show('s-snorkel');$('#snAlbum').hidden=true;$('#snOver').hidden=true;
   const w=$('#snWorld');w.innerHTML='<div class="snbg">'+REEFBG+'</div>';
-  SN={x:20,tx:null,dir:1,cam:0,hold:0,run:true,last:performance.now(),bub:0};
+  SN={x:20,y:4,tx:null,ty:null,dir:1,cam:0,hold:0,vh:0,air:1,up:false,run:true,last:performance.now(),bub:0,ang:0};
   SEAPLACES.forEach((p,k)=>{const sp=SEA[p[0]],el=document.createElement('div');el.className='sea sea-'+p[0];el.style.left=(p[1]/3)+'%';el.style.top=p[2]+'%';el.style.width=(sp.w*(sp.w>=15?1.3:1.7)/3)+'%';el.style.animationDelay=(-k*.7)+'s';el.innerHTML=sp.svg;el.setAttribute('role','button');el.setAttribute('aria-label',sp.name);
     el.addEventListener('pointerdown',e=>{e.stopPropagation();snPhoto(p[0],el)});w.appendChild(el)});
   const me=document.createElement('div');me.className='snorkeler';me.innerHTML=SNORKELER;w.appendChild(me);SN.me=me;
@@ -3363,18 +3390,29 @@ function snToast(m){const sc=$('#snReef');let t=sc.querySelector(':scope > .toas
 function snLoop(now){
   if(!SN||!SN.run)return;if($('#s-snorkel').hidden){SN.run=false;return}
   const dt=Math.min(.05,(now-SN.last)/1000);SN.last=now;
-  let v=0;if(SN.hold)v=SN.hold*28;else if(SN.tx!=null){const d=SN.tx-SN.x;if(Math.abs(d)<1)SN.tx=null;else v=Math.sign(d)*Math.min(28,Math.abs(d)*3)}
-  if(v){SN.x=Math.max(4,Math.min(290,SN.x+v*dt));SN.dir=v>0?1:-1}
-  SN.me.classList.toggle('swimming',!!v);
-  SN.me.style.left=(SN.x/3)+'%';SN.me.style.transform='translate(-50%,0) scaleX('+SN.dir+')';
+  let vx=0,vy=0;const SP=30;
+  if(SNJ.on){vx=SNJ.x*SP;vy=SNJ.y*SP*.9;SN.tx=null;SN.ty=null}
+  else if(SN.hold)vx=SN.hold*SP;
+  else if(SN.tx!=null){const dx=SN.tx-SN.x,dy=SN.ty-SN.y,d=Math.hypot(dx,dy);if(d<1.2){SN.tx=null;SN.ty=null}else{const sp=Math.min(SP,d*3);vx=dx/d*sp;vy=dy/d*sp}}
+  if(SN.up){vy=-26;if(SN.y<=5)SN.up=false}
+  else if(!SNJ.on&&SN.tx==null&&SN.y>5)vy+=4;
+  SN.x=Math.max(4,Math.min(292,SN.x+vx*dt));SN.y=Math.max(4,Math.min(84,SN.y+vy*dt));
+  if(Math.abs(vx)>.5)SN.dir=vx>0?1:-1;
+  const under=SN.y>8;
+  if(under){SN.air=Math.max(0,SN.air-dt/12);if(SN.air<=0&&!SN.up){SN.up=true;SN.tx=null;snToast('Dags att andas! Du simmar upp till ytan.');beep(400,.2,'sine')}}
+  else{if(SN.air<1&&SN.air<.98&&SN.y<=5)SN.air=Math.min(1,SN.air+dt/1.5)}
+  $('#snAir').style.width=(SN.air*100)+'%';$('#snBreath').classList.toggle('low',SN.air<.3);$('#snBreath').classList.toggle('vis',under||SN.air<1);
+  const moving=Math.abs(vx)+Math.abs(vy)>1;SN.me.classList.toggle('swimming',moving);SN.me.classList.toggle('under',under);
+  const tgt=moving?Math.max(-55,Math.min(55,Math.atan2(vy,Math.max(Math.abs(vx),.01))*180/Math.PI)):0;SN.ang+=(tgt-SN.ang)*Math.min(1,dt*6);
+  SN.me.style.left=(SN.x/3)+'%';SN.me.style.top=SN.y+'%';SN.me.style.transform='translate(-50%,-50%) scaleX('+SN.dir+') rotate('+SN.ang.toFixed(1)+'deg)';
   const target=Math.max(0,Math.min(200,SN.x-50));SN.cam+=(target-SN.cam)*Math.min(1,dt*3);
   $('#snWorld').style.transform='translateX('+(-SN.cam/3)+'%)';
-  SN.bub-=dt;if(SN.bub<=0){SN.bub=R(.6,1.4);const b=document.createElement('div');b.className='snbub';b.style.left=(SN.x/3+SN.dir*1.1)+'%';$('#snWorld').appendChild(b);setTimeout(()=>b.remove(),1600)}
+  SN.bub-=dt;if(SN.bub<=0){SN.bub=under?R(.3,.7):R(.8,1.6);const b=document.createElement('div');b.className='snbub';b.style.left=(SN.x/3+SN.dir*1.2)+'%';b.style.top=(SN.y-3)+'%';$('#snWorld').appendChild(b);setTimeout(()=>b.remove(),1600)}
   requestAnimationFrame(snLoop);
 }
-$('#snReef').addEventListener('pointerdown',e=>{if(e.target.closest('.sea')||e.target.closest('.hopover')||!SN)return;const r=$('#snReef').getBoundingClientRect();SN.tx=SN.cam+(e.clientX-r.left)/r.width*100;SN.hold=0});
-['snL','snR'].forEach((id,k)=>{const el=$('#'+id);el.addEventListener('pointerdown',e=>{e.preventDefault();if(SN){SN.hold=k?1:-1;SN.tx=null}});['pointerup','pointerleave','pointercancel'].forEach(ev=>el.addEventListener(ev,()=>{if(SN)SN.hold=0}))});
-document.addEventListener('keydown',e=>{if($('#s-snorkel').hidden||!SN)return;if(e.key==='ArrowLeft')SN.hold=-1;if(e.key==='ArrowRight')SN.hold=1});
+$('#snReef').addEventListener('pointerdown',e=>{if(e.target.closest('.sea')||e.target.closest('.hopover')||!SN)return;const r=$('#snReef').getBoundingClientRect();SN.tx=SN.cam+(e.clientX-r.left)/r.width*100;SN.ty=Math.max(4,Math.min(84,(e.clientY-r.top)/r.height*100));SN.hold=0});
+const SNJ=makeJoy($('#snJoy'));
+document.addEventListener('keydown',e=>{if($('#s-snorkel').hidden||!SN)return;if(e.key==='ArrowLeft')SN.hold=-1;if(e.key==='ArrowRight')SN.hold=1;if(e.key==='ArrowDown'){SN.tx=SN.x;SN.ty=Math.min(84,SN.y+12)}if(e.key==='ArrowUp'){SN.tx=SN.x;SN.ty=Math.max(4,SN.y-12)}});
 document.addEventListener('keyup',e=>{if($('#s-snorkel').hidden||!SN)return;if(e.key==='ArrowLeft'||e.key==='ArrowRight')SN.hold=0});
 $('#snAlbumBtn').addEventListener('click',()=>{
   const a=$('#snAlbum');if(!a.hidden){a.hidden=true;return}
@@ -3460,7 +3498,7 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};DGEN++;DH=null;HG++;HM=null;openHub();
 });
-const APP_VERSION='1.32';
+const APP_VERSION='1.33';
 const APP_DATE='27 okt 2026';
 $('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
 $('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
