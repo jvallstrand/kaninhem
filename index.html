@@ -425,7 +425,7 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .btn.ghost{background:var(--soft);color:var(--ink);box-shadow:0 4px 0 rgba(43,35,80,.12)}
 .dog.comp{z-index:4}
 .hubtop{display:flex;justify-content:flex-end;gap:8px}
-.pets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pets{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .pet{border:0;background:var(--paper);border-radius:24px;padding:10px 6px 12px;display:flex;flex-direction:column;align-items:center;gap:2px;box-shadow:0 6px 0 rgba(43,35,80,.15);position:relative;min-width:0;text-align:center}
 .pet:active{transform:translateY(3px)}
 .pet b{font-size:1.15rem}
@@ -434,12 +434,48 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .petpics .pp{width:60%;max-width:84px;margin:0 -12%}
 .petpics .pp:only-child{width:80%;margin:0}
 .petpics .pp.small{width:42%}
+.petpics .pp.tpp{width:34%;margin:0 2%;transform:rotate(-20deg)}
+.petpics .pp.tpp + .pp.tpp{transform:rotate(15deg) translateY(-12%)}
 .petpics .pp.ghost{opacity:.4;filter:grayscale(.6)}
 .petpics svg{width:100%;height:auto;overflow:visible;display:block}
 .need{position:absolute;top:-8px;right:-4px;background:var(--orange);color:#fff;font-weight:800;font-size:.75rem;border-radius:99px;padding:2px 8px;box-shadow:0 2px 0 #D2641E;animation:nudge 1s ease-in-out infinite}
 .game.off{opacity:.45}
-@media (max-width:420px){.pets{grid-template-columns:1fr 1fr}.pets .pet:first-child{grid-column:1/-1}}
+@media (min-width:700px){.pets{grid-template-columns:repeat(4,1fr)}}
 @media (min-width:700px){.petpics{height:110px}.pet b{font-size:1.4rem}.petsub{font-size:1rem}}
+/* Sköldpaddor */
+.tscene{position:relative;width:100%;max-width:520px;margin:0 auto;aspect-ratio:3/4;border-radius:28px;overflow:hidden;box-shadow:0 8px 0 rgba(43,35,80,.18);background:#F5D9A0;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.tbg,.tnight{position:absolute;inset:0}
+.tbg svg,.tnight svg,#tNightL{width:100%;height:100%;display:block}
+.tnight{opacity:0;transition:opacity 1.8s ease;pointer-events:none;z-index:2}
+.tnest{position:absolute;left:50%;top:88%;width:34%;transform:translate(-50%,-55%);z-index:1;pointer-events:none}
+.tnest svg{width:100%;display:block}
+.tegg,.hatch,.gull,.tmom{position:absolute;transform:translate(-50%,-50%)}
+.tegg{width:6%;z-index:3;cursor:pointer;padding:1%;animation:plop .4s ease-out backwards;transition:left .5s ease-in-out,top .5s ease-in-out}
+.tegg svg,.hatch svg,.gull svg,.tmom svg{width:100%;display:block;overflow:visible}
+.tegg.moving{pointer-events:none}
+.tegg.shake{animation:wig .35s 2}
+.tegg.crack{animation:crack .3s 3}
+@keyframes crack{50%{transform:translate(-50%,-50%) rotate(14deg)}}
+.hatch{width:7%;z-index:4;pointer-events:none}
+.hatch.swim{animation:tswim 1s ease-in forwards}
+@keyframes tswim{to{opacity:0;margin-top:-6%}}
+.tmom{width:20%;z-index:3;pointer-events:none;transition:top 2.2s ease-in,opacity 2.2s}
+.tmom.swim{top:36%!important;opacity:0}
+.gull{width:14%;z-index:6;cursor:pointer;padding:1.5%}
+.gull .gwing{transform-box:fill-box;transform-origin:90% 90%;animation:gflap .22s ease-in-out infinite alternate}
+@keyframes gflap{to{transform:scaleY(-.6)}}
+.gull .glegs{opacity:0}
+.gull.sit .gwing{animation:none}
+.gull.sit .glegs{opacity:1}
+.kraa{position:absolute;z-index:7;font-weight:800;color:#fff;text-shadow:0 2px 0 #2B2350;transform:translate(-50%,-50%);animation:zz .9s ease-out forwards;pointer-events:none}
+.tsplash{position:absolute;width:10%;aspect-ratio:1;border-radius:50%;border:3px solid #fff;transform:translate(-50%,-50%);animation:tspl 1s ease-out forwards;z-index:3;pointer-events:none}
+@keyframes tspl{from{transform:translate(-50%,-50%) scale(.2);opacity:1}to{transform:translate(-50%,-50%) scale(1.8);opacity:0}}
+.tscene > .toast{position:absolute;inset:3% auto auto 50%;transform:translateX(-50%);max-width:90%;width:max-content;background:var(--paper);color:var(--ink);border-radius:20px;padding:6px 14px;font-weight:800;font-size:clamp(.85rem,3.4vw,1rem);text-align:center;box-shadow:0 4px 0 rgba(43,35,80,.18);z-index:8;animation:pop .3s ease-out}
+.tscene .hopover{z-index:9}
+.tplace{background:var(--paper);border-radius:99px;padding:4px 12px;font-weight:800;font-size:.9rem;align-self:center}
+.scene > .sitter{position:absolute;inset:auto;left:11%;bottom:35%;width:19%;z-index:4;cursor:pointer;animation:plop .5s ease-out}
+.sitter svg{width:100%;display:block}
+.sitopt svg{width:56px!important;height:68px!important}
 /* Promenad */
 .walkscene{position:relative;width:100%;aspect-ratio:16/10;border-radius:24px;overflow:hidden;box-shadow:0 8px 0 rgba(43,35,80,.18);background:linear-gradient(#8FD3FF,#E3F6FF);touch-action:manipulation;user-select:none;-webkit-user-select:none}
 .wsun{position:absolute;right:8%;top:8%;width:11%;aspect-ratio:1;border-radius:50%;background:#FFD23F;box-shadow:0 0 0 10px rgba(255,210,63,.25)}
@@ -754,6 +790,21 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
     </div>
   </section>
 
+  <!-- SKÖLDPADDOR -->
+  <section id="s-turtle" hidden>
+    <div class="topline"><button class="mini" data-go="hub">Hem</button><h2 class="title2">Sköldpaddsstranden</h2></div>
+    <div class="skhud"><span id="tNightN">Natt 1</span><span id="tCount"></span></div>
+    <div class="tscene" id="tScene">
+      <div class="tbg" id="tBg"></div>
+      <div class="tnest" id="tNest"></div>
+      <div class="tnight" id="tNight"><div id="tNightL"></div></div>
+      <div class="hopover" id="tOver" hidden></div>
+    </div>
+    <p class="mhint">Tryck på äggen för att flytta dem till boet. Tryck på måsarna så flyger de iväg.</p>
+    <div class="giverow"><span class="tplace">Martinique, Karibien</span><span class="tplace" id="tTotal"></span><button class="btn small ghost" id="tRestart">Börja om natten</button></div>
+    <div class="fact"><span class="fact-k">Sköldpaddsfakta</span><p id="tFact"></p></div>
+  </section>
+
   <!-- HUNDEN -->
   <section id="s-dog" hidden>
     <div class="topline"><button class="mini" data-go="hub">Hem</button><h2 class="title2">Hundens vardagsrum</h2></div>
@@ -785,7 +836,7 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
       <button class="btn big green" id="dogWalkBtn">Gå ut på promenad</button>
       <p class="hint" style="margin:0;text-align:center">Tryck på soffan, korgen, skålarna, leksakslådan, fönstret eller dörren!</p>
       <div class="fact"><span class="fact-k">Hundfakta</span><p id="dogFact"></p><p id="dogTricks" style="margin-top:6px;font-weight:800"></p></div>
-      <div class="giverow"><button class="btn small violet" id="dogMore">Skaffa en hund till</button><button class="btn small ghost" id="dogGive">Lämna tillbaka</button></div>
+      <div class="giverow"><button class="btn small orange" id="dogSitBtn">Hundvakt</button><button class="btn small violet" id="dogMore">Skaffa en hund till</button><button class="btn small ghost" id="dogGive">Lämna tillbaka</button></div>
     </div>
   </section>
 
@@ -1186,7 +1237,7 @@ const FACTS=[
 ];
 
 /* ---------- Sparat läge ---------- */
-function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',course:['low','low','high','tunnel','long','high'],courses:[['low','low','high','tunnel','long','high'],[],[]],editC:0,trainC:'p0',best:{},hopLevel:'easy',ham:null,dogs:[],dogSel:0,cwDone:[],treats:{},bigHome:false,t:Date.now(),adopted:false,muted:false}}
+function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',course:['low','low','high','tunnel','long','high'],courses:[['low','low','high','tunnel','long','high'],[],[]],editC:0,trainC:'p0',best:{},hopLevel:'easy',turtles:null,sitter:null,ham:null,dogs:[],dogSel:0,cwDone:[],treats:{},bigHome:false,t:Date.now(),adopted:false,muted:false}}
 function migrate(o){
   if(!o||typeof o!=='object')return fresh();
   if(!Array.isArray(o.bunnies)){
@@ -1235,7 +1286,7 @@ function chime(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.14,'tr
 
 /* ---------- Skärmar ---------- */
 let playing=false;
-function show(id){['s-hub','s-adopt','s-cage','s-play','s-shop','s-hop','s-dress','s-build','s-cross','s-games','s-dig','s-skate','s-hamster','s-dog','s-walk'].forEach(s=>{$('#'+s).hidden=(s!==id)});playing=(id==='s-play');if(id!=='s-hop'&&H)H.running=false;window.scrollTo(0,0)}
+function show(id){['s-turtle','s-hub','s-adopt','s-cage','s-play','s-shop','s-hop','s-dress','s-build','s-cross','s-games','s-dig','s-skate','s-hamster','s-dog','s-walk'].forEach(s=>{$('#'+s).hidden=(s!==id)});playing=(id==='s-play');if(id!=='s-hop'&&H)H.running=false;window.scrollTo(0,0)}
 (function(){const el=$('#logo'),t=el.textContent,c=['#FF5DA2','#19C3B2','#7B5CFF','#FF8A3D'];let i=0;el.innerHTML=t.split(' ').map(w=>'<span class="lw">'+w.split('').map(ch=>'<span style="color:'+c[(i++)%4]+'">'+ch+'</span>').join('')+'</span>').join(' ')})();
 
 function renderTabs(){
@@ -1255,6 +1306,7 @@ function go(where){
   beep(620,.1);
   if(where==='home'){if(S.adopted&&S.bunnies.length)enterStage('home');else openHub();return}
   if(where==='hub'){openHub();return}
+  if(where==='turtles'){openTurtles();return}
   if(where==='bunnies'){if(S.adopted&&S.bunnies.length)enterStage('home');else openAdopt('first');return}
   if(where==='meadow'){enterStage('meadow');setTimeout(()=>toast(S.bunnies.length>1?'Ut på ängen! Kaninerna skuttar iväg.':'Ut på ängen! '+cur().name+' skuttar iväg.'),300);return}
   if(where==='shop'){openShop();return}
@@ -2754,7 +2806,7 @@ function openDog(){
   show('s-dog');
   if(!S.dogs.length){dogAdoptUI(false);return}
   if(S.dogSel>=S.dogs.length)S.dogSel=0;
-  S.dogs.forEach(d=>{const dt=Math.min(3600,Math.max(0,(Date.now()-(d.t||Date.now()))/1000));d.hunger=Math.max(20,d.hunger-dt*.07);d.love=Math.max(20,d.love-dt*.06);d.walk=Math.max(15,d.walk-dt*.07);d.t=Date.now()});
+  if(S.sitter)sitterFill();else S.dogs.forEach(d=>{const dt=Math.min(3600,Math.max(0,(Date.now()-(d.t||Date.now()))/1000));d.hunger=Math.max(20,d.hunger-dt*.07);d.love=Math.max(20,d.love-dt*.06);d.walk=Math.max(15,d.walk-dt*.07);d.t=Date.now()});
   dogScene();
 }
 let dDraft={breed:null,name:''};
@@ -2786,7 +2838,7 @@ function dogScene(){
   sc.querySelectorAll('.dog.comp').forEach(c=>{const st={el:c,x:parseFloat(c.style.left)};c.addEventListener('pointerdown',e=>{e.stopPropagation();S.dogSel=+c.dataset.ci;beep(800,.08);woof(1);save();dogScene()});setTimeout(()=>compWander(st,g),R(1500,3500))});
   sc.querySelectorAll('[data-di]').forEach(it=>it.addEventListener('pointerdown',e=>{e.stopPropagation();dUse(it.dataset.di,it)}));
   $('#dogTray').hidden=true;$('#dogFact').textContent=DOGFACTS[Math.floor(Math.random()*DOGFACTS.length)];
-  dTricksLine();dUI();setTimeout(()=>dWander(g),1500);
+  dTricksLine();sitterEl();sitterBtn();dUI();setTimeout(()=>dWander(g),1500);
   if(d.muddy)setTimeout(()=>{if(g===DGEN)dToast(d.name+' är lerig! Bada under Mysa.')},900);
 }
 function compWander(st,g){
@@ -2916,6 +2968,7 @@ function dWander(g){
   if(g!==DGEN)return;setTimeout(()=>dWander(g),R(2600,5200));
   if(!DH||DH.busy||$('#s-dog').hidden||$('#dogGame').hidden)return;
   const d=cd(),r=Math.random();
+  if(S.sitter&&r<.18){const s=DH.sc.querySelector('.sitter');if(s){const rc=dRect(s);DH.busy=true;dMove(Math.max(1,rc.cx+3),()=>{DH.flip.classList.add('left');dHearts(3);dOv('joy',1600);if(Math.random()<.5)sitterSay(SITTERS[S.sitter].name==='Farfar'?'Kli kli bakom örat, '+d.name+'!':'Gos gos, '+d.name+'!');DH.busy=false});return}}
   if(d.walk<30&&Date.now()-dWhine>20000){dWhine=Date.now();const door=DH.sc.querySelector('.di-door');if(door){const rc=dRect(door);DH.busy=true;dMove(rc.l-dW()*.7,()=>{DH.flip.classList.remove('left');let n=0;const iv=setInterval(()=>{beep(1100-n*120,.12,'sine');if(++n>3)clearInterval(iv)},180);dToast('Gnyy! '+d.name+' vill gå ut.');DH.busy=false});return}}
   if(r<.12){const b=DH.sc.querySelector('.di-bed');if(b){dUse('bed',b);return}}
   if(r<.45)return;
@@ -2923,9 +2976,39 @@ function dWander(g){
 }
 setInterval(()=>{
   if(!S.dogs||!S.dogs.length||$('#s-dog').hidden||!DH)return;
-  S.dogs.forEach(d=>{d.hunger=clamp(d.hunger-.2);d.love=clamp(d.love-.16);d.walk=clamp(d.walk-.18);d.t=Date.now()});
+  if(S.sitter)sitterFill();else S.dogs.forEach(d=>{d.hunger=clamp(d.hunger-.2);d.love=clamp(d.love-.16);d.walk=clamp(d.walk-.18);d.t=Date.now()});
   dUI();if(++dTickN%5===0)save();
 },1000);
+
+/* ---------- Hundvakt ---------- */
+const SITTERS={
+  farfar:{name:'Farfar',hi:['Hej på dig, lilla vovve!','Ska vi ta en promenad till?','Vilken duktig hund!','Farfar har hundgodis i fickan.'],
+    svg:'<svg viewBox="0 0 80 100"><rect x="18" y="56" width="44" height="40" rx="12" fill="#2E9FD6"/><path d="M40 58v38" stroke="#1E7FB0" stroke-width="2"/><g fill="#FFD23F"><circle cx="40" cy="66" r="2"/><circle cx="40" cy="76" r="2"/><circle cx="40" cy="86" r="2"/></g><rect x="8" y="62" width="14" height="30" rx="7" fill="#2E9FD6" transform="rotate(14 15 62)"/><rect x="58" y="62" width="14" height="30" rx="7" fill="#2E9FD6" transform="rotate(-14 65 62)"/><circle cx="40" cy="34" r="22" fill="#F5C9A6"/><path d="M18 30q2-14 10-16M62 30q-2-14-10-16" stroke="#E7E1F4" stroke-width="7" stroke-linecap="round" fill="none"/><circle cx="18" cy="36" r="5" fill="#F0B894"/><circle cx="62" cy="36" r="5" fill="#F0B894"/><g stroke="#2B2350" stroke-width="2" fill="#fff" fill-opacity=".4"><circle cx="32" cy="33" r="6"/><circle cx="48" cy="33" r="6"/><path d="M38 33h4"/></g><circle cx="32" cy="33" r="1.8" fill="#2B2350"/><circle cx="48" cy="33" r="1.8" fill="#2B2350"/><path d="M30 44q10 6 20 0q-10 2-20 0Z" fill="#E7E1F4"/><path d="M34 48q6 4 12 0" stroke="#C0605A" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="26" cy="42" r="3" fill="#FF9EC4" opacity=".6"/><circle cx="54" cy="42" r="3" fill="#FF9EC4" opacity=".6"/></svg>'},
+  mormor:{name:'Mormor',hi:['Hej min lilla hjärtevän!','Mormor stickar en tröja åt dig.','Vem är världens finaste hund?','Ska vi mysa lite i soffan?'],
+    svg:'<svg viewBox="0 0 80 100"><rect x="18" y="56" width="44" height="40" rx="12" fill="#FF5DA2"/><path d="M28 58l12 14 12-14" stroke="#fff" stroke-width="3" fill="none"/><rect x="8" y="62" width="14" height="30" rx="7" fill="#FF5DA2" transform="rotate(14 15 62)"/><rect x="58" y="62" width="14" height="30" rx="7" fill="#FF5DA2" transform="rotate(-14 65 62)"/><path d="M26 88l8-14M54 88l-8-14" stroke="#B5793F" stroke-width="2.5" stroke-linecap="round"/><circle cx="40" cy="84" r="7" fill="#7B5CFF"/><path d="M35 82q5-3 10 0M35 86q5-3 10 0" stroke="#B6A4FF" stroke-width="1.5" fill="none"/><circle cx="40" cy="8" r="9" fill="#F2F2F7"/><circle cx="40" cy="34" r="22" fill="#F5C9A6"/><path d="M17 36q-2-24 23-24t23 24q-4-14-23-14T17 36Z" fill="#F2F2F7"/><g stroke="#7B5CFF" stroke-width="2" fill="#fff" fill-opacity=".4"><circle cx="32" cy="35" r="6"/><circle cx="48" cy="35" r="6"/><path d="M38 35h4"/></g><circle cx="32" cy="35" r="1.8" fill="#2B2350"/><circle cx="48" cy="35" r="1.8" fill="#2B2350"/><path d="M33 46q7 6 14 0" stroke="#C0605A" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="26" cy="43" r="3.2" fill="#FF9EC4" opacity=".7"/><circle cx="54" cy="43" r="3.2" fill="#FF9EC4" opacity=".7"/><circle cx="20" cy="46" r="2" fill="#FFD23F"/><circle cx="60" cy="46" r="2" fill="#FFD23F"/></svg>'}
+};
+function sitterEl(){
+  if(!DH)return;const old=DH.sc.querySelector('.sitter');if(old)old.remove();
+  if(!S.sitter)return;const k=S.sitter,el=document.createElement('div');el.className='sitter';el.setAttribute('role','button');el.setAttribute('aria-label',SITTERS[k].name);el.innerHTML=SITTERS[k].svg;
+  el.addEventListener('pointerdown',e=>{e.stopPropagation();sitterSay();dHearts(3)});
+  DH.sc.querySelector('.acc').after(el);
+}
+function sitterSay(msg){const s=SITTERS[S.sitter];if(!s)return;dToast(s.name+': '+(msg||s.hi[Math.floor(Math.random()*s.hi.length)]));beep(R(500,650),.12,'triangle')}
+function sitterFill(){if(!S.sitter||!S.dogs)return;S.dogs.forEach(d=>{d.hunger=100;d.love=100;d.walk=100;d.muddy=false;d.t=Date.now()})}
+function sitterBtn(){const b=$('#dogSitBtn');if(!b)return;b.textContent=S.sitter?'Säg hej då till '+SITTERS[S.sitter].name:'Hundvakt'}
+$('#dogSitBtn').addEventListener('click',()=>{
+  if(!DH)return;
+  if(S.sitter){const n=SITTERS[S.sitter].name;sitterSay('Hej då! Vi hade det så mysigt.');S.sitter=null;save();setTimeout(()=>{sitterEl();sitterBtn();dUI()},900);beep(500,.2,'triangle');return}
+  const t=$('#dogTray');t.dataset.k='sitter';
+  t.innerHTML=Object.keys(SITTERS).map(k=>'<button class="opt sitopt" data-sit="'+k+'">'+SITTERS[k].svg+SITTERS[k].name+'</button>').join('');t.hidden=false;beep(650,.08);
+});
+$('#dogTray').addEventListener('click',e=>{
+  const b=e.target.closest('[data-sit]');if(!b)return;
+  S.sitter=b.dataset.sit;sitterFill();save();$('#dogTray').hidden=true;sitterEl();sitterBtn();dUI();chime();
+  const names=nameList(S.dogs.map(d=>d.name));
+  setTimeout(()=>sitterSay('Hej! Nu tar jag hand om '+names+'. Mat, promenader och massor av mys!'),300);
+  setTimeout(()=>{if(DH&&!DH.busy){DH.busy=true;const s=DH.sc.querySelector('.sitter');const rc=s?dRect(s):{cx:20};dMove(Math.max(1,rc.cx+4),()=>{dHearts(4);dAnim('binky',850);dOv('joy',1500);DH.busy=false})}},700);
+});
 
 /* ---------- Promenaden ---------- */
 const WFAR=(function(){const s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160"><ellipse cx="80" cy="170" rx="160" ry="70" fill="#B4EC8C"/><ellipse cx="320" cy="170" rx="150" ry="60" fill="#9BE27A"/><g><rect x="40" y="70" width="60" height="70" fill="#FFC6DE"/><path d="M34 72L70 40l36 32Z" fill="#FF5DA2"/><rect x="62" y="110" width="16" height="30" fill="#B5793F"/><rect x="48" y="84" width="12" height="12" fill="#B7E9FF"/><rect x="82" y="84" width="12" height="12" fill="#B7E9FF"/></g><g><rect x="170" y="60" width="70" height="80" fill="#FFF3C4"/><path d="M164 62L205 30l41 32Z" fill="#7B5CFF"/><rect x="198" y="108" width="16" height="32" fill="#B5793F"/><rect x="178" y="74" width="14" height="14" fill="#B7E9FF"/><rect x="218" y="74" width="14" height="14" fill="#B7E9FF"/></g><g fill="#4FB43A"><circle cx="140" cy="100" r="22"/><circle cx="300" cy="95" r="26"/><circle cx="360" cy="110" r="18"/></g><g fill="#8A5A2B"><rect x="137" y="115" width="6" height="25"/><rect x="297" y="115" width="6" height="25"/><rect x="357" y="122" width="6" height="18"/></g><rect y="138" width="400" height="22" fill="#7ED957"/></svg>';return 'url("data:image/svg+xml,'+encodeURIComponent(s)+'")'})();
@@ -3030,6 +3113,145 @@ function wEnd(){
 $('#walkHome').addEventListener('click',()=>{if(W&&W.running)wEnd();else go('dog')});
 $('#walkScene').addEventListener('pointerdown',e=>{if(e.target.closest('.wobj')||e.target.closest('button'))return;if(W&&W.running&&!W.paused&&!W.target){const dogEl=$('#walkDog').querySelector('.bbody');dogEl.classList.remove('binky');void dogEl.offsetWidth;dogEl.classList.add('binky');woof(1);setTimeout(()=>dogEl.classList.remove('binky'),850)}});
 
+/* ---------- Sköldpaddsstranden ---------- */
+function turtleSVG(shell,dark,big){
+  return '<svg viewBox="0 0 40 40"><g fill="'+dark+'"><ellipse class="tf1" cx="9" cy="15" rx="'+(big?9:7)+'" ry="3" transform="rotate(-35 9 15)"/><ellipse class="tf2" cx="31" cy="15" rx="'+(big?9:7)+'" ry="3" transform="rotate(35 31 15)"/><ellipse class="tf2" cx="13" cy="31" rx="4" ry="2.5" transform="rotate(30 13 31)"/><ellipse class="tf1" cx="27" cy="31" rx="4" ry="2.5" transform="rotate(-30 27 31)"/></g>'+
+    '<circle cx="20" cy="7" r="5" fill="'+dark+'"/><circle cx="17.6" cy="5.6" r="1.3" fill="#2B2350"/><circle cx="22.4" cy="5.6" r="1.3" fill="#2B2350"/><circle cx="17.9" cy="5.2" r=".5" fill="#fff"/><circle cx="22.7" cy="5.2" r=".5" fill="#fff"/>'+
+    '<ellipse cx="20" cy="21" rx="10" ry="12" fill="'+shell+'"/><path d="M20 10v22M12 16l8 4 8-4M12 27l8-4 8 4" stroke="'+dark+'" stroke-width="1.4" fill="none" opacity=".6"/><ellipse cx="17" cy="16" rx="3" ry="2" fill="#fff" opacity=".25"/></svg>';
+}
+const HATCH=turtleSVG('#4C9A6E','#2F6B4F');
+const MOTHER=turtleSVG('#5B6B7E','#3B4A5A',true);
+const GULL='<svg viewBox="0 0 60 40"><path d="M16 24l-12-4 4 8Z" fill="#B8C4D6"/><ellipse cx="30" cy="24" rx="16" ry="9" fill="#fff" stroke="#D6DDE8"/><circle cx="44" cy="16" r="7.5" fill="#fff" stroke="#D6DDE8"/><path d="M50 15l9 2.5-9 2.5Z" fill="#FFC23D"/><circle cx="46" cy="14" r="1.7" fill="#2B2350"/><circle cx="46.5" cy="13.4" r=".6" fill="#fff"/><g class="gwing"><path d="M24 21Q12 2 4 6q8 6 30 15Z" fill="#B8C4D6"/><path d="M8 7q2 2 6 4" stroke="#8A97AB" stroke-width="1.5" fill="none"/></g><g class="glegs" stroke="#FF9A3D" stroke-width="2" stroke-linecap="round"><path d="M28 32v6M33 32v6"/></g></svg>';
+const TEGG='<svg viewBox="0 0 20 24"><ellipse cx="10" cy="12" rx="8.5" ry="10.5" fill="#FFF8EC" stroke="#E8D9BC" stroke-width="1.2"/><ellipse cx="7" cy="8" rx="2.5" ry="3.5" fill="#fff"/></svg>';
+const NESTSVG='<svg viewBox="0 0 120 60"><ellipse cx="60" cy="38" rx="54" ry="18" fill="#E9C98A"/><ellipse cx="60" cy="36" rx="40" ry="11" fill="#D9B06A"/><g stroke="#B5793F" stroke-width="4" stroke-linecap="round">'+[10,26,44,60,76,94,110].map((x,k)=>'<path d="M'+x+' '+(38-Math.sin(k/6*Math.PI)*16)+'v-16"/>').join('')+'</g><path d="M10 22Q60 2 110 22" stroke="#FFF3D0" stroke-width="2" fill="none"/><rect x="64" y="0" width="54" height="15" rx="3" fill="#B5793F"/><path d="M91 15v10" stroke="#8A5A2B" stroke-width="3"/><text x="91" y="11" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="8.5" fill="#fff">Skyddat bo</text></svg>';
+const TBG=(function(){
+  const r=rng(41);let sp='';for(let i=0;i<70;i++){const x=r()*300,y=160+r()*240;sp+='<circle cx="'+x.toFixed(0)+'" cy="'+y.toFixed(0)+'" r="'+(0.8+r()*1.4).toFixed(1)+'" fill="'+(i%3?'#E2BE7A':'#FFF1CF')+'"/>'}
+  const palm=(x,flip)=>'<g transform="translate('+x+' 0) scale('+(flip?-1:1)+' 1)"><path d="M0 410Q16 300 34 214" stroke="#8A5A2B" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M0 410Q16 300 34 214" stroke="#A0703F" stroke-width="11" fill="none" stroke-dasharray="3 9"/><g fill="#3E9E2E"><path d="M34 214q-40-6-58 18q30-10 58-18Z"/><path d="M34 214q-18-34-48-34q26 12 48 34Z"/><path d="M34 214q10-38 44-40q-28 16-44 40Z"/><path d="M34 214q38-12 62 6q-32-4-62-6Z"/><path d="M34 214q24 14 34 42q-16-24-34-42Z"/></g><g fill="#8A5A2B"><circle cx="30" cy="220" r="5"/><circle cx="38" cy="221" r="5"/></g></g>';
+  const hib=(x,y)=>'<g transform="translate('+x+' '+y+')"><g fill="#FF4D6D">'+[0,72,144,216,288].map(a=>'<ellipse cx="0" cy="-7" rx="5" ry="7" transform="rotate('+a+')"/>').join('')+'</g><circle r="2.5" fill="#FFD23F"/></g>';
+  return '<svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="tsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF8FC0"/><stop offset="1" stop-color="#FFD27A"/></linearGradient><linearGradient id="tsea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0FB3C4"/><stop offset="1" stop-color="#7FE3D8"/></linearGradient></defs>'+
+  '<rect width="300" height="105" fill="url(#tsky)"/><circle cx="96" cy="100" r="26" fill="#FFE08A"/><circle cx="96" cy="100" r="36" fill="#FFE08A" opacity=".3"/>'+
+  '<path d="M222 104Q226 76 240 72Q252 70 258 84Q266 92 268 104Z" fill="#6E5A8E"/><path d="M236 76q6-6 14-2q-6 2-14 2Z" fill="#4FB43A"/>'+
+  '<rect y="102" width="300" height="50" fill="url(#tsea)"/><g stroke="#fff" stroke-width="2" opacity=".6" fill="none" stroke-linecap="round"><path d="M20 116q8-4 16 0M120 112q8-4 16 0M200 124q8-4 16 0M60 132q8-4 16 0M250 138q8-4 16 0"/></g>'+
+  '<path d="M0 148q15 8 30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0v8H0Z" fill="#fff" opacity=".85"/><rect y="154" width="300" height="250" fill="#F5D9A0"/>'+sp+
+  '<g transform="translate(46 360)"><path d="M0-10l3 7 8 0-6 5 2 8-7-4-7 4 2-8-6-5 8 0Z" fill="#FF8A3D"/></g><path d="M246 370q8-10 16 0q-8 4-16 0Z" fill="#FFB3CF"/><path d="M250 368l4-6 4 6" stroke="#FF8FC0" fill="none"/>'+
+  palm(-6,false)+palm(306,true)+hib(26,262)+hib(276,300)+hib(16,300)+'</svg>';
+})();
+const TNIGHT='<svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice"><rect width="300" height="400" fill="#1E2A6B" opacity=".42"/><rect width="300" height="105" fill="#1E2A6B" opacity=".55"/><circle cx="60" cy="42" r="16" fill="#FFF6C9"/><circle cx="66" cy="38" r="14" fill="#2E3A7B" opacity=".55"/><g fill="#fff">'+[[30,20],[110,30],[150,14],[190,40],[240,22],[280,50],[130,70],[20,80]].map(p=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="1.4"/>').join('')+'</g><path d="M40 108q20 6 40 0t-40 14q20 6 40 0" stroke="#FFF6C9" stroke-width="3" fill="none" opacity=".6"/></svg>';
+const TFACTS=['Havssköldpaddor lägger sina ägg i sanden och kryper sedan tillbaka till havet.','På Martiniques stränder lägger både läderskölpaddor och karettsköldpaddor ägg.','Sköldpaddsungarna kläcks oftast på natten och hittar havet genom att gå mot det ljusaste hållet.','En havssköldpadda kan lägga runt hundra ägg på en gång.','Volontärer på Martinique hjälper till att skydda sköldpaddsbon på stranden.','Diamantklippan, Rocher du Diamant, är en stor klippa i havet utanför Martinique.','När sköldpaddsflickor blir vuxna kommer de tillbaka till samma strand för att lägga ägg.'];
+let TS=null;
+function tState(){if(!S.turtles)S.turtles={night:1,saved:0,stars:{}};return S.turtles}
+function openTurtles(){
+  tState();show('s-turtle');$('#tFact').textContent=TFACTS[Math.floor(Math.random()*TFACTS.length)];
+  tSetup();
+  const ov=$('#tOver');ov.hidden=false;
+  ov.innerHTML='<div class="hopcard"><p class="big">Välkommen till Martinique!</p><p>På den här karibiska stranden lägger havssköldpaddor sina ägg. Flytta äggen till det skyddade boet och skräm bort nyfikna måsar. När ungarna kläcks hjälper du dem ner till havet.</p><div class="row"><button class="btn small green" id="tGo">Börja natt '+S.turtles.night+'</button></div></div>';
+}
+function tSetup(){
+  TS&&(TS.run=false);
+  const sc=$('#tScene');sc.querySelectorAll('.tegg,.hatch,.gull,.tmom').forEach(e=>e.remove());
+  $('#tNight').style.opacity='0';$('#tBg').innerHTML=TBG;$('#tNightL').innerHTML=TNIGHT;$('#tNest').innerHTML=NESTSVG;
+  const n=tState().night;
+  TS={phase:'eggs',n,eggs:[],gulls:[],hatch:[],inNest:0,total:Math.min(14,5+n*2),saved:0,scares:0,spawn:3,last:performance.now(),run:false,G:(TS?TS.G:0)+1};
+  tHud();
+}
+function tHud(){$('#tNightN').textContent='Natt '+TS.n;$('#tCount').textContent=TS.phase==='eggs'?'Ägg i boet: '+TS.inNest+' av '+TS.total:'Räddade: '+TS.saved+' av '+TS.total;$('#tTotal').textContent='Totalt räddade: '+tState().saved}
+const NEST={x:50,y:88};
+function tStart(){
+  $('#tOver').hidden=true;const sc=$('#tScene');
+  const mom=document.createElement('div');mom.className='tmom';mom.style.left='50%';mom.style.top='46%';mom.innerHTML=MOTHER;sc.appendChild(mom);TS.mom=mom;
+  tToast('Mamma sköldpadda har lagt ägg i sanden. Tryck på äggen!');
+  for(let k=0;k<TS.total;k++){
+    const e={x:R(14,86),y:R(52,78),inNest:false,gull:null};
+    if(Math.hypot(e.x-NEST.x,e.y-NEST.y)<12)e.y-=10;
+    const el=document.createElement('div');el.className='tegg';el.style.left=e.x+'%';el.style.top=e.y+'%';el.innerHTML=TEGG;el.style.animationDelay=(k*.08)+'s';
+    el.addEventListener('pointerdown',ev=>{ev.stopPropagation();tTapEgg(e)});e.el=el;sc.appendChild(el);TS.eggs.push(e);
+  }
+  TS.run=true;TS.last=performance.now();requestAnimationFrame(tLoop);
+}
+function tTapEgg(e){
+  if(e.inNest||TS.phase!=='eggs')return;
+  if(e.gull&&e.gull.state==='sit'){e.el.classList.remove('shake');void e.el.offsetWidth;e.el.classList.add('shake');tToast('En mås sitter på ägget! Tryck på måsen först.');return}
+  e.inNest=true;const k=TS.inNest;e.el.classList.add('moving');e.el.style.left=(NEST.x-8+(k%5)*4)+'%';e.el.style.top=(NEST.y-3+Math.floor(k/5)*2.2)+'%';
+  TS.inNest++;beep(700+TS.inNest*30,.08,'triangle');tHud();
+  if(TS.inNest>=TS.total)setTimeout(tNightfall,700);
+}
+function tSpawnGull(target){
+  const sc=$('#tScene'),side=Math.random()<.5?-1:1;
+  const g={x:side<0?-10:110,y:R(30,60),state:'fly',target,dir:-side,flap:0};
+  const el=document.createElement('div');el.className='gull';el.innerHTML=GULL;el.style.left=g.x+'%';el.style.top=g.y+'%';
+  el.addEventListener('pointerdown',ev=>{ev.stopPropagation();tShoo(g)});g.el=el;sc.appendChild(el);TS.gulls.push(g);
+}
+function tShoo(g){
+  if(g.state==='leave')return;
+  if(g.target&&g.target.gull===g)g.target.gull=null;
+  g.state='leave';g.el.classList.remove('sit');g.el.classList.add('gone');beep(900,.06,'square');setTimeout(()=>beep(700,.08,'square'),70);
+  const p=document.createElement('div');p.className='kraa';p.textContent='Kraa!';p.style.left=g.x+'%';p.style.top=(g.y-6)+'%';$('#tScene').appendChild(p);setTimeout(()=>p.remove(),900);
+}
+function tNightfall(){
+  TS.phase='hatch';$('#tNight').style.opacity='1';
+  if(TS.mom){TS.mom.classList.add('swim');setTimeout(()=>{if(TS.mom)TS.mom.remove()},2200)}
+  TS.gulls.forEach(g=>tShoo(g));
+  tToast('Mamma sköldpadda simmar ut i havet. Nu blir det natt...');tHud();
+  setTimeout(()=>{if(!TS.run)return;TS.eggs.forEach(e=>{e.el.classList.add('crack')});tToast('Äggen kläcks! Hjälp ungarna ner till havet.');beep(500,.2,'triangle');
+    setTimeout(()=>{if(!TS.run)return;TS.eggs.forEach(e=>e.el.remove());
+      for(let k=0;k<TS.total;k++)setTimeout(()=>{if(TS.run)tHatchOne()},k*550);TS.spawn=2.5},900)},1800);
+}
+function tHatchOne(){
+  const sc=$('#tScene'),h={x:NEST.x+R(-6,6),y:NEST.y-2,lane:R(18,82),state:'crawl',t:Math.random()*6,wait:0,gull:null};
+  const el=document.createElement('div');el.className='hatch';el.innerHTML=HATCH;h.el=el;sc.appendChild(el);TS.hatch.push(h);beep(1100,.05,'triangle');
+}
+function tLoop(now){
+  if(!TS||!TS.run)return;
+  if($('#s-turtle').hidden){TS.run=false;return}
+  const dt=Math.min(.05,(now-TS.last)/1000);TS.last=now;
+  const lv=TS.n,gSpeed=15+lv*2.5;
+  // gulls
+  TS.spawn-=dt;
+  if(TS.phase==='eggs'){
+    const free=TS.eggs.filter(e=>!e.inNest&&!e.gull),active=TS.gulls.filter(g=>g.state!=='leave').length;
+    if(TS.spawn<=0&&free.length&&active<Math.min(3,1+Math.floor(lv/2))){TS.spawn=Math.max(2,4.5-lv*.4);const e=free[Math.floor(Math.random()*free.length)];e.gull='coming';tSpawnGull(e)}
+  } else if(TS.phase==='hatch'){
+    const crawl=TS.hatch.filter(h=>h.state==='crawl'&&!h.gull&&h.y>44),active=TS.gulls.filter(g=>g.state!=='leave').length;
+    if(TS.spawn<=0&&crawl.length&&active<Math.min(4,1+Math.ceil(lv/2))){TS.spawn=Math.max(1.2,3.4-lv*.3);const h=crawl[Math.floor(Math.random()*crawl.length)];h.gull='coming';tSpawnGull(h)}
+  }
+  TS.gulls.forEach(g=>{
+    if(g.state==='leave'){g.y-=45*dt;g.x+=g.dir*20*dt;g.el.style.left=g.x+'%';g.el.style.top=g.y+'%';g.el.style.transform='translate(-50%,-50%) scaleX('+(g.dir)+')';if(g.y<-15){g.el.remove();g.dead=true}return}
+    const t=g.target;if(!t||(TS.phase==='hatch'&&t.state!=='crawl')||(TS.phase==='eggs'&&t.inNest)){if(t&&t.gull===g)t.gull=null;else if(t&&t.gull==='coming')t.gull=null;tShoo(g);return}
+    if(g.state==='sit'){return}
+    const tx=t.x,ty=t.y-5,dx=tx-g.x,dy=ty-g.y,d=Math.hypot(dx,dy);g.dir=dx>=0?1:-1;
+    if(d<3){
+      if(TS.phase==='eggs'){g.state='sit';t.gull=g;g.el.classList.add('sit');beep(500,.08,'square')}
+      else{t.state='back';t.gull=null;TS.scares++;g.target=null;tShoo(g);tToast(['Oj! Ungen blev rädd och sprang tillbaka till boet.','Pip! Den lilla sköldpaddan gömde sig i boet. Den försöker igen!','Ungen blev skrämd, men den är modig och försöker igen!'][Math.floor(Math.random()*3)]);}
+    } else {const sp=gSpeed*dt;g.x+=dx/d*sp;g.y+=dy/d*sp}
+    g.el.style.left=g.x+'%';g.el.style.top=g.y+'%';g.el.style.transform='translate(-50%,-50%) scaleX('+g.dir+')';
+  });
+  TS.gulls=TS.gulls.filter(g=>!g.dead);
+  // hatchlings
+  TS.hatch.forEach(h=>{
+    if(h.state==='saved')return;
+    h.t+=dt;let ang=0;
+    if(h.state==='crawl'){const vy=6.5;h.y-=vy*dt;h.x+=(h.lane-h.x)*.25*dt+Math.sin(h.t*5)*.12;ang=Math.sin(h.t*8)*10;
+      if(h.y<=40){h.state='saved';TS.saved++;tState().saved++;h.el.classList.add('swim');beep(1200,.06,'triangle');setTimeout(()=>beep(1500,.08,'triangle'),80);
+        const sp=document.createElement('div');sp.className='tsplash';sp.style.left=h.x+'%';sp.style.top=h.y+'%';$('#tScene').appendChild(sp);setTimeout(()=>{sp.remove();h.el.remove()},1100);tHud();save();
+        if(TS.saved>=TS.total)setTimeout(tEnd,1200);}}
+    else if(h.state==='back'){const dx=NEST.x-h.x,dy=NEST.y-h.y,d=Math.hypot(dx,dy);ang=Math.atan2(dx,-dy)*180/Math.PI;if(d<2){h.state='wait';h.wait=1.2;h.lane=R(18,82)}else{h.x+=dx/d*22*dt;h.y+=dy/d*22*dt}}
+    else if(h.state==='wait'){h.wait-=dt;ang=180;if(h.wait<=0)h.state='crawl'}
+    h.el.style.left=h.x+'%';h.el.style.top=h.y+'%';h.el.style.transform='translate(-50%,-50%) rotate('+ang+'deg)';
+  });
+  requestAnimationFrame(tLoop);
+}
+function tEnd(){
+  if(!TS.run)return;TS.run=false;
+  const st=TS.scares===0?3:(TS.scares<=2?2:1),prize=2+(st===3?2:0),ts=tState();
+  ts.stars[TS.n]=Math.max(ts.stars[TS.n]||0,st);ts.night=TS.n+1;S.coins+=prize;save();renderWallet();chime();setTimeout(chime,450);
+  TS.gulls.forEach(g=>tShoo(g));
+  const ov=$('#tOver');ov.hidden=false;
+  ov.innerHTML='<div class="hopcard"><p class="big">Alla '+TS.total+' ungar simmade ut i havet!</p>'+starsHTML(st,28)+'<p>'+(TS.scares?'Några ungar blev rädda på vägen, men alla kom fram till slut.':'Inte en enda mås hann fram. Perfekt!')+' +'+prize+' kr</p><p>Du har räddat '+ts.saved+' sköldpaddor totalt.</p><div class="row"><button class="btn small green" id="tNext">Natt '+ts.night+'</button><button class="btn small" data-go="hub">Hem</button></div></div>';
+}
+let tToastT=0;function tToast(m){const sc=$('#tScene');let t=sc.querySelector(':scope > .toast');if(t)t.remove();t=document.createElement('div');t.className='toast';t.setAttribute('role','status');t.textContent=m;sc.appendChild(t);clearTimeout(tToastT);tToastT=setTimeout(()=>t.remove(),2800)}
+$('#tOver').addEventListener('click',e=>{if(e.target.id==='tGo')tStart();if(e.target.id==='tNext'){tSetup();tStart()}});
+$('#tRestart').addEventListener('click',()=>{beep(600,.1);tSetup();tStart()});
+
 /* ---------- Husdjurshemmet ---------- */
 function petCard(kind,title,pics,sub,need){
   return '<button class="pet" data-go="'+kind+'"><span class="petpics">'+pics+'</span><b>'+title+'</b><span class="petsub">'+sub+'</span>'+(need?'<span class="need">'+need+'</span>':'')+'</button>';
@@ -3044,11 +3266,12 @@ function openHub(){
   const hpic=ham?'<span class="pp">'+hamSVG(hfur(),'happy',0)+'</span>':'<span class="pp ghost">'+hamSVG(HFURS[0],'happy',0)+'</span>';
   const hneed=ham&&ham.hunger<30?'Hungrig!':'';
   const dpics=dogs.length?dogs.slice(0,3).map(d=>'<span class="pp">'+dogSVG(d.breed,'happy',{muddy:d.muddy})+'</span>').join(''):'<span class="pp ghost">'+dogSVG('cocker','happy')+'</span>';
-  const dneed=dogs.some(d=>d.walk<30)?'Vill gå ut!':(dogs.some(d=>d.hunger<30)?'Hungrig!':'');
+  const dneed=S.sitter?'':dogs.some(d=>d.walk<30)?'Vill gå ut!':(dogs.some(d=>d.hunger<30)?'Hungrig!':'');
   $('#hubPets').innerHTML=
     petCard('bunnies','Kaninerna',bpics,bun.length?nameList(bun.map(b=>b.name)):'Adoptera en kanin',bneed)+
     petCard('hamster','Hamstern',hpic,ham?ham.name:'Adoptera en hamster',hneed)+
-    petCard('dog',dogs.length>1?'Hundarna':'Hunden',dpics,dogs.length?nameList(dogs.map(d=>d.name)):'Skaffa en valp',dneed);
+    petCard('dog',dogs.length>1?'Hundarna':'Hunden',dpics,dogs.length?nameList(dogs.map(d=>d.name)):'Skaffa en valp',dneed)+
+    petCard('turtles','Sköldpaddorna','<span class="pp tpp">'+HATCH+'</span><span class="pp tpp">'+HATCH+'</span>',S.turtles&&S.turtles.saved?'Räddade: '+S.turtles.saved:'Rädda sköldpaddor på Martinique','');
   renderWallet();show('s-hub');
 }
 function hubMsg(t){const m=$('#hubMsg');m.textContent=t;m.hidden=false;setTimeout(()=>{m.hidden=true},6000)}
@@ -3107,7 +3330,7 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};DGEN++;DH=null;HG++;HM=null;openHub();
 });
-const APP_VERSION='1.29';
+const APP_VERSION='1.31';
 const APP_DATE='27 okt 2026';
 $('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
 $('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
