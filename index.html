@@ -491,7 +491,14 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 @media (min-width:700px){.joy{width:160px;height:160px}.joyknob{width:70px;height:70px}}
 /* Snorkla */
 .snreef{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:4/3;border-radius:28px;overflow:hidden;box-shadow:0 8px 0 rgba(43,35,80,.18);background:#2AA6D0;touch-action:manipulation;user-select:none;-webkit-user-select:none}
-.snworld{position:absolute;top:0;left:0;height:100%;width:300%;will-change:transform}
+.snworld{position:absolute;inset:0;background-size:300% 100%;background-repeat:repeat-x}
+.sea .seain{width:100%}
+.sea-val{z-index:1;opacity:.92;animation:none}
+.sea-vrak{z-index:1;animation:none}
+.sea-delfin{animation:none}
+.sea-delfin .seain{animation:djump 3.2s ease-in-out infinite}
+@keyframes djump{0%,55%,100%{translate:0 0;rotate:0deg}70%{translate:0 -140%;rotate:-22deg}85%{translate:0 -60%;rotate:18deg}}
+.sea-haj{animation:none}
 .snbg,.snbg svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .sea{position:absolute;transform:translate(-50%,-50%);cursor:pointer;animation:seabob 4s ease-in-out infinite;z-index:2}
 .sea svg{width:100%;display:block;overflow:visible}
@@ -860,7 +867,7 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
   <!-- SNORKLA -->
   <section id="s-snorkel" hidden>
     <div class="topline"><button class="mini" data-go="turtles">Stranden</button><h2 class="title2">Korallrevet</h2></div>
-    <div class="skhud"><span>Martinique</span><span id="snCount"></span></div>
+    <div class="skhud"><span id="snDist">Simmat: 0 m</span><span id="snCount"></span></div>
     <div class="snreef" id="snReef"><div class="snworld" id="snWorld"></div><div class="hopover snover" id="snOver" hidden></div></div>
     <div class="joywrap"><div class="joy joyblue" id="snJoy"><div class="joyring"></div><div class="joyknob"></div></div><div class="breath" id="snBreath"><span>Luft</span><div class="bar"><div class="fill" id="snAir"></div></div></div></div>
     <p class="hint" style="margin:0;text-align:center">Dra i joysticken för att simma åt alla håll, även ner till korallerna. Tryck på ett djur för att ta ett foto.</p>
@@ -3361,17 +3368,80 @@ const REEFBG=(function(){
     '<path d="M0 288'+Array.from({length:24},(_,k)=>' q25 -8 50 0').join('')+'V300H0Z" fill="#F5D9A0"/></svg>';
 })();
 const SNORKELER='<svg viewBox="0 0 110 44"><g class="kick"><path d="M18 18l-16-8 4 10Z" fill="#FFD23F"/><path d="M18 26l-16 8 4-10Z" fill="#FFD23F"/></g><rect x="16" y="16" width="26" height="12" rx="6" fill="#F5C9A6"/><rect x="38" y="12" width="36" height="20" rx="10" fill="#FF5DA2"/><path d="M48 12v20M58 12v20" stroke="#FF8FC0" stroke-width="2"/><rect x="66" y="26" width="20" height="7" rx="3.5" fill="#F5C9A6" transform="rotate(20 66 26)"/><circle cx="84" cy="20" r="11" fill="#F5C9A6"/><path d="M76 12q8-8 18 2" fill="#8A5A2B"/><rect x="84" y="13" width="14" height="10" rx="4" fill="#9FDCFF" stroke="#FFD23F" stroke-width="3"/><path d="M90 12V-2" stroke="#FF8A3D" stroke-width="4" stroke-linecap="round"/><path d="M70 6l14 -6" stroke="#F5C9A6" stroke-width="6" stroke-linecap="round"/></svg>';
+Object.assign(SEA,{
+  vrak:{name:'Skeppsvrak',fact:'Utanför Saint-Pierre på Martinique ligger gamla skeppsvrak. Nu bor fiskar och koraller i dem.',w:34,floor:true,svg:'<svg viewBox="0 0 170 90"><g transform="rotate(-8 85 60)"><path d="M14 46h130l-14 34H30Z" fill="#8A5A2B"/><path d="M14 46h130" stroke="#5A3A22" stroke-width="4"/><path d="M24 60h104M30 70h92" stroke="#6E4520" stroke-width="2"/><g fill="#2E6F8E"><circle cx="50" cy="56" r="5"/><circle cx="74" cy="56" r="5"/><circle cx="98" cy="56" r="5"/></g><path d="M70 46V8" stroke="#6E4520" stroke-width="5"/><path d="M70 12l26 10-26 6Z" fill="#E8E2D0" opacity=".8"/><path d="M118 40l16-20" stroke="#6E4520" stroke-width="4"/><path d="M14 46l-6-10M144 46l6-12" stroke="#5A3A22" stroke-width="3"/></g><g fill="#FF8FC0"><circle cx="34" cy="74" r="5"/><circle cx="40" cy="70" r="4"/></g><path d="M126 84q-6-14 0-28" stroke="#3E9E2E" stroke-width="4" fill="none"/><rect x="138" y="70" width="24" height="16" rx="3" fill="#B5793F"/><path d="M138 74h24" stroke="#FFD23F" stroke-width="2"/><g fill="#FFD23F"><circle cx="146" cy="68" r="3"/><circle cx="153" cy="67" r="3"/><circle cx="150" cy="64" r="3"/></g></svg>'},
+  haj:{name:'Revhaj',fact:'Revhajen är nyfiken men skygg. Den simmar helst iväg när den ser en människa.',w:24,svg:'<svg viewBox="0 0 130 50"><path d="M14 24L2 6l6 18-6 18Z" fill="#8A97AB"/><path d="M12 24Q40 6 90 10Q118 14 128 26Q116 36 90 36Q40 40 12 24Z" fill="#9AA7BB"/><path d="M30 28Q70 38 120 28Q100 36 80 36Q50 38 30 28Z" fill="#E7ECF4"/><path d="M60 10L72 -6L80 10Z" fill="#8A97AB"/><path d="M66 32l10 14 4-14Z" fill="#8A97AB"/><circle cx="108" cy="21" r="2.6" fill="#2B2350"/><circle cx="108.8" cy="20.2" r=".9" fill="#fff"/><path d="M112 29q6 2 12-1" stroke="#5A6578" stroke-width="1.6" fill="none" stroke-linecap="round"/><g stroke="#7A8798" stroke-width="1.4"><path d="M96 20v8M100 19v9"/></g></svg>'},
+  val:{name:'Knölval',fact:'Knölvalar kommer till Karibien på vintern. De sjunger långa sånger under vattnet!',w:62,svg:'<svg viewBox="0 0 240 90"><path d="M20 40L2 22l4 22-4 20Z" fill="#3E5878"/><path d="M14 42Q60 14 150 16Q210 20 236 44Q214 66 150 66Q60 66 14 42Z" fill="#4A6A90"/><path d="M60 54Q140 74 226 52Q200 66 150 66Q100 66 60 54Z" fill="#DDE6F0"/><g stroke="#B8C7D8" stroke-width="2"><path d="M120 60h60M126 64h54M114 56h70"/></g><path d="M150 54Q140 82 110 86Q128 70 136 52Z" fill="#3E5878"/><path d="M110 16L118 6L126 16Z" fill="#3E5878"/><circle cx="206" cy="40" r="3.2" fill="#2B2350"/><circle cx="207" cy="39" r="1.1" fill="#fff"/><path d="M212 50q10 2 20-2" stroke="#2E4868" stroke-width="2" fill="none"/><g fill="#6E8AAE"><circle cx="190" cy="24" r="2.4"/><circle cx="200" cy="28" r="2"/><circle cx="214" cy="30" r="2.2"/></g></svg>'},
+  delfin:{name:'Delfin',fact:'Delfiner leker i vågorna och pratar med varandra med klick och visslingar.',w:15,svg:'<svg viewBox="0 0 100 44"><path d="M14 24L2 12l4 12-4 12Z" fill="#5B7FA8"/><path d="M10 24Q36 6 70 10Q88 12 96 20Q88 30 70 32Q36 36 10 24Z" fill="#6E95C2"/><path d="M28 26Q60 34 92 24Q80 32 66 32Q44 34 28 26Z" fill="#E7ECF4"/><path d="M46 10L56 0L60 11Z" fill="#5B7FA8"/><path d="M54 30l6 10 4-10Z" fill="#5B7FA8"/><path d="M92 20l7 1-6 3Z" fill="#6E95C2"/><circle cx="82" cy="17" r="2.2" fill="#2B2350"/><circle cx="82.7" cy="16.3" r=".8" fill="#fff"/><path d="M88 24q4 1 7-1" stroke="#3E5A80" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>'}
+});
+['hjarnkorall','sjostjarna','rocka','blackfisk'].forEach(k=>SEA[k].floor=true);
+const SWIMMERS=['karett','gron','papegoj','kirurg','sergeant','sjohast','unge'],FLOORS=['hjarnkorall','sjostjarna','rocka','blackfisk'];
+const REEFTILE='url("data:image/svg+xml,'+encodeURIComponent(REEFBG.replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" '))+'")';
 let SN=null;
 function openSnorkel(){
   if(!S.snorkel)S.snorkel={found:{}};
   show('s-snorkel');$('#snAlbum').hidden=true;$('#snOver').hidden=true;
-  const w=$('#snWorld');w.innerHTML='<div class="snbg">'+REEFBG+'</div>';
-  SN={x:20,y:4,tx:null,ty:null,dir:1,cam:0,hold:0,vh:0,air:1,up:false,run:true,last:performance.now(),bub:0,ang:0};
-  SEAPLACES.forEach((p,k)=>{const sp=SEA[p[0]],el=document.createElement('div');el.className='sea sea-'+p[0];el.style.left=(p[1]/3)+'%';el.style.top=p[2]+'%';el.style.width=(sp.w*(sp.w>=15?1.3:1.7)/3)+'%';el.style.animationDelay=(-k*.7)+'s';el.innerHTML=sp.svg;el.setAttribute('role','button');el.setAttribute('aria-label',sp.name);
-    el.addEventListener('pointerdown',e=>{e.stopPropagation();snPhoto(p[0],el)});w.appendChild(el)});
+  const w=$('#snWorld');w.innerHTML='';w.style.backgroundImage=REEFTILE;
+  SN={x:20,y:4,tx:null,ty:null,dir:1,cam:0,hold:0,air:1,up:false,run:true,last:performance.now(),bub:0,ang:0,objs:[],chunks:new Set(),bubs:[],far:0};
   const me=document.createElement('div');me.className='snorkeler';me.innerHTML=SNORKELER;w.appendChild(me);SN.me=me;
   snCount();requestAnimationFrame(snLoop);
-  setTimeout(()=>snToast('Plask! Simma längs revet och tryck på djuren för att fotografera dem.'),300);
+  setTimeout(()=>snToast('Plask! Simma så långt du vill och tryck på djuren för att fotografera dem.'),300);
+}
+function snAdd(k,x,y,vx,c){
+  const sp=SEA[k],el=document.createElement('div');el.className='sea sea-'+k;el.style.top=y+'%';el.style.width=(sp.w*(sp.w>=30?1:(sp.w>=15?1.3:1.7)))+'%';el.style.animationDelay=(-Math.random()*6)+'s';
+  el.innerHTML='<div class="seain">'+sp.svg+'</div>';el.setAttribute('role','button');el.setAttribute('aria-label',sp.name);
+  el.addEventListener('pointerdown',e=>{e.stopPropagation();snPhoto(k,el)});
+  $('#snWorld').insertBefore(el,SN.me);const o={k,x,y,vx:vx||0,el,c};SN.objs.push(o);
+  if(vx<0)el.querySelector('.seain').style.transform='scaleX(-1)';
+}
+function snChunk(c){
+  if(SN.chunks.has(c)||c<0)return;SN.chunks.add(c);
+  const base=c*100;
+  if(c<3){SEAPLACES.filter(p=>p[1]>=base&&p[1]<base+100).forEach(p=>snAdd(p[0],p[1],p[2],0,c))}
+  const r=rng(c*97+13),pick=a=>a[Math.floor(r()*a.length)];
+  if(c===1){for(let k=0;k<3;k++)snAdd('delfin',base+40+k*9,10+k*3,4,c)}
+  if(c===2)snAdd('vrak',base+55,82,0,c);
+  if(c===3)snAdd('val',base+60,44,-2.2,c);
+  if(c===4)snAdd('haj',base+50,56,-3.5,c);
+  if(c>=3){
+    const n=3+Math.floor(r()*3);
+    for(let k=0;k<n;k++){const fl=r()<.35;const key=fl?pick(FLOORS):pick(SWIMMERS);snAdd(key,base+10+r()*85,fl?(key==='rocka'?88:84+r()*5):22+r()*48,fl?0:(r()<.5?1:-1)*(.8+r()*1.5),c)}
+    if(c>4){
+      if(r()<.3)snAdd('vrak',base+20+r()*60,82,0,c);
+      if(r()<.3)snAdd('haj',base+30+r()*50,40+r()*25,(r()<.5?1:-1)*3.5,c);
+      if(r()<.22)snAdd('val',base+50,38+r()*14,-2.2,c);
+      if(r()<.35){const y=8+r()*6,v=4;for(let k=0;k<2+Math.floor(r()*2);k++)snAdd('delfin',base+20+r()*40+k*9,y+k*3,v,c)}
+    }
+  }
+}
+function snLoop(now){
+  if(!SN||!SN.run)return;if($('#s-snorkel').hidden){SN.run=false;return}
+  const dt=Math.min(.05,(now-SN.last)/1000);SN.last=now;
+  let vx=0,vy=0;const SP=30;
+  if(SNJ.on){vx=SNJ.x*SP;vy=SNJ.y*SP*.9;SN.tx=null;SN.ty=null}
+  else if(SN.hold)vx=SN.hold*SP;
+  else if(SN.tx!=null){const dx=SN.tx-SN.x,dy=SN.ty-SN.y,d=Math.hypot(dx,dy);if(d<1.2){SN.tx=null;SN.ty=null}else{const sp=Math.min(SP,d*3);vx=dx/d*sp;vy=dy/d*sp}}
+  if(SN.up){vy=-26;if(SN.y<=5)SN.up=false}
+  else if(!SNJ.on&&SN.tx==null&&SN.y>5)vy+=4;
+  SN.x=Math.max(4,SN.x+vx*dt);SN.y=Math.max(4,Math.min(84,SN.y+vy*dt));
+  if(Math.abs(vx)>.5)SN.dir=vx>0?1:-1;
+  const under=SN.y>8;
+  if(under){SN.air=Math.max(0,SN.air-dt/12);if(SN.air<=0&&!SN.up){SN.up=true;SN.tx=null;snToast('Dags att andas! Du simmar upp till ytan.');beep(400,.2,'sine')}}
+  else if(SN.y<=5)SN.air=Math.min(1,SN.air+dt/1.5);
+  $('#snAir').style.width=(SN.air*100)+'%';$('#snBreath').classList.toggle('low',SN.air<.3);$('#snBreath').classList.toggle('vis',under||SN.air<1);
+  const moving=Math.abs(vx)+Math.abs(vy)>1;SN.me.classList.toggle('swimming',moving);SN.me.classList.toggle('under',under);
+  const tgt=moving?Math.max(-55,Math.min(55,Math.atan2(vy,Math.max(Math.abs(vx),.01))*180/Math.PI)):0;SN.ang+=(tgt-SN.ang)*Math.min(1,dt*6);
+  const target=Math.max(0,SN.x-50);SN.cam+=(target-SN.cam)*Math.min(1,dt*3);
+  const c0=Math.floor(SN.cam/100);for(let c=c0-1;c<=c0+2;c++)snChunk(c);
+  const W=$('#snReef').clientWidth;$('#snWorld').style.backgroundPositionX=(-SN.cam*W/100)+'px';
+  SN.me.style.left=(SN.x-SN.cam)+'%';SN.me.style.top=SN.y+'%';SN.me.style.transform='translate(-50%,-50%) scaleX('+SN.dir+') rotate('+SN.ang.toFixed(1)+'deg)';
+  SN.objs.forEach(o=>{if(o.vx)o.x+=o.vx*dt;o.el.style.left=(o.x-SN.cam)+'%'});
+  SN.objs=SN.objs.filter(o=>{const away=o.x<SN.cam-110||o.x>SN.cam+340;if(away)o.el.remove();return !away});
+  SN.chunks.forEach(c=>{if(c<c0-1||c>c0+2){SN.chunks.delete(c);SN.objs=SN.objs.filter(o=>{if(o.c===c){o.el.remove();return false}return true})}});
+  SN.bub-=dt;if(SN.bub<=0){SN.bub=under?R(.3,.7):R(.8,1.6);const b=document.createElement('div');b.className='snbub';b.style.top=(SN.y-3)+'%';$('#snWorld').appendChild(b);const o={x:SN.x+SN.dir*3.5,el:b};SN.bubs.push(o);setTimeout(()=>{b.remove();SN.bubs=SN.bubs.filter(z=>z!==o)},1600)}
+  SN.bubs.forEach(o=>o.el.style.left=(o.x-SN.cam)+'%');
+  SN.far=Math.max(SN.far,SN.x);$('#snDist').textContent='Simmat: '+Math.round((SN.far-20)*.5)+' m';
+  requestAnimationFrame(snLoop);
 }
 function snCount(){const n=Object.keys(S.snorkel.found).length,t=Object.keys(SEA).length;$('#snCount').textContent='Foton: '+n+' av '+t}
 function snPhoto(k,el){
@@ -3387,29 +3457,6 @@ function snPhoto(k,el){
 }
 $('#snOver').addEventListener('click',e=>{if(e.target.id==='snOk'){$('#snOver').hidden=true;beep(600,.08)}});
 function snToast(m){const sc=$('#snReef');let t=sc.querySelector(':scope > .toast');if(t)t.remove();t=document.createElement('div');t.className='toast';t.textContent=m;sc.appendChild(t);setTimeout(()=>t.remove(),3200)}
-function snLoop(now){
-  if(!SN||!SN.run)return;if($('#s-snorkel').hidden){SN.run=false;return}
-  const dt=Math.min(.05,(now-SN.last)/1000);SN.last=now;
-  let vx=0,vy=0;const SP=30;
-  if(SNJ.on){vx=SNJ.x*SP;vy=SNJ.y*SP*.9;SN.tx=null;SN.ty=null}
-  else if(SN.hold)vx=SN.hold*SP;
-  else if(SN.tx!=null){const dx=SN.tx-SN.x,dy=SN.ty-SN.y,d=Math.hypot(dx,dy);if(d<1.2){SN.tx=null;SN.ty=null}else{const sp=Math.min(SP,d*3);vx=dx/d*sp;vy=dy/d*sp}}
-  if(SN.up){vy=-26;if(SN.y<=5)SN.up=false}
-  else if(!SNJ.on&&SN.tx==null&&SN.y>5)vy+=4;
-  SN.x=Math.max(4,Math.min(292,SN.x+vx*dt));SN.y=Math.max(4,Math.min(84,SN.y+vy*dt));
-  if(Math.abs(vx)>.5)SN.dir=vx>0?1:-1;
-  const under=SN.y>8;
-  if(under){SN.air=Math.max(0,SN.air-dt/12);if(SN.air<=0&&!SN.up){SN.up=true;SN.tx=null;snToast('Dags att andas! Du simmar upp till ytan.');beep(400,.2,'sine')}}
-  else{if(SN.air<1&&SN.air<.98&&SN.y<=5)SN.air=Math.min(1,SN.air+dt/1.5)}
-  $('#snAir').style.width=(SN.air*100)+'%';$('#snBreath').classList.toggle('low',SN.air<.3);$('#snBreath').classList.toggle('vis',under||SN.air<1);
-  const moving=Math.abs(vx)+Math.abs(vy)>1;SN.me.classList.toggle('swimming',moving);SN.me.classList.toggle('under',under);
-  const tgt=moving?Math.max(-55,Math.min(55,Math.atan2(vy,Math.max(Math.abs(vx),.01))*180/Math.PI)):0;SN.ang+=(tgt-SN.ang)*Math.min(1,dt*6);
-  SN.me.style.left=(SN.x/3)+'%';SN.me.style.top=SN.y+'%';SN.me.style.transform='translate(-50%,-50%) scaleX('+SN.dir+') rotate('+SN.ang.toFixed(1)+'deg)';
-  const target=Math.max(0,Math.min(200,SN.x-50));SN.cam+=(target-SN.cam)*Math.min(1,dt*3);
-  $('#snWorld').style.transform='translateX('+(-SN.cam/3)+'%)';
-  SN.bub-=dt;if(SN.bub<=0){SN.bub=under?R(.3,.7):R(.8,1.6);const b=document.createElement('div');b.className='snbub';b.style.left=(SN.x/3+SN.dir*1.2)+'%';b.style.top=(SN.y-3)+'%';$('#snWorld').appendChild(b);setTimeout(()=>b.remove(),1600)}
-  requestAnimationFrame(snLoop);
-}
 $('#snReef').addEventListener('pointerdown',e=>{if(e.target.closest('.sea')||e.target.closest('.hopover')||!SN)return;const r=$('#snReef').getBoundingClientRect();SN.tx=SN.cam+(e.clientX-r.left)/r.width*100;SN.ty=Math.max(4,Math.min(84,(e.clientY-r.top)/r.height*100));SN.hold=0});
 const SNJ=makeJoy($('#snJoy'));
 document.addEventListener('keydown',e=>{if($('#s-snorkel').hidden||!SN)return;if(e.key==='ArrowLeft')SN.hold=-1;if(e.key==='ArrowRight')SN.hold=1;if(e.key==='ArrowDown'){SN.tx=SN.x;SN.ty=Math.min(84,SN.y+12)}if(e.key==='ArrowUp'){SN.tx=SN.x;SN.ty=Math.max(4,SN.y-12)}});
@@ -3498,7 +3545,7 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};DGEN++;DH=null;HG++;HM=null;openHub();
 });
-const APP_VERSION='1.33';
+const APP_VERSION='1.34';
 const APP_DATE='27 okt 2026';
 $('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
 $('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
