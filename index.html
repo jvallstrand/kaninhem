@@ -476,6 +476,43 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
 .scene > .sitter{position:absolute;inset:auto;left:11%;bottom:35%;width:19%;z-index:4;cursor:pointer;animation:plop .5s ease-out}
 .sitter svg{width:100%;display:block}
 .sitopt svg{width:56px!important;height:68px!important}
+/* Snorkla */
+.snreef{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:4/3;border-radius:28px;overflow:hidden;box-shadow:0 8px 0 rgba(43,35,80,.18);background:#2AA6D0;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.snworld{position:absolute;top:0;left:0;height:100%;width:300%;will-change:transform}
+.snbg,.snbg svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.sea{position:absolute;transform:translate(-50%,-50%);cursor:pointer;animation:seabob 4s ease-in-out infinite;z-index:2}
+.sea svg{width:100%;display:block;overflow:visible}
+@keyframes seabob{50%{margin-top:-1.2%}}
+.sea-karett,.sea-gron,.sea-unge,.sea-kirurg,.sea-sergeant,.sea-papegoj{animation:seaswim 9s ease-in-out infinite}
+@keyframes seaswim{0%,100%{margin-left:0}50%{margin-left:2%;margin-top:-1%}}
+.sea-sjostjarna,.sea-hjarnkorall,.sea-rocka{animation:none}
+.sea .sfl{transform-box:fill-box;transform-origin:20% 50%;animation:sfl 1.6s ease-in-out infinite alternate}
+.sea .sfl2{transform-box:fill-box;transform-origin:80% 50%;animation:sfl 1.6s ease-in-out infinite alternate-reverse}
+@keyframes sfl{to{transform:rotate(-18deg)}}
+.sea.snapped{filter:drop-shadow(0 0 8px #fff)}
+.snorkeler{position:absolute;top:3%;width:7%;z-index:4;pointer-events:none}
+.snorkeler svg{width:100%;display:block;overflow:visible}
+.snorkeler .kick{transform-box:fill-box;transform-origin:100% 50%}
+.snorkeler.swimming .kick{animation:kick .3s ease-in-out infinite alternate}
+@keyframes kick{to{transform:scaleY(.4)}}
+.snbub{position:absolute;top:6%;width:.6%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.8);animation:snbub 1.6s ease-out forwards;pointer-events:none}
+@keyframes snbub{to{transform:translateY(-300%);opacity:0}}
+.snflash{position:absolute;inset:0;background:#fff;animation:snfl .4s ease-out forwards;z-index:8;pointer-events:none}
+@keyframes snfl{from{opacity:.9}to{opacity:0}}
+.snreef > .toast{position:absolute;inset:auto auto 4% 50%;transform:translateX(-50%);max-width:90%;width:max-content;background:var(--paper);color:var(--ink);border-radius:20px;padding:6px 14px;font-weight:800;font-size:clamp(.85rem,3.4vw,1rem);text-align:center;box-shadow:0 4px 0 rgba(43,35,80,.18);z-index:9;animation:pop .3s ease-out}
+.snover{background:rgba(30,111,168,.35);z-index:10}
+.polaroid{background:#fff;border-radius:16px;padding:10px 12px 12px;max-width:86%;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;box-shadow:0 8px 0 rgba(43,35,80,.2);transform:rotate(-2deg);animation:pop .3s ease-out}
+.polaroid .pimg{width:60%;max-width:180px;background:#BDF4FF;border-radius:10px;padding:8%}
+.polaroid .pimg svg{width:100%;display:block}
+.polaroid p{margin:0;font-weight:600;font-size:.92rem}
+.newtag{background:var(--orange);color:#fff;border-radius:99px;padding:0 8px;font-size:.75rem}
+.album{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.acard{background:var(--paper);border-radius:18px;padding:10px;display:flex;flex-direction:column;gap:4px;box-shadow:0 5px 0 rgba(43,35,80,.12);font-size:.85rem;font-weight:600}
+.acard b{font-size:1rem}
+.acard .aimg{background:#BDF4FF;border-radius:12px;padding:10%;height:90px;display:grid;place-items:center}
+.acard .aimg svg{max-width:100%;max-height:70px}
+.acard.unknown .aimg svg{filter:brightness(0) opacity(.25)}
+@media (min-width:700px){.album{grid-template-columns:repeat(3,1fr)}}
 /* Promenad */
 .walkscene{position:relative;width:100%;aspect-ratio:16/10;border-radius:24px;overflow:hidden;box-shadow:0 8px 0 rgba(43,35,80,.18);background:linear-gradient(#8FD3FF,#E3F6FF);touch-action:manipulation;user-select:none;-webkit-user-select:none}
 .wsun{position:absolute;right:8%;top:8%;width:11%;aspect-ratio:1;border-radius:50%;background:#FFD23F;box-shadow:0 0 0 10px rgba(255,210,63,.25)}
@@ -801,8 +838,20 @@ button:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:3px
       <div class="hopover" id="tOver" hidden></div>
     </div>
     <p class="mhint">Tryck på äggen för att flytta dem till boet. Tryck på måsarna så flyger de iväg.</p>
+    <button class="btn big" data-go="snorkel" style="background:#2AA6D0;box-shadow:0 6px 0 #1E6FA8">Snorkla vid korallrevet</button>
     <div class="giverow"><span class="tplace">Martinique, Karibien</span><span class="tplace" id="tTotal"></span><button class="btn small ghost" id="tRestart">Börja om natten</button></div>
     <div class="fact"><span class="fact-k">Sköldpaddsfakta</span><p id="tFact"></p></div>
+  </section>
+
+  <!-- SNORKLA -->
+  <section id="s-snorkel" hidden>
+    <div class="topline"><button class="mini" data-go="turtles">Stranden</button><h2 class="title2">Korallrevet</h2></div>
+    <div class="skhud"><span>Martinique</span><span id="snCount"></span></div>
+    <div class="snreef" id="snReef"><div class="snworld" id="snWorld"></div><div class="hopover snover" id="snOver" hidden></div></div>
+    <div class="skpad"><button class="btn big" id="snL" aria-label="Simma vänster" style="background:#2AA6D0;box-shadow:0 6px 0 #1E6FA8">◀</button><button class="btn big" id="snR" aria-label="Simma höger" style="background:#2AA6D0;box-shadow:0 6px 0 #1E6FA8">▶</button></div>
+    <p class="hint" style="margin:0;text-align:center">Håll in pilarna eller tryck i vattnet för att simma. Tryck på ett djur för att ta ett foto.</p>
+    <button class="btn violet" id="snAlbumBtn">Fotoalbum</button>
+    <div class="album" id="snAlbum" hidden></div>
   </section>
 
   <!-- HUNDEN -->
@@ -1237,7 +1286,7 @@ const FACTS=[
 ];
 
 /* ---------- Sparat läge ---------- */
-function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',course:['low','low','high','tunnel','long','high'],courses:[['low','low','high','tunnel','long','high'],[],[]],editC:0,trainC:'p0',best:{},hopLevel:'easy',turtles:null,sitter:null,ham:null,dogs:[],dogSel:0,cwDone:[],treats:{},bigHome:false,t:Date.now(),adopted:false,muted:false}}
+function fresh(){return {bunnies:[],sel:0,cage:'wood',acc:['hay','water','house'],owned:[],wear:{},clean:100,poops:[],coins:0,week:'',course:['low','low','high','tunnel','long','high'],courses:[['low','low','high','tunnel','long','high'],[],[]],editC:0,trainC:'p0',best:{},hopLevel:'easy',turtles:null,snorkel:null,sitter:null,ham:null,dogs:[],dogSel:0,cwDone:[],treats:{},bigHome:false,t:Date.now(),adopted:false,muted:false}}
 function migrate(o){
   if(!o||typeof o!=='object')return fresh();
   if(!Array.isArray(o.bunnies)){
@@ -1286,7 +1335,7 @@ function chime(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.14,'tr
 
 /* ---------- Skärmar ---------- */
 let playing=false;
-function show(id){['s-turtle','s-hub','s-adopt','s-cage','s-play','s-shop','s-hop','s-dress','s-build','s-cross','s-games','s-dig','s-skate','s-hamster','s-dog','s-walk'].forEach(s=>{$('#'+s).hidden=(s!==id)});playing=(id==='s-play');if(id!=='s-hop'&&H)H.running=false;window.scrollTo(0,0)}
+function show(id){['s-snorkel','s-turtle','s-hub','s-adopt','s-cage','s-play','s-shop','s-hop','s-dress','s-build','s-cross','s-games','s-dig','s-skate','s-hamster','s-dog','s-walk'].forEach(s=>{$('#'+s).hidden=(s!==id)});playing=(id==='s-play');if(id!=='s-hop'&&H)H.running=false;window.scrollTo(0,0)}
 (function(){const el=$('#logo'),t=el.textContent,c=['#FF5DA2','#19C3B2','#7B5CFF','#FF8A3D'];let i=0;el.innerHTML=t.split(' ').map(w=>'<span class="lw">'+w.split('').map(ch=>'<span style="color:'+c[(i++)%4]+'">'+ch+'</span>').join('')+'</span>').join(' ')})();
 
 function renderTabs(){
@@ -1307,6 +1356,7 @@ function go(where){
   if(where==='home'){if(S.adopted&&S.bunnies.length)enterStage('home');else openHub();return}
   if(where==='hub'){openHub();return}
   if(where==='turtles'){openTurtles();return}
+  if(where==='snorkel'){openSnorkel();return}
   if(where==='bunnies'){if(S.adopted&&S.bunnies.length)enterStage('home');else openAdopt('first');return}
   if(where==='meadow'){enterStage('meadow');setTimeout(()=>toast(S.bunnies.length>1?'Ut på ängen! Kaninerna skuttar iväg.':'Ut på ängen! '+cur().name+' skuttar iväg.'),300);return}
   if(where==='shop'){openShop();return}
@@ -3144,7 +3194,7 @@ function openTurtles(){
   tState();show('s-turtle');$('#tFact').textContent=TFACTS[Math.floor(Math.random()*TFACTS.length)];
   tSetup();
   const ov=$('#tOver');ov.hidden=false;
-  ov.innerHTML='<div class="hopcard"><p class="big">Välkommen till Martinique!</p><p>På den här karibiska stranden lägger havssköldpaddor sina ägg. Flytta äggen till det skyddade boet och skräm bort nyfikna måsar. När ungarna kläcks hjälper du dem ner till havet.</p><div class="row"><button class="btn small green" id="tGo">Börja natt '+S.turtles.night+'</button></div></div>';
+  ov.innerHTML='<div class="hopcard"><p class="big">Välkommen till Martinique!</p><p>På den här karibiska stranden lägger havssköldpaddor sina ägg. Flytta äggen till det skyddade boet och skräm bort nyfikna måsar. När ungarna kläcks hjälper du dem ner till havet.</p><div class="row"><button class="btn small green" id="tGo">Börja natt '+S.turtles.night+'</button><button class="btn small" data-go="snorkel" style="background:#2AA6D0;box-shadow:0 6px 0 #1E6FA8">Snorkla</button></div></div>';
 }
 function tSetup(){
   TS&&(TS.run=false);
@@ -3246,11 +3296,91 @@ function tEnd(){
   ts.stars[TS.n]=Math.max(ts.stars[TS.n]||0,st);ts.night=TS.n+1;S.coins+=prize;save();renderWallet();chime();setTimeout(chime,450);
   TS.gulls.forEach(g=>tShoo(g));
   const ov=$('#tOver');ov.hidden=false;
-  ov.innerHTML='<div class="hopcard"><p class="big">Alla '+TS.total+' ungar simmade ut i havet!</p>'+starsHTML(st,28)+'<p>'+(TS.scares?'Några ungar blev rädda på vägen, men alla kom fram till slut.':'Inte en enda mås hann fram. Perfekt!')+' +'+prize+' kr</p><p>Du har räddat '+ts.saved+' sköldpaddor totalt.</p><div class="row"><button class="btn small green" id="tNext">Natt '+ts.night+'</button><button class="btn small" data-go="hub">Hem</button></div></div>';
+  ov.innerHTML='<div class="hopcard"><p class="big">Alla '+TS.total+' ungar simmade ut i havet!</p>'+starsHTML(st,28)+'<p>'+(TS.scares?'Några ungar blev rädda på vägen, men alla kom fram till slut.':'Inte en enda mås hann fram. Perfekt!')+' +'+prize+' kr</p><p>Du har räddat '+ts.saved+' sköldpaddor totalt.</p><div class="row"><button class="btn small green" id="tNext">Natt '+ts.night+'</button><button class="btn small" data-go="snorkel" style="background:#2AA6D0;box-shadow:0 6px 0 #1E6FA8">Snorkla</button><button class="btn small" data-go="hub">Hem</button></div></div>';
 }
 let tToastT=0;function tToast(m){const sc=$('#tScene');let t=sc.querySelector(':scope > .toast');if(t)t.remove();t=document.createElement('div');t.className='toast';t.setAttribute('role','status');t.textContent=m;sc.appendChild(t);clearTimeout(tToastT);tToastT=setTimeout(()=>t.remove(),2800)}
 $('#tOver').addEventListener('click',e=>{if(e.target.id==='tGo')tStart();if(e.target.id==='tNext'){tSetup();tStart()}});
 $('#tRestart').addEventListener('click',()=>{beep(600,.1);tSetup();tStart()});
+
+/* ---------- Snorkla vid korallrevet ---------- */
+function seaTurtle(shell,skin,dark){return '<svg viewBox="0 0 100 60"><ellipse cx="30" cy="40" rx="14" ry="5" fill="'+skin+'" transform="rotate(28 30 40)" class="sfl2"/><ellipse cx="62" cy="44" rx="18" ry="6" fill="'+skin+'" transform="rotate(30 62 44)" class="sfl"/><path d="M14 32Q20 8 50 8T88 32Z" fill="'+shell+'"/><path d="M14 32h74" stroke="'+dark+'" stroke-width="3"/><g fill="'+dark+'" opacity=".55"><path d="M40 12l8 8-8 8-8-8Z"/><path d="M58 12l8 8-8 8-8-8Z"/><path d="M26 18l6 6-6 7-5-6Z"/><path d="M74 18l5 6-5 7-6-7Z"/></g><ellipse cx="94" cy="30" rx="9" ry="7" fill="'+skin+'"/><circle cx="97" cy="28" r="1.8" fill="#2B2350"/><path d="M99 33q-3 2-6 1" stroke="#2B2350" stroke-width="1.2" fill="none"/><ellipse cx="62" cy="22" rx="17" ry="8" fill="'+skin+'" transform="rotate(-25 62 22)" class="sfl"/></svg>'}
+const SEA={
+  karett:{name:'Karettsköldpadda',fact:'Den har en spetsig näbb och letar mat bland korallerna.',svg:seaTurtle('#B8742E','#E0B07A','#6E3A1C'),w:16},
+  gron:{name:'Grön havssköldpadda',fact:'Den äter sjögräs och kan vila under vattnet länge utan att andas.',svg:seaTurtle('#6E8B4E','#A9C27C','#3E5A2E'),w:19},
+  unge:{name:'Sköldpaddsunge',fact:'Kanske en av ungarna du hjälpte ut i havet på stranden!',svg:seaTurtle('#4C9A6E','#7ECB9C','#2F6B4F'),w:7},
+  papegoj:{name:'Papegojfisk',fact:'Den knaprar på koraller och bajsar ut vit sand. Mycket av den vita sanden på stranden kommer från papegojfiskar!',svg:'<svg viewBox="0 0 80 44"><path d="M4 22l12-12v24Z" fill="#FF8FC0"/><ellipse cx="40" cy="22" rx="28" ry="15" fill="#3FD0B8"/><path d="M26 10q10 12 0 24M40 8q10 14 0 28" stroke="#FF8FC0" stroke-width="3" fill="none"/><path d="M60 14q10 8 8 14" fill="#FFD23F"/><path d="M64 18l10 3-10 4Z" fill="#F5E6C8"/><circle cx="58" cy="17" r="2.6" fill="#2B2350"/><path d="M36 7q8-6 16 2" fill="#FF8FC0"/></svg>',w:10},
+  kirurg:{name:'Blå kirurgfisk',fact:'När den är ung är den gul. När den blir vuxen blir den blå!',svg:'<svg viewBox="0 0 70 44"><path d="M4 22l10-11v22Z" fill="#FFD23F"/><ellipse cx="36" cy="22" rx="24" ry="17" fill="#2E6FE0"/><path d="M20 22q16-8 34 0" stroke="#1C2E8F" stroke-width="3" fill="none"/><circle cx="52" cy="17" r="2.6" fill="#2B2350"/><path d="M16 22h4" stroke="#FFD23F" stroke-width="3"/></svg>',w:8},
+  sergeant:{name:'Sergeantfisk',fact:'Den har svarta ränder som en sergeants uniform och vaktar sina ägg.',svg:'<svg viewBox="0 0 70 44"><path d="M4 22l10-11v22Z" fill="#E8E2A0"/><ellipse cx="36" cy="22" rx="24" ry="15" fill="#F2E46A"/><g fill="#2B2350"><rect x="20" y="9" width="4" height="26" rx="2"/><rect x="30" y="7" width="4" height="30" rx="2"/><rect x="40" y="8" width="4" height="28" rx="2"/><rect x="49" y="11" width="3" height="22" rx="1.5"/></g><circle cx="54" cy="18" r="2.4" fill="#2B2350"/></svg>',w:7},
+  rocka:{name:'Rocka',fact:'Den gömmer sig i sanden och flaxar fram med sina stora vingar.',svg:'<svg viewBox="0 0 100 50"><path d="M50 4Q86 20 96 28Q70 30 50 46Q30 30 4 28Q14 20 50 4Z" fill="#9A8A7A"/><path d="M50 46l-2 4" stroke="#7A6A5A" stroke-width="2"/><path d="M50 40Q48 48 30 50" stroke="#7A6A5A" stroke-width="2" fill="none"/><circle cx="44" cy="16" r="2" fill="#2B2350"/><circle cx="56" cy="16" r="2" fill="#2B2350"/><g fill="#B8AA9A"><circle cx="40" cy="28" r="2"/><circle cx="60" cy="26" r="2"/><circle cx="50" cy="32" r="1.6"/></g></svg>',w:20},
+  sjohast:{name:'Sjöhäst',fact:'Hos sjöhästar är det pappan som bär äggen i en ficka på magen!',svg:'<svg viewBox="0 0 40 70"><path d="M22 10q10 0 10 10q0 6-6 8q8 6 6 18q-2 12-10 14q-8 2-8-6q0-6 6-6" stroke="#FFB000" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M22 10q-4-6-12-4q2 6 8 8" fill="#FFB000"/><path d="M10 6l-8 2 8 3Z" fill="#FFB000"/><circle cx="20" cy="9" r="2" fill="#2B2350"/><path d="M28 30l6-4" stroke="#FFD23F" stroke-width="3"/></svg>',w:5},
+  blackfisk:{name:'Bläckfisk',fact:'Den kan byta färg på en sekund och gömma sig i små hål.',svg:'<svg viewBox="0 0 70 60"><g stroke="#B04ADB" stroke-width="6" fill="none" stroke-linecap="round"><path d="M22 34q-12 10-16 22"/><path d="M28 38q-6 12-2 20"/><path d="M36 38q2 12 10 18"/><path d="M42 34q12 6 20 18"/><path d="M18 30q-14 2-16 14"/></g><ellipse cx="32" cy="22" rx="18" ry="16" fill="#C85CF0"/><circle cx="26" cy="22" r="3.4" fill="#fff"/><circle cx="38" cy="22" r="3.4" fill="#fff"/><circle cx="26.6" cy="22.6" r="1.8" fill="#2B2350"/><circle cx="38.6" cy="22.6" r="1.8" fill="#2B2350"/><g fill="#E8A6FF"><circle cx="24" cy="12" r="2"/><circle cx="36" cy="10" r="2"/></g></svg>',w:10},
+  sjostjarna:{name:'Sjöstjärna',fact:'Den kan få en ny arm om den tappar en.',svg:'<svg viewBox="0 0 50 50"><path d="M25 3l6 15 16 1-12 10 4 16-14-9-14 9 4-16L3 19l16-1Z" fill="#FF8A3D"/><g fill="#FFD27A"><circle cx="25" cy="22" r="2.5"/><circle cx="25" cy="12" r="1.6"/><circle cx="34" cy="21" r="1.6"/><circle cx="16" cy="21" r="1.6"/><circle cx="30" cy="31" r="1.6"/><circle cx="20" cy="31" r="1.6"/></g></svg>',w:7},
+  hjarnkorall:{name:'Hjärnkorall',fact:'Den ser ut som en hjärna och kan bli flera hundra år gammal.',svg:'<svg viewBox="0 0 80 50"><path d="M4 50Q4 6 40 6T76 50Z" fill="#C9B26A"/><g stroke="#9A8240" stroke-width="2.4" fill="none"><path d="M14 44q4-14 12-8t10-10 12 4 12-6 8 18"/><path d="M12 34q8-12 16-6t14-12 14 4 10 4"/><path d="M22 20q8-6 16-2t16-2"/></g></svg>',w:15}
+};
+const SEAPLACES=[['hjarnkorall',30,84],['sjostjarna',58,91],['karett',90,52],['kirurg',112,68],['sergeant',130,42],['sergeant',138,50],['sjohast',158,74],['papegoj',182,60],['blackfisk',212,82],['rocka',242,88],['gron',268,40],['unge',284,30],['unge',290,26]];
+const REEFBG=(function(){
+  const r=rng(77);let co='';
+  for(let i=0;i<26;i++){const x=20+i*45+r()*20,h=30+r()*50,c=['#FF8FC0','#FF8A3D','#B04ADB','#FFD23F','#FF5DA2','#7FE3D8'][i%6];
+    const t=i%3;
+    if(t===0)co+='<g stroke="'+c+'" stroke-width="7" stroke-linecap="round" fill="none"><path d="M'+x+' 290v-'+h+'"/><path d="M'+x+' '+(290-h*.5)+'l-14 -'+(h*.4).toFixed(0)+'"/><path d="M'+x+' '+(290-h*.7)+'l12 -'+(h*.35).toFixed(0)+'"/></g>';
+    else if(t===1)co+='<path d="M'+(x-22)+' 290Q'+x+' '+(290-h*1.6)+' '+(x+22)+' 290Z" fill="'+c+'" opacity=".85"/><path d="M'+x+' 290V'+(290-h)+'M'+x+' '+(290-h*.6)+'l-12-14M'+x+' '+(290-h*.6)+'l12-14" stroke="#fff" stroke-width="1.5" opacity=".4"/>';
+    else co+='<g fill="'+c+'"><rect x="'+(x-10)+'" y="'+(290-h)+'" width="8" height="'+h+'" rx="4"/><rect x="'+(x)+'" y="'+(290-h*.7)+'" width="8" height="'+(h*.7)+'" rx="4"/><rect x="'+(x+10)+'" y="'+(290-h*.5)+'" width="8" height="'+(h*.5)+'" rx="4"/></g>';
+  }
+  let weed='';for(let i=0;i<20;i++){const x=40+i*60+r()*30;weed+='<path d="M'+x+' 296q-8-20 0-40t0-40" stroke="#3E9E2E" stroke-width="5" fill="none" stroke-linecap="round" opacity=".85"/>'}
+  let rays='';for(let i=0;i<12;i++){const x=i*110+r()*40;rays+='<path d="M'+x+' 20L'+(x+40)+' 20L'+(x+90)+' 300L'+(x+30)+' 300Z" fill="#fff" opacity=".08"/>'}
+  let rocks='';for(let i=0;i<10;i++){const x=60+i*120+r()*40;rocks+='<ellipse cx="'+x+'" cy="290" rx="'+(30+r()*20)+'" ry="'+(14+r()*10)+'" fill="#7A8A9A"/>'}
+  return '<svg viewBox="0 0 1200 300" preserveAspectRatio="none"><defs><linearGradient id="rw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6FE0EE"/><stop offset=".55" stop-color="#2AA6D0"/><stop offset="1" stop-color="#1E6FA8"/></linearGradient></defs><rect width="1200" height="300" fill="url(#rw)"/>'+rays+
+    '<path d="M0 24'+Array.from({length:40},(_,k)=>' q15 -6 30 0').join('')+'V0H0Z" fill="#BDF4FF" opacity=".8"/>'+rocks+weed+co+
+    '<path d="M0 288'+Array.from({length:24},(_,k)=>' q25 -8 50 0').join('')+'V300H0Z" fill="#F5D9A0"/></svg>';
+})();
+const SNORKELER='<svg viewBox="0 0 110 44"><g class="kick"><path d="M18 18l-16-8 4 10Z" fill="#FFD23F"/><path d="M18 26l-16 8 4-10Z" fill="#FFD23F"/></g><rect x="16" y="16" width="26" height="12" rx="6" fill="#F5C9A6"/><rect x="38" y="12" width="36" height="20" rx="10" fill="#FF5DA2"/><path d="M48 12v20M58 12v20" stroke="#FF8FC0" stroke-width="2"/><rect x="66" y="26" width="20" height="7" rx="3.5" fill="#F5C9A6" transform="rotate(20 66 26)"/><circle cx="84" cy="20" r="11" fill="#F5C9A6"/><path d="M76 12q8-8 18 2" fill="#8A5A2B"/><rect x="84" y="13" width="14" height="10" rx="4" fill="#9FDCFF" stroke="#FFD23F" stroke-width="3"/><path d="M90 12V-2" stroke="#FF8A3D" stroke-width="4" stroke-linecap="round"/><path d="M70 6l14 -6" stroke="#F5C9A6" stroke-width="6" stroke-linecap="round"/></svg>';
+let SN=null;
+function openSnorkel(){
+  if(!S.snorkel)S.snorkel={found:{}};
+  show('s-snorkel');$('#snAlbum').hidden=true;$('#snOver').hidden=true;
+  const w=$('#snWorld');w.innerHTML='<div class="snbg">'+REEFBG+'</div>';
+  SN={x:20,tx:null,dir:1,cam:0,hold:0,run:true,last:performance.now(),bub:0};
+  SEAPLACES.forEach((p,k)=>{const sp=SEA[p[0]],el=document.createElement('div');el.className='sea sea-'+p[0];el.style.left=(p[1]/3)+'%';el.style.top=p[2]+'%';el.style.width=(sp.w*(sp.w>=15?1.3:1.7)/3)+'%';el.style.animationDelay=(-k*.7)+'s';el.innerHTML=sp.svg;el.setAttribute('role','button');el.setAttribute('aria-label',sp.name);
+    el.addEventListener('pointerdown',e=>{e.stopPropagation();snPhoto(p[0],el)});w.appendChild(el)});
+  const me=document.createElement('div');me.className='snorkeler';me.innerHTML=SNORKELER;w.appendChild(me);SN.me=me;
+  snCount();requestAnimationFrame(snLoop);
+  setTimeout(()=>snToast('Plask! Simma längs revet och tryck på djuren för att fotografera dem.'),300);
+}
+function snCount(){const n=Object.keys(S.snorkel.found).length,t=Object.keys(SEA).length;$('#snCount').textContent='Foton: '+n+' av '+t}
+function snPhoto(k,el){
+  const sp=SEA[k],first=!S.snorkel.found[k];
+  const f=document.createElement('div');f.className='snflash';$('#snReef').appendChild(f);setTimeout(()=>f.remove(),400);
+  beep(1500,.04,'square');setTimeout(()=>beep(900,.06,'square'),60);
+  el.classList.remove('snapped');void el.offsetWidth;el.classList.add('snapped');
+  if(first){S.snorkel.found[k]=true;S.coins+=1;renderWallet();save();snCount()}
+  const all=Object.keys(S.snorkel.found).length===Object.keys(SEA).length;
+  const ov=$('#snOver');ov.hidden=false;
+  ov.innerHTML='<div class="polaroid"><div class="pimg">'+sp.svg+'</div><b>'+sp.name+(first?' <span class="newtag">Ny! +1 kr</span>':'')+'</b><p>'+sp.fact+'</p>'+(all&&first?'<p class="big">Du har fotat alla djur på revet! +5 kr</p>':'')+'<button class="btn small green" id="snOk">Simma vidare</button></div>';
+  if(all&&first){S.coins+=5;renderWallet();save();chime();setTimeout(chime,450)}else if(first)chime();
+}
+$('#snOver').addEventListener('click',e=>{if(e.target.id==='snOk'){$('#snOver').hidden=true;beep(600,.08)}});
+function snToast(m){const sc=$('#snReef');let t=sc.querySelector(':scope > .toast');if(t)t.remove();t=document.createElement('div');t.className='toast';t.textContent=m;sc.appendChild(t);setTimeout(()=>t.remove(),3200)}
+function snLoop(now){
+  if(!SN||!SN.run)return;if($('#s-snorkel').hidden){SN.run=false;return}
+  const dt=Math.min(.05,(now-SN.last)/1000);SN.last=now;
+  let v=0;if(SN.hold)v=SN.hold*28;else if(SN.tx!=null){const d=SN.tx-SN.x;if(Math.abs(d)<1)SN.tx=null;else v=Math.sign(d)*Math.min(28,Math.abs(d)*3)}
+  if(v){SN.x=Math.max(4,Math.min(290,SN.x+v*dt));SN.dir=v>0?1:-1}
+  SN.me.classList.toggle('swimming',!!v);
+  SN.me.style.left=(SN.x/3)+'%';SN.me.style.transform='translate(-50%,0) scaleX('+SN.dir+')';
+  const target=Math.max(0,Math.min(200,SN.x-50));SN.cam+=(target-SN.cam)*Math.min(1,dt*3);
+  $('#snWorld').style.transform='translateX('+(-SN.cam/3)+'%)';
+  SN.bub-=dt;if(SN.bub<=0){SN.bub=R(.6,1.4);const b=document.createElement('div');b.className='snbub';b.style.left=(SN.x/3+SN.dir*1.1)+'%';$('#snWorld').appendChild(b);setTimeout(()=>b.remove(),1600)}
+  requestAnimationFrame(snLoop);
+}
+$('#snReef').addEventListener('pointerdown',e=>{if(e.target.closest('.sea')||e.target.closest('.hopover')||!SN)return;const r=$('#snReef').getBoundingClientRect();SN.tx=SN.cam+(e.clientX-r.left)/r.width*100;SN.hold=0});
+['snL','snR'].forEach((id,k)=>{const el=$('#'+id);el.addEventListener('pointerdown',e=>{e.preventDefault();if(SN){SN.hold=k?1:-1;SN.tx=null}});['pointerup','pointerleave','pointercancel'].forEach(ev=>el.addEventListener(ev,()=>{if(SN)SN.hold=0}))});
+document.addEventListener('keydown',e=>{if($('#s-snorkel').hidden||!SN)return;if(e.key==='ArrowLeft')SN.hold=-1;if(e.key==='ArrowRight')SN.hold=1});
+document.addEventListener('keyup',e=>{if($('#s-snorkel').hidden||!SN)return;if(e.key==='ArrowLeft'||e.key==='ArrowRight')SN.hold=0});
+$('#snAlbumBtn').addEventListener('click',()=>{
+  const a=$('#snAlbum');if(!a.hidden){a.hidden=true;return}
+  a.innerHTML=Object.keys(SEA).map(k=>{const f=S.snorkel.found[k];return '<div class="acard'+(f?'':' unknown')+'"><div class="aimg">'+SEA[k].svg+'</div><b>'+(f?SEA[k].name:'???')+'</b>'+(f?'<span>'+SEA[k].fact+'</span>':'<span>Hitta mig på revet!</span>')+'</div>'}).join('');
+  a.hidden=false;beep(650,.08);
+});
 
 /* ---------- Husdjurshemmet ---------- */
 function petCard(kind,title,pics,sub,need){
@@ -3330,7 +3460,7 @@ $('#mReset').addEventListener('click',()=>{
   try{localStorage.removeItem(KEY)}catch(e){}
   save();$('#sheet').hidden=true;G++;P={};B=[];DR={outfit:{},theme:THEMES[0],slot:'head'};DGEN++;DH=null;HG++;HM=null;openHub();
 });
-const APP_VERSION='1.31';
+const APP_VERSION='1.32';
 const APP_DATE='27 okt 2026';
 $('#ver').textContent='Version '+APP_VERSION+' ('+APP_DATE+')';
 $('#updBtn').addEventListener('click',()=>updateApp($('#updBtn'),'Uppdaterar...'));
